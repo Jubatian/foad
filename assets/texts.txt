@@ -1,0 +1,28 @@
+   Flight of a Dragon (Demo)\e\p\
+      A game by Jubatian\e\
+\e\
+    for the Uzebox console\e\p\
+    You will never be free\e\p\
+They wanted you to fight their\
+war.   They  locked  you  deep\
+underground to break you.  You\
+only wanted to be free...\e\
+\e\
+A loud rumble awakens you. The\
+floor caved in.  This  is your\
+chance to run...\e\p\
+Use your  fire and  agility to\
+push forth for your freedom.\e\
+\e\
+Don't kill people if you don't\
+have to.\e\
+\e\
+Y, B ........: Fire\e\
+X, A ........: Jump\e\
+RShift ......: Walk\e\
+Up, LShift ..: Look up\e\
+Left, Right .: Move\e\
+Down ........: Look down\e\p\
+You did it! It is still a long\
+way  to go,  though,  but this\
+short demo for now ends here.\e\p\

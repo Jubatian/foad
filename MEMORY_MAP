@@ -1,0 +1,65 @@
+The game's memory map:
+
+
+
+Uses the reset concept of Mode 74 (that is, at the end of the frame, the video
+mode jumps at a reset address instead of popping, thus also discarding the
+complete main stack).
+
+
+
+0x10F9 - 0x10FF: Free
+0x1051 - 0x10F8: RAM tile allocation workspace (for up to 56 RAM tiles)
+0x1000 - 0x1050: Row selectors (for up to 27 slices)
+0x0FC0 - 0x0FFF: Palette buffer & RAM tile mask indices
+0x0FA0 - 0x0FBF: Palette buffer & X shift map
+0x0F00 - 0x0F9F: Palette buffer & Main Stack
+0x0EF0 - 0x0FFF: Video Stack & Main Stack
+0x0E30 - 0x0EEF: Color 0 replacement table (24 rows: Row 6 - 29)
+0x0E10 - 0x0E2F: VRAM (32 characters wide status row or combined with below)
+0x0BB8 - 0x0E0F: VRAM (600 bytes for 25x24 scroll)
+0x0BB3 - 0x0BB7: Free
+0x0BB1 - 0x0BB2: Top & Text area palette (Only colors 1 and 2 are used)
+0x0BB0 - 0x0BB0: Text area palette (Used if color replacement is needed)
+0x0BA0 - 0x0BAF: Main area palette
+0x0B80 - 0x0B9F: Tile row descriptors
+0x0400 - 0x0B7F: RAM tiles (60)
+0x0300 - 0x03FF: L0 block replacements
+0x0100 - 0x02FF: Auto-allocated by linker
+
+Stack notes: The main stack if it ever overflowed would spill into the Color 0
+replacement table. The updating of this table has no such defect, while if it
+happens elsewhere, the result is either nothing or the background having
+miscolored rows piling up on the top (as the stack wrote over the entries),
+which is a tolearable result.
+
+
+
+Color 0 replacement table:
+
+Only 24 rows used. For the rest, color 0 is unused, so anything can be there
+(it will replace color 0, but without effect). This is utilized in the memory
+map above.
+
+
+
+Layout of the bytes marked Free:
+
+0x10F9 - 0x10FF: MEM_LOC_0 - MEM_LOC_6
+0x0BB3 - 0x0BB7: MEM_LOC_7 - MEM_LOC_B
+
+MEM_LOC_0: mapact.s
+MEM_LOC_1: mapact.s
+MEM_LOC_2: mapact.s
+MEM_LOC_3: mapact.s
+MEM_LOC_4: parallax.s
+MEM_LOC_5: parallax.s
+MEM_LOC_6: level.s
+MEM_LOC_7: level.s
+MEM_LOC_8: level.s
+MEM_LOC_9: level.s
+MEM_LOC_A: random.s
+MEM_LOC_B: random.s
+
+(Note: Some cases two bytes have to be after each other, so be careful when
+modifying this mapping)

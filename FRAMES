@@ -1,0 +1,9 @@
+The game operates at 30FPS.
+
+Frames alternate between render and logic.
+
+In render frames the graphics is rendered (mainly scrolling and blitting
+sprites).
+
+In logic frames the actors are processed. No graphics tasks are performed
+then, the previous frame repeats.

@@ -1,0 +1,21 @@
+Global variables
+
+
+Some variables are exposed as globals.
+
+These are variables which should be accessible normally through a getter which
+would ensure read only access. The problem with getters is that it clobbers
+the whole set of registers available to functions, so causing the caller to
+produce costly pushes and pops (above the call & ret overhead), which is not
+only slow, but also bloats code size.
+
+In modules where this is a problem such internal variables are exposed for
+reading only.
+
+Exposed global variables are never meant to be written!
+
+
+(Sadly this can not be enforced by the "const" keyword as it introduces other
+problems, namely that the compiler could assume it doesn't change, so it could
+optimize accesses out even accross function calls. The "volatile" keyword
+could solve this, but that also could become a performance cripple)

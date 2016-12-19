@@ -1,0 +1,44 @@
+Screen layouts:
+
+
+
+Game screen:
+
+
+2 separators (brown top lines)
+8 tile lines (6px wide 1bpp)
+1 separator (with palette replacement)
+185 scrolling surface (23 tile rows + 1 row)
+
+196 lines total
+Needs 27 slices (3 for the top part, then 24 for parallaxing)
+
+
+
+Information screen (full screen text):
+
+
+2 separators (brown top lines)
+1 tile line top frame
+3 empty lines
+16 text lines
+3 empty lines
+1 tile line bottom frame
+2 separators (brown top lines)
+
+196 tiles total (to match normal game screen)
+The VRAM can accommodate 19 text lines (using the Status row area too), 3 of
+those are utilized here for decoration (frame), the rest are useful text
+lines.
+
+
+
+Intro screen (mixed text & graphics):
+
+
+10 text lines
+4 separators (with palette replacement)
+8 tile rows
+
+196 - 48 lines total
+Tile rows begin with row 20.

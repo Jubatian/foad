@@ -1,0 +1,41 @@
+Customized kernel for the game
+
+Mode74 is as-is without modifications.
+
+Uses a new sync generation which for this game (196 pixels tall screen) gains
+about 6000 VBlank cycles total. This includes inline mixer modifications.
+
+The inline mixer has 5 identical wave channels (no noise channel).
+
+The "waves" definition is removed, it is provided along with the game's
+resources in a 256b aligned block (saving bytes otherwise wasted for
+alignment). Also the Uzebox logo uses waveform 2 in intro.h (this is triangle
+in the game, later the logo might be removed to free ROM for more valuable
+game data).
+
+VSync tasks are completely removed along with all related variables & code.
+Everything is called explicitly from the game as needed. This fixes occasional
+audio glitches since the VSync tasks (with the sound & music processing) could
+fire within the setup of a sound effect.
+
+Audio is simplified and rewritten for the 5 identical wave channel concept.
+Music playing is realized by the game itself, all music playback related
+elements are removed from the kernel.
+
+Patches are changed somewhat, notably TriggerNote no longer sets the envelope
+volume (so previous note volumes might carry on, providing smoother
+transitions to new notes, however this needs sligtly different patch design).
+
+Unneeded kernel functions are removed to free up some ROM space and RAM bytes
+(ROM space only where one or another feature couldn't be entirely removed by
+link time optimizations).
+
+Removed all files which are unnecessary for the game:
+
+- Video modes apart from Mode 74
+- SD card interfacing (along with FAT FS routines)
+- Intro logo's PCM wave
+- All kernel supplied waveforms
+- Scroll table used for some scrolling video modes
+- VSync mixer (game uses inline mixer)
+- UART

@@ -1,0 +1,31 @@
+Mixed tilesets
+
+
+This is a concept utilizing recoloring to enable conversing some ROM by
+packing sprite tiles.
+
+
+The dragon has 7 color + transparency sprite tiles. This uses the low 3 bits
+of sprite tiles, with the following remapper:
+
+T1234567T1234567
+
+This recoloring scheme detaches the high bit, which can be used for monochrome
+tiles with a remapper as follows:
+
+TTTTTTTT11111111
+
+This provides a lot of monochrome sprite tiles with no extra ROM cost.
+
+
+Beyond the dragon, the following other schemes may be used:
+
+3 + T / 3 + T split:
+
+T123T123T123T123 for sprite tiles using the low 2 bits.
+TTTT111122223333 for sprite tiles using the high 2 bits.
+
+4 + T / 2 + T split:
+
+T1234T1234T1234- for the 4 + T sprite tiles.
+TTTTT1111122222- for the 2 + T sprite tiles.

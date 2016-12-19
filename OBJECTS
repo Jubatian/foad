@@ -1,0 +1,22 @@
+Sprites and Objects apart from the dragon.
+
+
+Map placement: In every logic frame, it is checked whether they can be added
+to the map. If possible (they are near to the dragon, by flag they still
+exist), they are added.
+
+The various sprites and objects are stored in ROM in a compressed manner.
+This is described in mapact.h.
+
+For sprites and objects there are 256 bits for availability. If bit is set,
+then the sprite exists, if clear, it doesn't (in RAM; so this way it is
+possible to kill off enemies or consume / destroy objects).
+
+When a sprite or object ends up too far from the dragon, it is removed so
+other sprites may become active instead. This doesn't destroy the sprite,
+but its state is lost (so for example if the dragon killed off some of its
+health before, it is replenished).
+
+Most of the related logic is in mapact.h. The actors are processed by
+mapobjp.h. Projectiles are handled differently in eproj.h (enemy projectiles)
+and fireball.h (fireballs and fires mostly from the dragon).

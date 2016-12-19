@@ -1,0 +1,12 @@
+Sprites.
+
+
+The sprite engine's core is described in sprite.h. This part realizes the
+"compression" of the dragon sprite, and is also responsible for all other
+sprites.
+
+Currently its particle generator feature is unused (Mode 74 can place
+individual pixels, this would rely on that, but it can not use palette
+replacements directly which is utilized for several purposes).
+
+See also MIXED_TILESET.

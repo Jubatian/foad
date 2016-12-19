@@ -1,0 +1,10 @@
+Levels, complete format
+
+
+Levels have two main components: the maps described in LEVEL_MAPS and the
+various sprite-type objects described in OBJECTS. Some components beyond these
+also contribute to compose the full level.
+
+Level data doesn't have to be aligned to any boundary.
+
+See map.h.

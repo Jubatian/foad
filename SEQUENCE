@@ -1,0 +1,28 @@
+Game progress sequence
+
+
+The game progress sequence defines the order of story screens and game levels.
+
+The sequence is stored as a resource (res.c), in res_sequence
+
+
+It contains variable length entries, the first byte specifying the type of the
+element as follows:
+
+0x00: Game level
+0x01: Story panel
+
+The types:
+
+
+0x00 - 0x7F: Story panel
+
+byte 0: Text begin offset, low (type: High of offset)
+byte 1: Text height in lines
+
+0x80: Game level
+
+byte 0: Map to use (from res_maplist)
+
+0x81: End of sequence
+
