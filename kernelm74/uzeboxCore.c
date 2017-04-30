@@ -256,7 +256,7 @@ static void ReadButtons(void){
 
 void ReadControllers(void){
 	// Read the standard buttons
-	ReadButtons();
+//	ReadButtons();
 }
 
 

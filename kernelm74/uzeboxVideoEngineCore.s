@@ -111,8 +111,10 @@
 	; Last read results of joypads
 
 	joypad1_status_lo:        .space 2
+	joypad1_status_lo_t:      .space 2
 #if P2_DISABLE == 0
 	joypad2_status_lo:        .space 2
+	joypad2_status_lo_t:      .space 2
 #endif
 
 #if TRUE_RANDOM_GEN == 1
@@ -358,28 +360,10 @@ TIMER1_COMPA_vect:
 	breq  sync_vsync_transfer
 
 	lds   ZH,      first_render_line
-	cp    ZL,      ZH
+	sub   ZL,      ZH
 	breq  sync_vmode
-
-	; Was an ordinary line. Check for first line (to reconfigure timer
-	; for 1820 cycles wide pulses with 136 cycle wide LOW), then return.
-
-	pop   r1
-	pop   r0
-	pop   ZH
-	in    ZL,      _SFR_IO_ADDR(GPIOR2)
-	out   _SFR_IO_ADDR(SREG), ZL
-	in    ZL,      _SFR_IO_ADDR(GPIOR1)
-	sbis  _SFR_IO_ADDR(GPIOR0), 7
-	reti                   ; No timer reprogramming requested
-
-	ldi   ZL,      hi8(1819)
-	sts   _SFR_MEM_ADDR(OCR1AH), ZL
-	ldi   ZL,      lo8(1819)
-	sts   _SFR_MEM_ADDR(OCR1AL), ZL
-	cbi   _SFR_IO_ADDR(GPIOR0), 7
-	in    ZL,      _SFR_IO_ADDR(GPIOR1)
-	reti
+	brcc  sync_ctrl
+	rjmp  sync_line_com
 
 
 
@@ -475,6 +459,103 @@ sync_vsync_transfer:
 	pop   r1
 	pop   r0
 	pop   ZH
+	reti
+
+
+
+sync_ctrl:
+
+	; Lines before display: Read the controllers
+	; ZL contains lines until transfer to video (0), which are used the
+	; following manner:
+	; 18: Raise controller latch pin
+	; 17: Release controller latch pin
+	; 1-16: Read controller data bits
+	; The clock is normally kept low. Rising edges advance the shifer in
+	; the controller.
+
+	cpi   ZL,      17
+	brcs  sync_ctrl_rd
+	breq  sync_ctrl_rel
+
+	; Raise controller latch pin (maybe repeatedly for multiple scanlines,
+	; it doesn't really matter); also this path contains the first
+	; scanline after VSync, so also reprogram timer as needed.
+
+	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
+
+sync_line_com:
+
+	; Was an ordinary line. Check for first line (to reconfigure timer
+	; for 1820 cycles wide pulses with 136 cycle wide LOW), then return.
+
+	pop   r1
+	pop   r0
+	pop   ZH
+	in    ZL,      _SFR_IO_ADDR(GPIOR2)
+	out   _SFR_IO_ADDR(SREG), ZL
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
+	sbis  _SFR_IO_ADDR(GPIOR0), 7
+	reti                   ; No timer reprogramming requested
+
+	ldi   ZL,      hi8(1819)
+	sts   _SFR_MEM_ADDR(OCR1AH), ZL
+	ldi   ZL,      lo8(1819)
+	sts   _SFR_MEM_ADDR(OCR1AL), ZL
+	cbi   _SFR_IO_ADDR(GPIOR0), 7
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
+	reti
+
+sync_ctrl_rel:
+
+	; Release controller latch pin.
+
+	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
+	rjmp  sync_line_com
+
+sync_ctrl_rd:
+
+	; Read controller data bits. Do this along with pushing the sbi of the
+	; clock as far back as possible to get a nice wide pulse.
+
+	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
+	lds   r0,      joypad1_status_lo_t + 0
+	lds   r1,      joypad1_status_lo_t + 1
+	clc
+	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA1_PIN
+	sec
+	ror   r1
+	ror   r0
+	sts   joypad1_status_lo_t + 0, r0
+	sts   joypad1_status_lo_t + 1, r1
+	cpi   ZL,      1
+	brne  sync_ctrl_rd1c
+	sts   joypad1_status_lo   + 0, r0
+	sts   joypad1_status_lo   + 1, r1
+sync_ctrl_rd1c:
+#if (P2_DISABLE == 0)
+	lds   r0,      joypad2_status_lo_t + 0
+	lds   r1,      joypad2_status_lo_t + 1
+	clc
+	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA2_PIN
+	sec
+	ror   r1
+	ror   r0
+	sts   joypad2_status_lo_t + 0, r0
+	sts   joypad2_status_lo_t + 1, r1
+	cpi   ZL,      1
+	brne  sync_ctrl_rd2c
+	sts   joypad2_status_lo   + 0, r0
+	sts   joypad2_status_lo   + 1, r1
+sync_ctrl_rd2c:
+#endif
+	pop   r1
+	pop   r0
+	pop   ZH
+	in    ZL,      _SFR_IO_ADDR(GPIOR2)
+	out   _SFR_IO_ADDR(SREG), ZL
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
+	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
 	reti
 
 
