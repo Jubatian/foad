@@ -137,7 +137,6 @@ static void hiscore_frame(void)
 
  /* Input logic */
 
- ReadControllers();
  btn = ReadJoypad(0);
  btp = HISCORE_BTNC_LO | ((uint16)(HISCORE_BTNC_HI) << 8);
  HISCORE_BTNC_LO = btn & 0xFFU;

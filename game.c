@@ -76,7 +76,6 @@ static void game_frame(void)
 
  global_process();
 
- ReadControllers();
  btn |= ReadJoypad(0);
 
 

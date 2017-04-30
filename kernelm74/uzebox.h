@@ -119,7 +119,6 @@
 	extern unsigned int ReadJoypad(unsigned char joypadNo);
 	extern unsigned int ReadJoypadExt(unsigned char joypadNo); //use with SNES mouse
 	extern unsigned char DetectControllers();
-	extern void ReadControllers(void); // Must be used, no VSync tasks
 
 
 	/*

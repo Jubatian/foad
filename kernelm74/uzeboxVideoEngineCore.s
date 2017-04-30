@@ -129,9 +129,9 @@
 	;
 	; Sync pulse falls are timed by OCR1A, during normal pulses Timer 1
 	; counting from 0 to 1819.
-	; Sync pulse rises normally happen in the mixer, otherwise they are
-	; timed using OCR1B (within some constraints short mixers should be
-	; possible).
+	; Sync pulse rises normally happen in the mixer (136 cycles wide
+	; pulses), otherwise they are timed using OCR1B. The OCR1B interrupt
+	; has to be cancelled explicitly on lines where the mixer times it.
 	; The sync state machine is realized using GPIOR0 which is accessible
 	; for individual bits. Its layout is as follows:
 	; bit 0: 68 cycles wide low pulse (normally used by the inline mixer)
@@ -146,7 +146,7 @@
 
 
 ;
-; OCR1B Interrupt entry
+; OCR1B Interrupt entry (68 and 774 cycles wide pulses)
 ;
 TIMER1_COMPB_vect:
 
@@ -157,88 +157,41 @@ TIMER1_COMPB_vect:
 	lds   ZL,      _SFR_MEM_ADDR(TCNT1L)
 
 	; Timer: (0x08 - 0x0D) + COMPB (5cy jitter)
-	; COMPB (effective) is 70 / 138 / 776
+	; COMPB (effective) is 72 (+4) / 776 (+2)
 
-	sbic  _SFR_IO_ADDR(GPIOR0), 0
-	rjmp  rise_68
-	sbis  _SFR_IO_ADDR(GPIOR0), 1
-	rjmp  rise_774
+	; Timer low 3 bits for compensated values
+	; (shown for 68 cy, low 3 bits are same for 774)
+	; 0x08 => 0x50; 01010000
+	; 0x09 => 0x51; 01010001
+	; 0x0A => 0x52; 01010010
+	; 0x0B => 0x53; 01010011
+	; 0x0C => 0x54; 01010100
+	; 0x0D => 0x55; 01010101
 
-rise_136:
-
-	; 136 cycles: Low 3 bits of Timer:
-	; 0x08 => 0x2 (010)
-	; 0x09 => 0x3 (011)
-	; 0x0A => 0x4 (100)
-	; 0x0B => 0x5 (101)
-	; 0x0C => 0x6 (110)
-	; 0x0D => 0x7 (111)
-
-	sbrs  ZL,      2
-	rjmp  rise_6cy         ; 0x09 ( 9) or 0x08 (10)
-	sbrc  ZL,      1
-	rjmp  rise_b0          ; 0x0D ( 5) or 0x0C ( 6)
-	nop
-	rjmp  rise_b0          ; 0x0B ( 7) or 0x0A ( 8)
-
-rise_774:
-
-	; 774 cycles: Low 3 bits of Timer:
-	; 0x08 => 0x0 (000)
-	; 0x09 => 0x1 (001)
-	; 0x0A => 0x2 (010)
-	; 0x0B => 0x3 (011)
-	; 0x0C => 0x4 (100)
-	; 0x0D => 0x5 (101)
-
-	nop
 	sbrc  ZL,      2
-	rjmp  rise_b0          ; 0x0D ( 5) or 0x0C ( 6)
+	rjmp  .+8              ; 0x0D ( 5) or 0x0C ( 6)
 	sbrc  ZL,      1
-	rjmp  rise_b0          ; 0x0B ( 7) or 0x0A ( 8)
+	rjmp  .+4              ; 0x0B ( 7) or 0x0A ( 8)
 	nop
-	rjmp  rise_b0          ; 0x09 ( 9) or 0x08 (10)
-
-rise_68:
-
-	; 68 cycles: Low 3 bits of Timer:
-	; 0x08 => 0x6 (110)
-	; 0x09 => 0x7 (111)
-	; 0x0A => 0x0 (000)
-	; 0x0B => 0x1 (001)
-	; 0x0C => 0x2 (010)
-	; 0x0D => 0x3 (011)
-
-	nop
-	sbrc  ZL,      2
-	rjmp  rise_6cy         ; 0x09 ( 9) or 0x08 (10)
-	sbrc  ZL,      1
-	rjmp  rise_b0          ; 0x0D ( 5) or 0x0C ( 6)
-	nop
-	rjmp  rise_b0          ; 0x0B ( 7) or 0x0A ( 8)
-rise_6cy:
-	rjmp  .
-	rjmp  .-6
-
-rise_b0:
-
+	rjmp  .                ; 0x09 ( 9) or 0x08 (10)
 	sbrs  ZL,      0
 	rjmp  .
 
-	; An lds of TCNT1L here would result 0x1A
-
-	sbi   _SFR_IO_ADDR(SYNC_PORT), SYNC_PIN
+	sbis  _SFR_IO_ADDR(GPIOR0), 0
+	lpm   ZL,      Z       ; Delay 2 cycles extra for 774 cycles
 
 	; Process VSync transitions if any.
-	; When this increases the pulse width (68 => 774 or 68 => 136), it
-	; will generate a second "ghost" interrupt with no effect (the sync
-	; pulse is already high, and the transition comparison below will fail
-	; as bit 4 of GPIOR0 became set). This slightly messes up the Uzem
-	; emulator as it doesn't check if the sbi actually caused a rising
-	; edge (it doesn't break it, though). "Fixing" the "problem" here
-	; wastes more clocks than leaving it this way.
+	; When this increases the pulse width (68 => 774), it will generate a
+	; second "ghost" interrupt with no effect (the sync pulse is already
+	; high, and the transition comparison below will fail as bit 4 of
+	; GPIOR0 became set). This slightly messes up the Uzem emulator as it
+	; doesn't check if the sbi actually caused a rising edge (it doesn't
+	; break it, though). "Fixing" the "problem" here wastes more clocks
+	; than leaving it this way.
 
 	in    ZL,      _SFR_IO_ADDR(GPIOR1)
+	nop
+	sbi   _SFR_IO_ADDR(SYNC_PORT), SYNC_PIN
 	sbic  _SFR_IO_ADDR(GPIOR0), 4
 	reti                   ; No transition request
 
@@ -282,23 +235,24 @@ rise_tr_from774:
 
 	ldi   ZL,      0x71    ; 3 x 2 pulses, 68 cy LOW, start with Mixer
 	out   _SFR_IO_ADDR(GPIOR0), ZL
-	ldi   ZL,      hi8(67 + 2)
+	ldi   ZL,      hi8(67 + 4)
 	sts   _SFR_MEM_ADDR(OCR1BH), ZL
-	ldi   ZL,      lo8(67 + 2)
-	rjmp  rise_tr_end
+	ldi   ZL,      lo8(67 + 4)
+
+rise_tr_end:
+
+	sts   _SFR_MEM_ADDR(OCR1BL), ZL
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
+	reti
 
 rise_tr_from68r:
 
 	; Transition from last segment 68 cy wide LOW pulses to normal display
-	; pulses.
+	; pulses (do nothing to the timer, leaving it 68 cy as the mixer will
+	; do these updates).
 
 	ldi   ZL,      0xF2    ; 136 cycles wide sync
 	out   _SFR_IO_ADDR(GPIOR0), ZL
-	ldi   ZL,      hi8(135 + 2)
-	sts   _SFR_MEM_ADDR(OCR1BH), ZL
-	ldi   ZL,      lo8(135 + 2)
-rise_tr_end:
-	sts   _SFR_MEM_ADDR(OCR1BL), ZL
 	in    ZL,      _SFR_IO_ADDR(GPIOR1)
 	reti
 
@@ -385,6 +339,9 @@ sync_vmode_push:
 
 	call  VMODE_FUNC
 
+	; Note: Video generator should clear the OCR1A and OCR1B interrupt
+	; flags before returning.
+
 	; Pop registers and be done with it
 
 	ldi   ZL,      30
@@ -394,20 +351,11 @@ sync_vmode_pop:
 	pop   r0
 	st    Z,       r0
 	brne  sync_vmode_pop
-	pop   ZH
-	in    ZL,      _SFR_IO_ADDR(GPIOR2)
-	out   _SFR_IO_ADDR(SREG), ZL
-	in    ZL,      _SFR_IO_ADDR(GPIOR1)
-	reti
+	rjmp  sync_vsync_rt
 
 
 
 sync_vsync_transfer:
-
-	; Move saved regs to allow transitioning into nonblocking mode
-
-	in    r1,      _SFR_IO_ADDR(GPIOR1)
-	in    r0,      _SFR_IO_ADDR(GPIOR2)
 
 	; At this point SYNC is HIGH. Prepare to generate the following:
 	; 68 cycles Mixer LOW pulse, (910 - 68) cycles HIGH.
@@ -424,12 +372,8 @@ sync_vsync_transfer:
 
 	ldi   ZL,      SYNC_HSYNC_PULSES
 	sts   sync_pulse, ZL   ; Prepare for next frame
-	ldi   ZH,      0xF9    ; 3 x 2 pulses, 68 cy LOW, start with Mixer
-
-	; Enable interrupts to allow the last 136 cycle wide LOW pulse to
-	; complete by OCR1B with short mixers
-
-	sei                    ; From now, non-interrupt
+	ldi   ZL,      0xF9    ; 3 x 2 pulses, 68 cy LOW, start with Mixer
+	out   _SFR_IO_ADDR(GPIOR0), ZL
 
 	; Keep render height registers updated
 
@@ -441,24 +385,17 @@ sync_vsync_transfer:
 	lds   ZL,      render_lines_count_tmp
 	sts   render_lines_count, ZL
 
-	; Add padding cycles to make sure the 136 cycle wide LOW pulse is
-	; completed by OCR1B
+	; Done
 
-#if (AUDIO_OUT_HSYNC_CYCLES < 110)
-	WAIT  ZL,      (110 - AUDIO_OUT_HSYNC_CYCLES)
-#endif
-
-	out   _SFR_IO_ADDR(GPIOR0), ZH
-	ldi   ZL,      hi8(67 + 2)
-	sts   _SFR_MEM_ADDR(OCR1BH), ZL
-	ldi   ZL,      lo8(67 + 2)
-	sts   _SFR_MEM_ADDR(OCR1BL), ZL
-
-	mov   ZL,      r1
-	out   _SFR_IO_ADDR(SREG), r0
 	pop   r1
 	pop   r0
+
+sync_vsync_rt:
+
 	pop   ZH
+	in    ZL,      _SFR_IO_ADDR(GPIOR2)
+	out   _SFR_IO_ADDR(SREG), ZL
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
 	reti
 
 

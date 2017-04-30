@@ -136,8 +136,8 @@ static const u16 io_table[] PROGMEM ={
 
 	io_set(OCR1AH, (1819U) >> 8),
 	io_set(OCR1AL, (1819U) & 0xFFU),
-	io_set(OCR1BH, (135U + 2U) >> 8),
-	io_set(OCR1BL, (135U + 2U) & 0xFFU),
+	io_set(OCR1BH, (67U + 4U) >> 8),
+	io_set(OCR1BL, (67U + 4U) & 0xFFU),
 
 	io_set(TCCR1B, (1 << WGM12) + (1 << CS10)),    /* CTC mode, use OCR1A for match */
 	io_set(TIMSK1, (1 << OCIE1A) | (1 << OCIE1B)), /* Generate interrupt on match */
@@ -188,77 +188,6 @@ void Initialize(void){
 
 	DisplayLogo();
 }
-
-static void ReadButtons(void){
-	u8  i;
-	u16 p1ButtonsLo = 0;
-#if (P2_DISABLE == 0)
-	u16 p2ButtonsLo = 0;
-#endif
-
-	// latch controllers
-	JOYPAD_OUT_PORT|=_BV(JOYPAD_LATCH_PIN);
-	Wait200ns();
-	Wait200ns();
-	JOYPAD_OUT_PORT&=~(_BV(JOYPAD_LATCH_PIN));
-
-
-	// read button states
-	for(i=0;i<16;i++){
-
-		p1ButtonsLo>>=1;
-#if (P2_DISABLE == 0)
-		p2ButtonsLo>>=1;
-#endif
-
-		Wait200ns();
-		Wait200ns();
-
-		// pulse clock pin
-		JOYPAD_OUT_PORT&=~(_BV(JOYPAD_CLOCK_PIN));
-
-		if((JOYPAD_IN_PORT&(1<<JOYPAD_DATA1_PIN))==0) p1ButtonsLo|=(1<<15);
-#if (P2_DISABLE == 0)
-		if((JOYPAD_IN_PORT&(1<<JOYPAD_DATA2_PIN))==0) p2ButtonsLo|=(1<<15);
-#endif
-
-		JOYPAD_OUT_PORT|=_BV(JOYPAD_CLOCK_PIN);
-
-		Wait200ns();
-		Wait200ns();
-
-	}
-
-#if (JOYSTICK == TYPE_SNES)
-	joypad1_status_lo=p1ButtonsLo;
-#if (P2_DISABLE == 0)
-	joypad2_status_lo=p2ButtonsLo;
-#endif
-#else
-	joypad1_status_lo=p1ButtonsLo & 0xff;
-#if (P2_DISABLE == 0)
-	joypad2_status_lo=p2ButtonsLo & 0xff;
-#endif
-#endif
-
-#if (P2_DISABLE == 0)
-	if( (joypad1_status_lo == (BTN_START+BTN_SELECT+BTN_Y+BTN_B)) ||
-	    (joypad2_status_lo == (BTN_START+BTN_SELECT+BTN_Y+BTN_B)) ){
-		SoftReset();
-	}
-#else
-	if(joypad1_status_lo == (BTN_START+BTN_SELECT+BTN_Y+BTN_B)){
-		SoftReset();
-	}
-#endif
-
-}
-
-void ReadControllers(void){
-	// Read the standard buttons
-//	ReadButtons();
-}
-
 
 
 // Format eeprom, wiping all data to zero

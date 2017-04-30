@@ -198,7 +198,6 @@ global_initpress:
 .global global_ispress
 global_ispress:
 
-	call  ReadControllers
 	ldi   r24,     0
 	call  ReadJoypad
 	ldi   XL,      lo8(global_shared)

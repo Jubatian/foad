@@ -321,7 +321,7 @@ m74_scloopr:
 
 	; Clear any pending timer interrupt
 
-	ldi   ZL,      (1<<OCF1A)
+	ldi   ZL,      ((1 << OCF1A) | (1 << OCF1B))
 	sts   _SFR_MEM_ADDR(TIFR1), ZL
 
 
@@ -395,7 +395,7 @@ ddise:
 
 	; Clear any pending timer interrupt
 
-	ldi   ZL,      (1<<OCF1A)
+	ldi   ZL,      ((1 << OCF1A) | (1 << OCF1B))
 	sts   _SFR_MEM_ADDR(TIFR1), ZL
 
 	ret                    ; All done
