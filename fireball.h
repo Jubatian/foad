@@ -21,7 +21,8 @@
 ** Realizes the fireballs breathed by the dragon.
 **
 ** RAM storage:
-** Byte 0: Burnout timer, 0: Empty slot
+** Byte 0: bits 0-5: Burnout timer, 0: Empty slot
+**         bits 6-7: Fireball collided (no further damage until zeroes)
 ** byte 1: X velocity (signed)
 ** byte 2: Y velocity (signed)
 ** Byte 3: Level coordinate, b0
@@ -49,8 +50,8 @@
 ** other things might also generate them. */
 #define FIREBALL_N 12U
 
-/* Initial fireball age (2.5 secs) */
-#define FIREBALL_AGE 75U
+/* Initial fireball age (max 63, ~2.1 sec) */
+#define FIREBALL_AGE 63U
 
 
 
@@ -68,7 +69,9 @@ void  fireball_new(uint16 x, uint16 y, asint xvel, asint yvel);
 
 /*
 ** Ages a given fireball, accelerating its burnout. A fireball may be
-** destroyed (removed) by bumping its burnout by 0xFF.
+** destroyed (removed) by bumping its burnout by 0xFF. Calling this will also
+** mark the fireball collided, temporarily inactivating it for fireball-sprite
+** collisions.
 */
 void  fireball_age(auint id, auint age);
 
@@ -83,7 +86,8 @@ auint fireball_get(auint id, physics_spr_t* dest);
 
 /*
 ** Returns whether there is a fireball within a sprite. Returns the fireball's
-** ID if there is any or FIREBALL_N if there is none.
+** ID if there is any or FIREBALL_N if there is none. This only returns
+** fireballs which aren't inactivated.
 */
 auint fireball_getat(physics_spr_t const* spr);
 

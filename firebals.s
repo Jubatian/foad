@@ -90,6 +90,8 @@ gatl0e:
 	ld    r20,     X+      ; Fireball's burnout timer (exists?)
 	cpi   r20,     0
 	breq  gatl0i           ; Zero: Fireball does not exist
+	cpi   r20,     63
+	brcc  gatl0i           ; Fireball is temporarily inactivated
 	adiw  XL,      2       ; Fireball's coordinates
 	call  levelcor_decode_asm
 	cp    ZL,      r22

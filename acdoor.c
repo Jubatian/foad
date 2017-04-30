@@ -53,8 +53,8 @@ auint acdoor_process(mapact_t* actor)
 
  if (fid != FIREBALL_N){
   fireball_age(fid, 0x20U);
-  if (d1 < 0xF8U){
-   d1 += 0x08U;
+  if (d1 < 0xF0U){
+   d1 += 0x10U;
   }else{
    d1  = 0xFFU;
   }

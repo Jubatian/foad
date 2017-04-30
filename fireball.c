@@ -87,10 +87,11 @@ void  fireball_new(uint16 x, uint16 y, asint xvel, asint yvel)
 */
 void  fireball_age(auint id, auint age)
 {
- if (fireball_arr[id].btim < age){
+ if (fireball_arr[id].btim <= age){
   fireball_arr[id].btim  = 0U;
  }else{
   fireball_arr[id].btim -= age;
+  fireball_arr[id].btim |= 0xC0U;
  }
 }
 
@@ -129,8 +130,11 @@ void  fireball_process(void)
 
  for (i = 0U; i < FIREBALL_N; i++){
 
-  if (fireball_arr[i].btim != 0U){
+  if ((fireball_arr[i].btim & 0x3FU) != 0U){
    fireball_arr[i].btim--;
+   if ((fireball_arr[i].btim & 0xC0U) != 0U){
+    fireball_arr[i].btim -= 0x40U; /* Tick away temporary inactivation */
+   }
 
    ph.xbs  = 0U;
    ph.ybs  = 0U;
@@ -189,7 +193,7 @@ void  fireball_render(void)
 
  for (i = 0U; i < FIREBALL_N; i++){
 
-  btim = fireball_arr[i].btim;
+  btim = fireball_arr[i].btim & 0x3FU;
   if (btim != 0U){
 
    ph.xvel = fireball_arr[i].xvel;

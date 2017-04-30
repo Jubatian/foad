@@ -92,7 +92,7 @@ auint acprison_process(mapact_t* actor)
 
   if (fid != FIREBALL_N){
    fireball_age(fid, 0x20U);
-   if (d1 < 0xE8U){ d1 += 0x18U; }
+   if (d1 < 0xE8U){ d1 += 0x30U; }
    else{            d1  = 0xFFU; }
    d0 = d0 & 0x80U;       /* Reset animation, on fire */
    if (d1 == 0xFFU){
