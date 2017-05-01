@@ -189,9 +189,8 @@ TIMER1_COMPB_vect:
 	; break it, though). "Fixing" the "problem" here wastes more clocks
 	; than leaving it this way.
 
-	in    ZL,      _SFR_IO_ADDR(GPIOR1)
-	nop
 	sbi   _SFR_IO_ADDR(SYNC_PORT), SYNC_PIN
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
 	sbic  _SFR_IO_ADDR(GPIOR0), 4
 	reti                   ; No transition request
 
@@ -294,12 +293,11 @@ TIMER1_COMPA_vect:
 
 	in    ZL,      _SFR_IO_ADDR(SREG)
 	out   _SFR_IO_ADDR(GPIOR2), ZL
-	push  ZH               ; ( 6)
-	push  r0               ; ( 8)
+	push  ZH
 	cbi   _SFR_IO_ADDR(SYNC_PORT), SYNC_PIN
+	push  r0
 	push  r1
-	in    ZL,      _SFR_IO_ADDR(GPIOR0) ; (Just for compatibility with old mixers)
-	call  update_sound
+	rcall update_sound     ; update_sound is accessible by rcall with proper linking order
 	sbi   _SFR_IO_ADDR(TIFR1), (1 << OCF1B)
 
 	sbis  _SFR_IO_ADDR(GPIOR0), 1
@@ -317,7 +315,16 @@ TIMER1_COMPA_vect:
 	sub   ZL,      ZH
 	breq  sync_vmode
 	brcc  sync_ctrl
-	rjmp  sync_line_com
+
+	; Normal lines after vmode
+
+	pop   r1
+	pop   r0
+	pop   ZH
+	in    ZL,      _SFR_IO_ADDR(GPIOR2)
+	out   _SFR_IO_ADDR(SREG), ZL
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
+	reti
 
 
 
@@ -413,7 +420,6 @@ sync_ctrl:
 
 	cpi   ZL,      17
 	brcs  sync_ctrl_rd
-	breq  sync_ctrl_rel
 
 	; Raise controller latch pin (maybe repeatedly for multiple scanlines,
 	; it doesn't really matter); also this path contains the first
@@ -421,7 +427,10 @@ sync_ctrl:
 
 	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
 
-sync_line_com:
+	; Release controller latch pin when ZL (line counter) equals 17.
+
+	brne  .+2
+	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
 
 	; Was an ordinary line. Check for first line (to reconfigure timer
 	; for 1820 cycles wide pulses with 136 cycle wide LOW), then return.
@@ -442,13 +451,6 @@ sync_line_com:
 	cbi   _SFR_IO_ADDR(GPIOR0), 7
 	in    ZL,      _SFR_IO_ADDR(GPIOR1)
 	reti
-
-sync_ctrl_rel:
-
-	; Release controller latch pin.
-
-	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
-	rjmp  sync_line_com
 
 sync_ctrl_rd:
 
@@ -521,28 +523,25 @@ sync_nomix:
 
 	sbic  _SFR_IO_ADDR(GPIOR0), 6
 	rjmp  sync_nomix_e2
-	sbic  _SFR_IO_ADDR(GPIOR0), 5
-	rjmp  sync_nomix_e1
 	in    ZL,      _SFR_IO_ADDR(GPIOR1)
 	cbi   _SFR_IO_ADDR(SYNC_PORT), SYNC_PIN
+	sbic  _SFR_IO_ADDR(GPIOR0), 5
+	rjmp  sync_nomix_e1
 	cbi   _SFR_IO_ADDR(GPIOR0), 4
 	reti
 
 sync_nomix_e2:
 
-	cbi   _SFR_IO_ADDR(GPIOR0), 6
 	cbi   _SFR_IO_ADDR(SYNC_PORT), SYNC_PIN
-	rjmp  sync_nomix_e2e
+	in    ZL,      _SFR_IO_ADDR(GPIOR1)
+	cbi   _SFR_IO_ADDR(GPIOR0), 6
+	cbi   _SFR_IO_ADDR(GPIOR0), 2
+	reti
 
 sync_nomix_e1:
 
-	cbi   _SFR_IO_ADDR(SYNC_PORT), SYNC_PIN
 	cbi   _SFR_IO_ADDR(GPIOR0), 5
-
-sync_nomix_e2e:
-
 	cbi   _SFR_IO_ADDR(GPIOR0), 2
-	in    ZL,      _SFR_IO_ADDR(GPIOR1)
 	reti
 
 
