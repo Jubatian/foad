@@ -20,6 +20,7 @@
 
 #include "acarcher.h"
 #include "acsupp.h"
+#include "acsuppc.h"
 #include "dragon.h"
 #include "spritelv.h"
 #include "passable.h"
@@ -153,7 +154,7 @@ auint acarcher_process(mapact_t* actor)
 
  if (fid != FIREBALL_N){
   fireball_age(fid, 0x20U);
-  if (d1 < 0xE8U){ d1 += 0x30U; }
+  if (d1 < 0xCFU){ d1 += 0x30U; }
   else{            d1  = 0xFFU; }
   d0 = 0x80U; /* Cancel firing too */
   if (d1 == 0xFFU){
@@ -178,7 +179,6 @@ auint acarcher_process(mapact_t* actor)
 void  acarcher_render(mapact_t* actor)
 {
  auint fra;
- auint flg = M74_SPR_I1 | M74_SPR_MASK;
  auint d0  = actor->d0;
  auint vab;
 
@@ -201,20 +201,5 @@ void  acarcher_render(mapact_t* actor)
   fra = 0x89U;
  }
 
- if (actor->spr.xvel > 0){
-  flg |= M74_SPR_FLIPX;
- }else if (actor->spr.xvel == 0){
-  if ((dragon_spr.xpos) > (actor->spr.xpos)){
-   flg |= M74_SPR_FLIPX;
-  }
- }else{}
-
- spritelv_blit(&(actor->spr), fra, flg, REC_FLAT_0);
-
- if ((d0 & 0x80U) != 0U){ /* Fire */
-  fireball_render_fire(
-      (actor->spr.xpos),
-      (actor->spr.ypos) - 8U,
-      0x1FU - (d0 & 0x1FU));
- }
+ acsuppc_rendernpc(actor, fra, d0);
 }

@@ -1,5 +1,5 @@
 ###############################################################################
-# Makefile for the project SpriteDemo
+# Makefile for Flight of a Dragon
 ###############################################################################
 
 ## General Flags
@@ -33,7 +33,8 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS  = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99 -DF_CPU=28636360UL -O2 -fsigned-char -ffunction-sections -fno-toplevel-reorder -fno-tree-switch-conversion
+CFLAGS += -Wall -gdwarf-2 -std=gnu99 -DF_CPU=28636360UL -O2 -fsigned-char
+CFLAGS += -ffunction-sections -fno-toplevel-reorder -fno-tree-switch-conversion
 CFLAGS += -MD -MP -MT $(*F).o -MF $(DEPDIR)/$(@F).d
 CFLAGS += $(KERNEL_OPTIONS)
 
@@ -55,13 +56,13 @@ LDFLAGS += -Wl,--section-start=.res=0x7800
 ## Intel Hex file production flags
 HEX_FLASH_FLAGS = -R .eeprom
 
-HEX_EEPROM_FLAGS = -j .eeprom
-HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
-HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
-
 
 ## Objects that must be built in order to link
-OBJECTS  = $(OBJDIR)/uzeboxVideoEngineCore.o $(OBJDIR)/uzeboxCore.o $(OBJDIR)/uzeboxSoundEngine.o $(OBJDIR)/uzeboxSoundEngineCore.o $(OBJDIR)/uzeboxVideoEngine.o
+OBJECTS  = $(OBJDIR)/uzeboxVideoEngineCore.o
+OBJECTS += $(OBJDIR)/uzeboxCore.o
+OBJECTS += $(OBJDIR)/uzeboxSoundEngine.o
+OBJECTS += $(OBJDIR)/uzeboxSoundEngineCore.o
+OBJECTS += $(OBJDIR)/uzeboxVideoEngine.o
 OBJECTS += $(OBJDIR)/$(GAME).o
 OBJECTS += $(OBJDIR)/res.o
 OBJECTS += $(OBJDIR)/sprite.o
@@ -90,7 +91,10 @@ OBJECTS += $(OBJDIR)/global.o
 OBJECTS += $(OBJDIR)/gstat.o
 OBJECTS += $(OBJDIR)/torch.o
 OBJECTS += $(OBJDIR)/acsupp.o
+OBJECTS += $(OBJDIR)/acsuppc.o
 OBJECTS += $(OBJDIR)/acarcher.o
+OBJECTS += $(OBJDIR)/acswords.o
+OBJECTS += $(OBJDIR)/acpike.o
 OBJECTS += $(OBJDIR)/acdoor.o
 OBJECTS += $(OBJDIR)/acbomb.o
 OBJECTS += $(OBJDIR)/acprison.o
@@ -223,7 +227,16 @@ $(OBJDIR)/torch.o: torch.s $(DIRS)
 $(OBJDIR)/acsupp.o: acsupp.s $(DIRS)
 	$(CC) $(INCLUDES) $(ASMFLAGS) -c $< -o $@
 
+$(OBJDIR)/acsuppc.o: acsuppc.c $(DIRS)
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
 $(OBJDIR)/acarcher.o: acarcher.c $(DIRS)
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/acswords.o: acswords.c $(DIRS)
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/acpike.o: acpike.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/acdoor.o: acdoor.c $(DIRS)
@@ -274,9 +287,6 @@ $(OUTDIR)/$(TARGET): $(OBJECTS) $(DIRS)
 
 $(OUTDIR)/%.hex: $(OUTDIR)/$(TARGET)
 	avr-objcopy -O ihex $(HEX_FLASH_FLAGS) $< $@
-
-$(OUTDIR)/%.eep: $(OUTDIR)/$(TARGET)
-	-avr-objcopy $(HEX_EEPROM_FLAGS) -O ihex $< $@ || exit 0
 
 $(OUTDIR)/%.lss: $(OUTDIR)/$(TARGET)
 	avr-objdump -h -S $< > $@

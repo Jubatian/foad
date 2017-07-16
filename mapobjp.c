@@ -1,6 +1,6 @@
 /*
  *  Dragon - Map objects (actors, projectiles), processing
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,6 +30,8 @@
 #include "acprison.h"
 #include "aceol.h"
 #include "acsupply.h"
+#include "acpike.h"
+#include "acswords.h"
 
 
 
@@ -45,12 +47,14 @@
 
 
 
-/* Actor types */
+/* Actor types. Supply actors are in the range 0x05 - 0x0A inclusive. */
 #define ACT_EOL      0x00U
 #define ACT_ARCHER   0x01U
 #define ACT_DOOR     0x02U
 #define ACT_BOMB     0x03U
 #define ACT_PRISON   0x04U
+#define ACT_PIKE     0x0BU
+#define ACT_SWORDS   0x0CU
 
 
 
@@ -108,6 +112,8 @@ void  mapobjp_process(void)
     case ACT_BOMB:   hlt = acbomb_process(&actor);   break;
     case ACT_PRISON: hlt = acprison_process(&actor); break;
     case ACT_EOL:    hlt = aceol_process(&actor);    break;
+    case ACT_PIKE:   hlt = acpike_process(&actor);   break;
+    case ACT_SWORDS: hlt = acswords_process(&actor); break;
     default:         hlt = acsupply_process(&actor, typ); break;
    }
 
@@ -156,6 +162,8 @@ void  mapobjp_render(void)
     case ACT_BOMB:   acbomb_render(&actor);   break;
     case ACT_PRISON: acprison_render(&actor); break;
     case ACT_EOL:    aceol_render(&actor);    break;
+    case ACT_PIKE:   acpike_render(&actor);   break;
+    case ACT_SWORDS: acswords_render(&actor); break;
     default:         acsupply_render(&actor, typ); break;
    }
 
