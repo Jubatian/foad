@@ -1,6 +1,6 @@
 /*
  *  Dragon - Fireballs (dragon's breath)
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -209,15 +209,16 @@ void  fireball_render(void)
    if       ( (ph.yvel < 0) ||              /* Going up */
               (ph.xvel > (ph.yvel + 2)) ){  /* Large horiz. component */
     fra = 0xF6U;
+    if (btim <= 30U){ fra = 0xF8U; }
    }else if (ph.xvel > (ph.yvel + 1)){
     fra = 0xF8U;
-    if (btim > 30U){ fra |= 0x02U; }
+    if (btim  > 30U){ fra = 0xFAU; }
    }else if (ph.xvel > (ph.yvel >> 1)){
     fra = 0xFCU;
-    if (btim > 30U){ fra |= 0x02U; }
+    if (btim  > 30U){ fra = 0xFEU; }
    }else{                                   /* Fire burns upright */
     fra = 0xF4U;
-    if (btim > 30U){ fra = 0xF0U | ((btim & 0x04U) >> 1); }
+    if (btim  > 30U){ fra = 0xF0U | ((btim & 0x04U) >> 1); }
    }
    fra |= (btim & 0x02U) >> 1;
 

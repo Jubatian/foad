@@ -239,7 +239,7 @@ void game_enter(auint map)
 
  /* Initialize map */
 
- map_init(pgm_read_word(&res_maplist[map]));
+ map_init(pgm_read_word(&res_maplist[map << 1]));
 
  /* Control fading: Fade in from whatever was set before */
 

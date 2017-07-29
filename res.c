@@ -6078,10 +6078,118 @@ const uint8 res_map_00_h[] __attribute__ ((section (".res"))) = {
 };
 
 
+#define MAP_01_OFF     MAP_00_END_OFF
+
+/* Map data */
+const uint8 res_map_01_d[] __attribute__ ((section (".res"))) = {
+ 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x4DU, 0x08U, 0x42U, 0x0DU, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x08U, 0x06U,  0x0BU, 0x0DU, 0x00U, 0x4CU, 0x08U, 0x43U, 0x0DU, 0x08U,  0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
+ 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x08U, 0x48U, 0x46U, 0x0EU, 0x10U, 0x12U, 0x06U,  0x0AU, 0x0BU, 0x0DU, 0x00U, 0x08U, 0x05U, 0x16U, 0x10U,  0x10U, 0x0FU, 0x48U, 0x44U, 0x13U, 0x10U, 0x3EU, 0x07U,  0x0FU, 0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x08U, 0x0DU, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
+ 0x08U, 0x04U, 0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x08U,  0x06U, 0x07U, 0x10U, 0x10U, 0x10U, 0x10U, 0x17U, 0x10U,  0x10U, 0x10U, 0x19U, 0x08U, 0x11U, 0x02U, 0x10U, 0x10U,  0x10U, 0x10U, 0x53U, 0x5AU, 0x10U, 0x5BU, 0x58U, 0x5AU,  0x31U, 0x1EU, 0x04U, 0x0DU, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x4AU, 0x00U, 0x00U, 0x00U, 0x00U,  0x08U, 0x0DU, 0x1BU, 0x15U, 0x03U, 0x0DU, 0x4CU, 0x00U,  0x4DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,
+ 0x07U, 0x02U, 0x12U, 0x01U, 0x04U, 0x47U, 0x40U, 0x0EU,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x1AU, 0x07U, 0x18U, 0x10U, 0x10U, 0x10U,  0x10U, 0x53U, 0x4FU, 0x2AU, 0x22U, 0x39U, 0x21U, 0x5EU,  0x2DU, 0x10U, 0x02U, 0x0CU, 0x0BU, 0x01U, 0x03U, 0x05U,  0x45U, 0x49U, 0x06U, 0x4BU, 0x0BU, 0x47U, 0x40U, 0x04U,  0x13U, 0x0CU, 0x1CU, 0x10U, 0x02U, 0x12U, 0x44U, 0x47U,  0x46U, 0x04U, 0x03U, 0x48U, 0x45U, 0x49U, 0x01U, 0x01U
+};
+
+/* Type 0x00: End of level */
+const uint8 res_map_01_a00[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(63U,  32U,  3U, 48U),
+ ACT_END
+};
+
+/* Type 0x01: Achers */
+const uint8 res_map_01_a01[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x02: Doors */
+const uint8 res_map_01_a02[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(43U,  32U,  3U, 16U),
+ ACT_REL( 48,   0),
+ ACT_END
+};
+
+/* Type 0x03: Bombs */
+const uint8 res_map_01_a03[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x04: Prisoners */
+const uint8 res_map_01_a04[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x05: Stars */
+const uint8 res_map_01_a05[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x06: Meats */
+const uint8 res_map_01_a06[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x07: Hourglasses */
+
+/* Type 0x08: Life extenders */
+
+/* Type 0x09: Fire extenders */
+
+/* Type 0x0A: Energy extenders */
+
+/* Type 0x0B: Pikemen */
+
+const uint8 res_map_01_a0b[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x0C: Swordsmen */
+
+const uint8 res_map_01_a0c[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Map 0x00 locations */
+#define MAP_01_DATA_OFF (MAP_01_OFF)
+#define MAP_01_A00_OFF  (MAP_01_DATA_OFF + sizeof(res_map_01_d))
+#define MAP_01_A01_OFF  (MAP_01_A00_OFF  + sizeof(res_map_01_a00))
+#define MAP_01_A02_OFF  (MAP_01_A01_OFF  + sizeof(res_map_01_a01))
+#define MAP_01_A03_OFF  (MAP_01_A02_OFF  + sizeof(res_map_01_a02))
+#define MAP_01_A04_OFF  (MAP_01_A03_OFF  + sizeof(res_map_01_a03))
+#define MAP_01_A05_OFF  (MAP_01_A04_OFF  + sizeof(res_map_01_a04))
+#define MAP_01_A06_OFF  (MAP_01_A05_OFF  + sizeof(res_map_01_a05))
+#define MAP_01_A0B_OFF  (MAP_01_A06_OFF  + sizeof(res_map_01_a06))
+#define MAP_01_A0C_OFF  (MAP_01_A0B_OFF  + sizeof(res_map_01_a0b))
+#define MAP_01_HEAD_OFF (MAP_01_A0C_OFF  + sizeof(res_map_01_a0c))
+#define MAP_01_END_OFF  (MAP_01_HEAD_OFF + sizeof(res_map_01_h))
+
+/* Map header */
+const uint8 res_map_01_h[] __attribute__ ((section (".res"))) = {
+ DRG_ABS_L1( 1U,  32U,  2U, 56U), /* Dragon location */
+ PTR_16(MAP_01_DATA_OFF),         /* Map data */
+ 64U,                             /* Map width */
+ 4U,                              /* Map height */
+ 0x05U,                           /* Parallax region config */
+ 32U,                             /* Initial dragon healing */
+ 255U,                            /* Initial remaining time */
+ PTR_16_N(MAP_01_A00_OFF, 1U),    /* HP Level End */
+ PTR_16_N(MAP_01_A01_OFF, 0U),    /* LP Archers */
+ PTR_16_N(MAP_01_A02_OFF, 1U),    /* HP Doors */
+ PTR_16_N(MAP_01_A03_OFF, 1U),    /* HP Bombs */
+ PTR_16_N(MAP_01_A04_OFF, 0U),    /* LP Prisoners */
+ PTR_16_N(MAP_01_A05_OFF, 0U),    /* LP Stars */
+ PTR_16_N(MAP_01_A06_OFF, 1U),    /* HP Meats */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Hourglasses */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Life extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Fire extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Energy extenders */
+ PTR_16_N(MAP_01_A0B_OFF, 0U),    /* LP Pikemen */
+ PTR_16_E(MAP_01_A0C_OFF, 0U),    /* LP Swordsmen */
+};
+
+
 
 /* List of game maps */
 const uint8 res_maplist[] __attribute__ ((section (".res"))) = {
- PTR_16(MAP_00_HEAD_OFF)
+ PTR_16(MAP_00_HEAD_OFF),
+ PTR_16(MAP_01_HEAD_OFF)
 };
 
 
@@ -6098,6 +6206,8 @@ const uint8 res_sequence[] __attribute__ ((section (".res"))) = {
    12U,          /* Text height (rows) */
  0x80U,          /* Game level */
  0x00U,          /* Map to use */
+ 0x80U,          /* Game level */
+ 0x01U,          /* Map to use */
   531U >> 8,     /* Story panel */
   531U & 0xFFU,  /* Text begin (L) */
     3U,          /* Text height (rows) */

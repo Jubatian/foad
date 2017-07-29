@@ -114,7 +114,7 @@ OBJECTS += $(OBJDIR)/music.o
 INCLUDES = -I"$(KERNEL_DIR)"
 
 ## Build
-all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(GAME).hex $(OUTDIR)/$(GAME).eep $(OUTDIR)/$(GAME).lss $(OUTDIR)/$(GAME).uze size
+all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(GAME).hex $(OUTDIR)/$(GAME).lss $(OUTDIR)/$(GAME).uze size
 
 ## Directories
 $(OBJDIR):
