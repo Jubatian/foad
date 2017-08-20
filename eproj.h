@@ -1,6 +1,6 @@
 /*
  *  Dragon - Enemy projectiles
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -49,8 +49,14 @@
 
 
 /* Projectile types */
+/* Type mask */
+#define EPROJ_TMASK 0xC0U
 /* Arrows. They disappear upon impact. */
-#define EPROJ_ARROW 0x02U
+#define EPROJ_ARROW 0x40U
+/* Small rocks. */
+#define EPROJ_SROCK 0x80U
+/* Large rocks. */
+#define EPROJ_LROCK 0xC0U
 
 
 

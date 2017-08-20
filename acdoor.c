@@ -1,6 +1,6 @@
 /*
  *  Dragon - Door actor
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "levelscr.h"
 #include "gstat.h"
 #include "sound.h"
+#include <avr/pgmspace.h>
 #include <uzebox.h>
 
 
@@ -36,6 +37,9 @@ auint acdoor_process(mapact_t* actor)
  auint d0 = actor->d0;
  auint d1 = actor->d1;
  auint fid;
+ auint dl0;
+ auint xt = actor->spr.xpos >> 3;
+ auint yt = actor->spr.ypos >> 3;
 
  /*
  ** Door's layout:
@@ -52,6 +56,7 @@ auint acdoor_process(mapact_t* actor)
  fid = fireball_getat(&(actor->spr));
 
  if (fid != FIREBALL_N){
+
   fireball_age(fid, 0x20U);
   if (d1 < 0xF0U){
    d1 += 0x10U;
@@ -59,7 +64,7 @@ auint acdoor_process(mapact_t* actor)
    d1  = 0xFFU;
   }
   if (d1 == 0xFFU){
-   level_repadd((actor->spr.xpos >> 3), (actor->spr.ypos >> 3));
+   level_repadd(xt, yt);
    levelscr_reset();
    levelscr_shake(3U);
    gstat_score_add(50U); /* Destroyed door */
@@ -67,6 +72,15 @@ auint acdoor_process(mapact_t* actor)
   }
   if (d0 < 0xE0U){ d0 += 0x20U; }
   else{            d0  = 0xFFU; }
+
+ }else{
+
+  dl0 = level_getl0(xt, yt);
+  if (pgm_read_byte(RES_L0REPD_OFF | dl0) == dl0){ /* No replacement tile (already open) */
+   d1 = 0xFFU; /* Door was destroyed somehow (such as by bomb) */
+   gstat_score_add(50U); /* Score is added for this, too */
+  }
+
  }
 
  if (d0 > 0U){ d0 --; }

@@ -1,5 +1,6 @@
 /*
 **  Converts GIMP header to 4bpp Uzebox Mode 74 sprites or tiles, C header.
+**  Combined converter for the fire (2bpp) and rock (2bpp) sprites.
 **
 **  By Sandor Zsuga (Jubatian)
 **
@@ -20,8 +21,15 @@
 **
 **  ---
 **
-**  The input image must be n x 8 (width x height) where 'n' is a multiple of
-**  8. It must have 16 colors or less.
+**  The fire input (fire_sprites.h) must be n x 8 (width x height) where
+**  'n' is a multiple of 8. It must have 4 colors or less.
+**
+**  The rock sprites (rock_sprites.h) must have the same dimensions as the
+**  dragon. It must have 4 colors or less. Its variables must be prefixed with
+**  'f_' before compiling.
+**
+**  Result sprite tiles are combined from a fire and a rock sprite tile. The
+**  fire occupies the low 2 bits, the rock the high 2 bits.
 **
 **  Produces result onto standard output, redirect into a ".h" file to get it
 **  proper.
@@ -29,9 +37,9 @@
 
 
 
-/*  The GIMP header to use */
-/*#include "color_sprites.h"*/
-#include "tiles.h"
+/*  The GIMP headers to use */
+#include "fire_sprites.h"
+#include "rock_sprites.h"
 
 
 #include <stdio.h>
@@ -46,7 +54,6 @@ int main(void)
  unsigned int  spc  = 0U;
  unsigned int  i;
  unsigned char c;
- unsigned char pal[16];
 
  /* Basic tests */
 
@@ -58,26 +65,11 @@ int main(void)
   fprintf(stderr, "Input height must be 8!\n");
   return 1;
  }
-
-
- /* Create palette (pulling down input colors to Uzebox BBGGGRRR format) */
-
- for (i = 0U; i < 16U; i++){
-  pal[i] =
-      ((((unsigned char)(header_data_cmap[i][0])) >> 5) << 0) |
-      ((((unsigned char)(header_data_cmap[i][1])) >> 5) << 3) |
-      ((((unsigned char)(header_data_cmap[i][2])) >> 6) << 6);
+ if ( (width  != f_width ) ||
+      (height != f_height) ){
+  fprintf(stderr, "The fire and the rock sprite source dimensions must match!\n");
+  return 1;
  }
-
- printf("\n");
- printf("/* 4bpp tile palette (color 0 is transparent) */\n");
- printf("\n");
- printf("const unsigned char tilepal[] PROGMEM = {\n");
-
- for (i = 0U; i < 15U; i++){
-  printf(" 0x%02XU,", pal[i]);
- }
- printf(" 0x%02XU\n};\n", pal[i]);
 
 
  /* Create some heading text */
@@ -94,8 +86,10 @@ int main(void)
 
   /* Collect two pixels */
 
-  c  = (header_data[sp + 0U] & 0xFU) << 4;
-  c |= (header_data[sp + 1U] & 0xFU) << 0;
+  c  = (header_data[sp + 0U] & 0x3U) << 4;
+  c |= (header_data[sp + 1U] & 0x3U) << 0;
+  c |= (f_header_data[sp + 0U] & 0x3U) << 6;
+  c |= (f_header_data[sp + 1U] & 0x3U) << 2;
   sp += 2U;
   if ((sp & 0x7U) == 0U){
    sp = sp + width - 8U; /* Sprite rows */

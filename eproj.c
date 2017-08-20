@@ -1,6 +1,6 @@
 /*
  *  Dragon - Enemy projectiles
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,9 +20,11 @@
 
 #include "eproj.h"
 #include "levelcor.h"
+#include "levelscr.h"
 #include "spritelv.h"
 #include "dragon.h"
 #include "random.h"
+#include "passable.h"
 #include <uzebox.h>
 
 
@@ -43,8 +45,8 @@ static eproj_t eproj_arr[EPROJ_N];
 static auint eproj_dtim;
 
 
-/* Arrow specific data mask */
-#define EPROJ_ARROW_MASK 0x01U
+/* Data mask */
+#define EPROJ_DMASK (0xFFU ^ EPROJ_TMASK)
 
 
 
@@ -124,6 +126,10 @@ void  eproj_process(void)
  physics_spr_t ph;
  auint dragon_w = dragon_spr.xbs;
  auint dragon_h = dragon_spr.ybs;
+ asint txv;
+ asint tyv;
+ auint vda;
+ auint tmp;
 
  eproj_dtim ++;
 
@@ -154,31 +160,139 @@ void  eproj_process(void)
     hit = 0U;
    }
 
+   /* Calculate relative velocity difference, used for determining damage.
+   ** This is calculated into vda for use by projectiles needing it. The txv
+   ** and tyv variables may also be used (relative velocities). */
+
+   txv = dragon_spr.xvel - ph.xvel;
+   tyv = dragon_spr.yvel - ph.yvel;
+   if (txv < 0){ vda = (auint)(-txv); }
+   else        { vda = (auint)( txv); }
+   if (tyv < 0){
+    if (vda < (auint)(-tyv)){ vda = (auint)(-tyv); }
+   }else{
+    if (vda < (auint)( tyv)){ vda = (auint)( tyv); }
+   }
+
    /* Process projectiles */
 
-   if ((typ & (~EPROJ_ARROW_MASK)) == EPROJ_ARROW){
+   switch (typ & EPROJ_TMASK){
 
-    /* Effects on the dragon */
+    case EPROJ_ARROW:
 
-    if (hit != 0U){
+     /* Effects on the dragon */
 
-     dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, (random_get() & 1U) + 2U);
-     eproj_arr[i].typ = 0U; /* Arrow consumed */
+     if (hit != 0U){
 
-    }else{
+      dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, (random_get() & 1U) + 2U);
+      eproj_arr[i].typ = 0U; /* Arrow consumed */
+
+     }else{
+
+      /* Movement logic beyond physics */
+
+      if ((ph.flg & PHYSICS_F_GRND) != 0U){ /* On ground the arrow disappears */
+       eproj_arr[i].typ = 0U;
+      }else{                                /* In air they have a minimal resistance */
+       if ((eproj_dtim & 0xFU) == 0U){
+        if      (ph.xvel > 0){ ph.xvel--; }
+        else if (ph.xvel < 0){ ph.xvel++; }
+       }
+      }
+
+     }
+
+     break;
+
+    case EPROJ_SROCK:
+    case EPROJ_LROCK:
+
+     /* Effects on the dragon */
+
+     if ( (hit != 0U) && ((typ & 0x30U) == 0U) && (vda > 1U) ){
+
+      tmp = random_get();
+      if ((typ & EPROJ_TMASK) == EPROJ_LROCK){ tmp = (tmp & 7U) + (vda << 1); }
+      else                                   { tmp = (tmp & 3U) + (vda >> 1); }
+      dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, tmp);
+      eproj_arr[i].typ |= 0x30U; /* Start damage timeout */
+      if (txv < 0){ ph.xvel--; } /* Slow down or affect rock */
+      if (txv > 0){ ph.xvel++; }
+      if (tyv < 0){ ph.yvel--; }
+      if (tyv > 0){ ph.yvel++; }
+
+     }
 
      /* Movement logic beyond physics */
 
-     if ((ph.flg & PHYSICS_F_GRND) != 0U){ /* On ground the arrow disappears */
-      eproj_arr[i].typ = 0U;
-     }else{                                /* In air they have a minimal resistance */
-      if ((eproj_dtim & 0xFU) == 0U){
-       if      (ph.xvel > 0){ ph.xvel--; }
-       else if (ph.xvel < 0){ ph.xvel++; }
+     if ( ((eproj_dtim & 0xFU) == 0U) ||         /* Air resistance */
+          ( ((ph.flg & PHYSICS_F_GRND) != 0U) && /* Ground resistance */
+            ((eproj_dtim & 0x3U) == 0U) ) ){
+      if      (ph.xvel > 0){ ph.xvel--; }
+      else if (ph.xvel < 0){ ph.xvel++; }
+     }
+
+     if (ph.xacc >= 0){ ph.xvel += (asint)((auint)( ph.xacc) >> 1); } /* Bounces */
+     else{              ph.xvel -= (asint)((auint)(-ph.xacc) >> 1); }
+     if (ph.yacc >= 0){ ph.yvel += (asint)((auint)( ph.yacc) >> 1); }
+     else{              ph.yvel -= (asint)((auint)(-ph.yacc) >> 1); }
+
+     if ( (ph.xacc != 0) || (ph.yacc != 0) ){ /* Bouncing effects (shaking, sounds) */
+      tmp = 1U;
+      if ((typ & EPROJ_TMASK) == EPROJ_LROCK){ tmp = 2U; }
+      if ( (ph.xacc >=  3) ||
+           (ph.xacc <= -3) ||
+           (ph.yacc >=  3) ||
+           (ph.yacc <= -3) ){
+       tmp <<= 1;
+      }
+      levelscr_shake(tmp);
+     }
+
+     if ( ( ((eproj_dtim & 0x3U) == 0U) || (ph.yacc < 0) ) &&
+          ((ph.flg & PHYSICS_F_GRND) != 0U) ){   /* Rolling or bouncing on ramps */
+      if       (passable(ph.xpos + 2U, ph.ypos + 1U)){
+       ph.xvel++;
+      }else if (passable(ph.xpos - 2U, ph.ypos + 1U)){
+       ph.xvel--;
       }
      }
 
-    }
+     /* Set up low 3 type bits for rolling animation */
+
+     tmp = eproj_arr[i].typ & 0x07U;
+     if       (ph.xvel <   0){
+      if (ph.xvel > -2){ if ((eproj_dtim & 0x7U) == 0U){ tmp--; } }
+      else             { if ((eproj_dtim & 0x3U) == 0U){ tmp--; } }
+     }else if (ph.xvel >   0){
+      if (ph.xvel <  2){ if ((eproj_dtim & 0x7U) == 0U){ tmp++; } }
+      else             { if ((eproj_dtim & 0x3U) == 0U){ tmp++; } }
+     }else{}
+     eproj_arr[i].typ = (eproj_arr[i].typ & 0xF8U) | (tmp & 0x07U);
+
+     /* Timer: After hit */
+
+     if ((typ & 0x30U) != 0U){ eproj_arr[i].typ -= 0x10U; }
+
+     /* Destroy rock when stopped or got too far */
+
+     if ( ( (ph.xvel == 0) &&
+            (ph.yvel == 0) &&
+            ((ph.flg & PHYSICS_F_GRND) != 0U) &&
+            ((eproj_dtim & 0x3U) == 0U) &&
+            ((random_get() & 7U) == 0U) ) ||
+          ((ph.xpos + 192U) < (dragon_spr.xpos)) ||
+          ((ph.xpos) > (dragon_spr.xpos + 192U)) ||
+          ((ph.ypos + 192U) < (dragon_spr.ypos)) ||
+          ((ph.ypos) > (dragon_spr.ypos + 192U)) ){
+      eproj_arr[i].typ = 0U; /* Rock dies */
+     }
+
+     break;
+
+    default:
+
+     break;
 
    }
 
@@ -201,10 +315,12 @@ void  eproj_render(void)
  auint  fra;
  auint  flg;
  auint  typ;
+ auint  rec;
  physics_spr_t ph;
 
  for (i = 0U; i < EPROJ_N; i++){
 
+  rec = REC_FLAT_0;
   typ = eproj_arr[i].typ;
   if (typ != 0U){
 
@@ -218,41 +334,52 @@ void  eproj_render(void)
     flg |= M74_SPR_FLIPX;
    }
 
-   if ((typ & (~EPROJ_ARROW_MASK)) == EPROJ_ARROW){ /* Arrow type */
+   switch (typ & EPROJ_TMASK){
 
-    flg ^= M74_SPR_FLIPX;   /* Arrows ended up inverted by graphics */
+    case EPROJ_ARROW:
 
-    if       (ph.yvel < 0){ /* Going up */
-     if       ((-ph.yvel) <= ((ph.xvel) >> 1)){
-      fra = 0x83U;
-     }else if ((-ph.yvel)  < ((ph.xvel) << 1)){
-      fra = 0x82U;
-     }else if (ph.xvel != 0){
-      fra = 0x81U;
-     }else{
-      fra = 0x80U;
+     flg ^= M74_SPR_FLIPX;   /* Arrows ended up inverted by graphics */
+
+     if       (ph.yvel < 0){ /* Going up */
+      if       ((-ph.yvel) <= ((ph.xvel) >> 1)){
+       fra = 0x83U;
+      }else if ((-ph.yvel)  < ((ph.xvel) << 1)){
+       fra = 0x82U;
+      }else if (ph.xvel != 0){
+       fra = 0x81U;
+      }else{
+       fra = 0x80U;
+      }
+     }else if (ph.yvel > 0){ /* Going down */
+      if       (( ph.yvel) <= ((ph.xvel) >> 1)){
+       fra = 0x85U;
+      }else if (( ph.yvel)  < ((ph.xvel) << 1)){
+       fra = 0x86U;
+      }else if (ph.xvel != 0){
+       fra = 0x87U;
+      }else{
+       fra = 0x88U;
+      }
+     }else{                  /* Horizontal */
+      fra = 0x84U;
      }
-    }else if (ph.yvel > 0){ /* Going down */
-     if       (( ph.yvel) <= ((ph.xvel) >> 1)){
-      fra = 0x85U;
-     }else if (( ph.yvel)  < ((ph.xvel) << 1)){
-      fra = 0x86U;
-     }else if (ph.xvel != 0){
-      fra = 0x87U;
-     }else{
-      fra = 0x88U;
-     }
-    }else{                  /* Horizontal */
-     fra = 0x84U;
-    }
 
-   }else{ /* Unknown type */
+     break;
 
-    fra = 0x80U;
+    case EPROJ_SROCK:
+
+     fra = 0xE0U + (typ & 0x07U);
+     rec = REC_ROCK;
+     break;
+
+    default:  /* Unknown type */
+
+     fra = 0x80U;
+     break;
 
    }
 
-   spritelv_blit(&ph, fra, flg, REC_FLAT_0);
+   spritelv_blit(&ph, fra, flg, rec);
 
   }
 

@@ -1,6 +1,6 @@
 /*
  *  Mode 74 configuration
- *  Copyright (C) 2015 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -71,6 +71,8 @@
 #define REC_FLAT_0         0x20
 #define REC_FLAT_1         0x30
 #define REC_DRAGON_HIT     0x40
+#define REC_FIRE           0x50
+#define REC_ROCK           0x60
 
 /* Mode 74 specifics */
 #define M74_SPR_ENABLE     1

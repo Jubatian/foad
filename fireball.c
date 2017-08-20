@@ -222,7 +222,7 @@ void  fireball_render(void)
    }
    fra |= (btim & 0x02U) >> 1;
 
-   spritelv_blit(&ph, fra, flg, REC_STRAIGHT);
+   spritelv_blit(&ph, fra, flg, REC_FIRE);
 
   }
 
@@ -241,5 +241,5 @@ void  fireball_render_fire(uint16 x, uint16 y, auint age)
  auint fra = 0xF4U;
  if (age >= 0x10U){ fra = 0xF0U | ((age & 0x04U) >> 1); }
  fra |= (age & 0x02U) >> 1;
- spritelv_blit_xy(x, y, fra, M74_SPR_I1 | M74_SPR_MASK, REC_STRAIGHT);
+ spritelv_blit_xy(x, y, fra, M74_SPR_I1 | M74_SPR_MASK, REC_FIRE);
 }
