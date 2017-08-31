@@ -608,13 +608,17 @@ ReadJoypad:
 
 	lds   r24,     joypad1_status_lo
 	lds   r25,     joypad1_status_lo + 1
+readjp_ret:
+	cpi   r24,     (BTN_START | BTN_SELECT | BTN_Y | BTN_B)
+	breq  .+2
 	ret
+	jmp   SoftReset
 
 #if P2_DISABLE == 0
 rj_p2:
 	lds   r24,     joypad2_status_lo
 	lds   r25,     joypad2_status_lo + 1
-	ret
+	rjmp  readjp_ret
 #endif
 
 
