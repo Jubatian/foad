@@ -54,22 +54,29 @@ torch_prep:
 .global torch_render
 torch_render:
 
+	; Torch tiles are in the 1bpp charset area (RES_CHARSET_00_OFF), the
+	; last 64 bytes of every row contains 2 torch tiles.
+
 	push  YL
 	push  YH
 	push  r16
 
-	ldi   YL,      lo8(RES_TILES_00_OFF + (32 * 0xB0))
-	ldi   YH,      hi8(RES_TILES_00_OFF + (32 * 0xB0))
+	ldi   YL,      lo8(RES_CHARSET_00_OFF + 192)
+	ldi   YH,      hi8(RES_CHARSET_00_OFF + 192)
 	lds   r24,     global_framectr
-	swap  r24
 	lsr   r24
-	andi  r24,     0x60
-	add   YL,      r24
+	lsr   r24
+	andi  r24,     0x03
+	add   YH,      r24
 	ldi   r16,     ((LOC_RAMTILES_OFF >> 5) + 56)
 
 	rcall rren
+	subi  YH,      0xFC    ; +4 (+1K)
 	rcall rren
+	subi  YH,      0x04    ; -4 (-1K)
+	subi  YL,      0xE0    ; +32
 	rcall rren
+	subi  YH,      0xFC    ; +4 (+1K)
 	rcall rren
 
 	pop   r16
@@ -81,7 +88,5 @@ rren:
 	movw  r24,     YL
 	mov   r22,     r16
 	call  M74_RamTileFillRom
-	subi  YL,      0x80
-	sbci  YH,      0xFF
 	subi  r16,     0xFF
 	ret

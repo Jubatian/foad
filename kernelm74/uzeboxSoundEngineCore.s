@@ -787,5 +787,6 @@ GetMasterVolume:
 
 
 
+.section .text.steptable
 steptable:
 #include "data/steptable.inc"

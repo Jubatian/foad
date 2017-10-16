@@ -32,8 +32,8 @@
 
 ;
 ; Global assembly delay macro for 0 to 1535 cycles
-; Parameters: reg=Registerto use in inner loop (will be destroyed)
-;             clocks=CPU clocks to wait
+; Parameters: reg = Registerto use in inner loop (will be destroyed)
+;             clocks = CPU clocks to wait
 ;
 .macro WAIT reg, clocks
 .if     (\clocks) >= 768
@@ -41,7 +41,7 @@
 	dec   \reg
 	brne  .-4
 .endif
-.if     ((\clocks) % 768) >= 6
+.if     ((\clocks) % 768) >= 9
 	ldi   \reg,    ((\clocks) % 768) / 3
 	dec   \reg
 	brne  .-4
@@ -50,16 +50,25 @@
 .elseif ((\clocks) % 3) == 1
 	nop
 .endif
+.elseif ((\clocks) % 768) == 8
+	lpm   \reg,    Z
+	lpm   \reg,    Z
+	rjmp  .
+.elseif ((\clocks) % 768) == 7
+	lpm   \reg,    Z
+	rjmp  .
+	rjmp  .
+.elseif ((\clocks) % 768) == 6
+	lpm   \reg,    Z
+	lpm   \reg,    Z
 .elseif ((\clocks) % 768) == 5
+	lpm   \reg,    Z
 	rjmp  .
-	rjmp  .
-	nop
 .elseif ((\clocks) % 768) == 4
 	rjmp  .
 	rjmp  .
 .elseif ((\clocks) % 768) == 3
-	rjmp  .
-	nop
+	lpm   \reg,    Z
 .elseif ((\clocks) % 768) == 2
 	rjmp  .
 .elseif ((\clocks) % 768) == 1
@@ -456,18 +465,18 @@ sync_ctrl_rd:
 
 	; Read controller data bits. Do this along with pushing the sbi of the
 	; clock as far back as possible to get a nice wide pulse.
+	; Carry is set on entry (enters with a brcs)
 
 	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
 	lds   r0,      joypad1_status_lo_t + 0
 	lds   r1,      joypad1_status_lo_t + 1
+	sbic  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA1_PIN
 	clc
-	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA1_PIN
-	sec
 	ror   r1
 	ror   r0
 	sts   joypad1_status_lo_t + 0, r0
 	sts   joypad1_status_lo_t + 1, r1
-	cpi   ZL,      1
+	cpi   ZL,      1       ; ZL >= 1, so Carry is clear after this
 	brne  sync_ctrl_rd1c
 	sts   joypad1_status_lo   + 0, r0
 	sts   joypad1_status_lo   + 1, r1
@@ -475,7 +484,6 @@ sync_ctrl_rd1c:
 #if (P2_DISABLE == 0)
 	lds   r0,      joypad2_status_lo_t + 0
 	lds   r1,      joypad2_status_lo_t + 1
-	clc
 	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA2_PIN
 	sec
 	ror   r1

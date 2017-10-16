@@ -123,7 +123,7 @@ gstat_time_add:
 ** Outputs:
 **       X: The bar's total width added to r25:r24
 ** Clobbers:
-** r25, r24, r23, r22, r21, r19
+** r23, r22, r21
 */
 .global gstat_score_disp
 gstat_score_disp:
@@ -133,110 +133,55 @@ gstat_score_disp:
 .global gstat_score_disp_x
 gstat_score_disp_x:
 
-	; Convert input to BCD into r21:r25:r24
+	dec   r20
 
-	clr   r21
-	clr   r25
-	clr   r24
+	; Digit 4 (10000s)
 
-	lsl   r22              ; Step 1 (1)
-	rol   r23
-	rol   r24              ; r24 <= 1
-
-	lsl   r22              ; Step 2 (3)
-	rol   r23
-	rol   r24              ; r24 <= 3
-
-	lsl   r22              ; Step 3 (7)
-	rol   r23
-	rol   r24              ; r24 <= 7, correction may be necessary
-
-	ldi   r19,     3       ; Step 4 (15), 5 (31), 6 (63)
-u16l0:
-	cpi   r24,     0x05    ; Digit larger or equal to 5?
-	brhs  .+2
-	subi  r24,     0xFD    ; Add 3
-	lsl   r22
-	rol   r23
-	rol   r24
-	dec   r19
-	brne  u16l0
-
-	ldi   r19,     3       ; Step 7 (127), 8 (255), 9 (511)
-u16l1:
-	cpi   r24,     0x05    ; Digit larger or equal to 5?
-	brhs  .+2
-	subi  r24,     0xFD    ; Add 3
-	cpi   r24,     0x50    ; Digit larger or equal to 5?
-	brcs  .+2
-	subi  r24,     0xD0    ; Add 3
-	lsl   r22
-	rol   r23
-	rol   r24
-	rol   r25
-	dec   r19
-	brne  u16l1
-
-	ldi   r19,     4       ; Step 10 (1023), 11 (2047), 12 (4095), 13 (8191)
-u16l2:
-	cpi   r24,     0x05    ; Digit larger or equal to 5?
-	brhs  .+2
-	subi  r24,     0xFD    ; Add 3
-	cpi   r24,     0x50    ; Digit larger or equal to 5?
-	brcs  .+2
-	subi  r24,     0xD0    ; Add 3
-	cpi   r25,     0x05    ; Digit larger or equal to 5?
-	brhs  .+2
-	subi  r25,     0xFD    ; Add 3
-	lsl   r22
-	rol   r23
-	rol   r24
-	rol   r25
-	dec   r19
-	brne  u16l2
-
-	ldi   r19,     3       ; Step 14 (16383), 15 (32767), 16 (65535)
-u16l3:
-	cpi   r24,     0x05    ; Digit larger or equal to 5?
-	brhs  .+2
-	subi  r24,     0xFD    ; Add 3
-	cpi   r24,     0x50    ; Digit larger or equal to 5?
-	brcs  .+2
-	subi  r24,     0xD0    ; Add 3
-	cpi   r25,     0x05    ; Digit larger or equal to 5?
-	brhs  .+2
-	subi  r25,     0xFD    ; Add 3
-	cpi   r25,     0x50    ; Digit larger or equal to 5?
-	brcs  .+2
-	subi  r25,     0xD0    ; Add 3
-	lsl   r22
-	rol   r23
-	rol   r24
-	rol   r25
-	rol   r21
-	dec   r19
-	brne  u16l3
-
-	; Output it
-
-	add   r21,     r20
+	mov   r21,     r20
+	inc   r21
+	subi  r22,     lo8(10000)
+	sbci  r23,     hi8(10000)
+	brcc  .-8
+	subi  r22,     lo8(-10000)
+	sbci  r23,     hi8(-10000)
 	st    X+,      r21
-	mov   r21,     r25
-	swap  r21
-	andi  r21,     0x0F
-	add   r21,     r20
+
+	; Digit 3 (1000s)
+
+	mov   r21,     r20
+	inc   r21
+	subi  r22,     lo8(1000)
+	sbci  r23,     hi8(1000)
+	brcc  .-8
+	subi  r22,     lo8(-1000)
+	sbci  r23,     hi8(-1000)
 	st    X+,      r21
-	andi  r25,     0x0F
-	add   r25,     r20
-	st    X+,      r25
-	mov   r21,     r24
-	swap  r21
-	andi  r21,     0x0F
-	add   r21,     r20
+
+	; Digit 2 (100s)
+
+	mov   r21,     r20
+	inc   r21
+	subi  r22,     lo8(100)
+	sbci  r23,     hi8(100)
+	brcc  .-8
+	subi  r22,     lo8(-100)
+	sbci  r23,     hi8(-100)
 	st    X+,      r21
-	andi  r24,     0x0F
-	add   r24,     r20
-	st    X+,      r24
+
+	; Digit 1 (10s)
+
+	mov   r21,     r20
+	inc   r21
+	subi  r22,     lo8(10)
+	brcc  .-6
+	subi  r22,     lo8(-10)
+	st    X+,      r21
+
+	; Digit 0 (1s)
+
+	inc   r20
+	add   r22,     r20
+	st    X+,      r22
 
 	; Done
 

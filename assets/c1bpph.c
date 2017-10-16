@@ -1,5 +1,6 @@
 /*
 **  Converts GIMP header to 1bpp Uzebox Mode 74 image data, C header.
+**  Adds burning torch images on it (over char. positions 192 - 255).
 **
 **  By Sandor Zsuga (Jubatian)
 **
@@ -34,6 +35,7 @@
 
 /*  The GIMP header to use */
 #include "chars_1bpp.h"
+#include "torch.h"
 
 
 #include <stdio.h>
@@ -44,7 +46,9 @@
 int main(void)
 {
  unsigned int  dlen = width * height;
- unsigned int  sp = 0;
+ unsigned int  sp = 0U;
+ unsigned int  row = 0U;
+ unsigned int  col = 0U;
  unsigned char c;
 
  /* Basic tests */
@@ -55,6 +59,15 @@ int main(void)
  }
  if (height != 8U){
   fprintf(stderr, "Input height must be 8!\n");
+  return 1;
+ }
+
+ if (t_width != 128U){
+  fprintf(stderr, "Torch width must be 128!\n");
+  return 1;
+ }
+ if (t_height != 8U){
+  fprintf(stderr, "Torch height must be 8!\n");
   return 1;
  }
 
@@ -70,16 +83,33 @@ int main(void)
 
  while (1){
 
-  /* Collect eight pixels */
+  row = sp / width;
+  col = sp % width;
 
-  c  = (header_data[sp + 0U] & 1U) << 7;
-  c |= (header_data[sp + 1U] & 1U) << 6;
-  c |= (header_data[sp + 2U] & 1U) << 5;
-  c |= (header_data[sp + 3U] & 1U) << 4;
-  c |= (header_data[sp + 4U] & 1U) << 3;
-  c |= (header_data[sp + 5U] & 1U) << 2;
-  c |= (header_data[sp + 6U] & 1U) << 1;
-  c |= (header_data[sp + 7U] & 1U) << 0;
+  if (col < 1536U){
+
+   /* Collect eight pixels, normal char. image */
+
+   c  = (header_data[sp + 0U] & 1U) << 7;
+   c |= (header_data[sp + 1U] & 1U) << 6;
+   c |= (header_data[sp + 2U] & 1U) << 5;
+   c |= (header_data[sp + 3U] & 1U) << 4;
+   c |= (header_data[sp + 4U] & 1U) << 3;
+   c |= (header_data[sp + 5U] & 1U) << 2;
+   c |= (header_data[sp + 6U] & 1U) << 1;
+   c |= (header_data[sp + 7U] & 1U) << 0;
+
+  }else{
+
+   /* Collect two pixels, torch image */
+
+   col = (col - 1536U) / 4U;
+
+   c  = (t_header_data[(row * 8U) + ((col >> 6) * 64U) + (((col >> 3) & 7U) * 128U) + (col & 7U) + 0U] & 0xFU) << 4;
+   c |= (t_header_data[(row * 8U) + ((col >> 6) * 64U) + (((col >> 3) & 7U) * 128U) + (col & 7U) + 1U] & 0xFU) << 0;
+
+  }
+
   sp += 8U;
 
   /* Output it */

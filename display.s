@@ -256,7 +256,7 @@ display_clear:
 
 	ldi   XL,      lo8(M74_VRAM_OFF)
 	ldi   XH,      hi8(M74_VRAM_OFF)
-	ldi   r23,     0xAF    ; Blank tile (black)
+	ldi   r23,     0x7F    ; Blank tile (black)
 
 	cpi   r24,     1
 	brcs  cl_game          ; 0: DISPLAY_GAME
