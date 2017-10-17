@@ -30,8 +30,8 @@
 
 
 /*  The GIMP header to use */
-/*#include "color_sprites.h"*/
-#include "tiles.h"
+#include "color_sprites.h"
+/*#include "tiles.h"*/
 
 
 #include <stdio.h>

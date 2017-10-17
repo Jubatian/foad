@@ -26,6 +26,7 @@
 #include "fireball.h"
 #include "sound.h"
 #include "m74cfg.h"
+#include "global.h"
 #include <avr/pgmspace.h>
 #include <uzebox.h>
 
@@ -474,8 +475,16 @@ void dragon_logic(auint cmd)
 
  /* Recharges */
 
- if (dragon_stat.en < (((dragon_stat.cap & 0x0CU) << 4) | 0x3FU)){
+ t = ((dragon_stat.cap & 0x0CU) << 4) | 0x3FU;
+ if (dragon_stat.en < t){
   dragon_stat.en ++;
+ }
+ if (dragon_stat.en < t){ /* Extra charging when upgraded (significant!) */
+  if ( (               ((global_framectr & 0x1FU) == 0U)) ||
+       ((t >= 0x80U) & ((global_framectr & 0x0FU) == 0U)) ||
+       ((t >= 0xC0U) & ((global_framectr & 0x07U) == 0U)) ){
+   dragon_stat.en ++;
+  }
  }
  if (dragon_stat.fi < (((dragon_stat.cap & 0x30U) << 2) | 0x3FU)){
   dragon_stat.fi ++;

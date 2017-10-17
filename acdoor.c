@@ -34,12 +34,12 @@
 */
 auint acdoor_process(mapact_t* actor)
 {
- auint d0 = actor->d0;
- auint d1 = actor->d1;
- auint fid;
- auint dl0;
- auint xt = actor->spr.xpos >> 3;
- auint yt = actor->spr.ypos >> 3;
+ auint  d0 = actor->d0;
+ auint  d1 = actor->d1;
+ auint  fid;
+ auint  dl0;
+ uint16 xt = actor->spr.xpos >> 3;
+ uint16 yt = actor->spr.ypos >> 3;
 
  /*
  ** Door's layout:

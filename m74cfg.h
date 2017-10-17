@@ -47,13 +47,13 @@
 #define RES_L1_OFF         (RES_SECT + 0x2800)
 #define RES_L0REPD_OFF     (RES_SECT + 0x3100)
 #define RES_SPR_TILES_OFF  (RES_SECT + 0x3200)
-#define RES_SPR_OFF        (RES_SECT + 0x5500)
+#define RES_SPR_OFF        (RES_SECT + 0x4D00)
 #define RES_TILEFLG_OFF    (RES_SECT + 0x3000)
-#define RES_SPRIDCONV_OFF  (RES_SECT + 0x5200)
+#define RES_SPRIDCONV_OFF  (RES_SECT + 0x4A00)
 #define RES_SPRIDSIZE_OFF  (RES_SECT + 0x0180)
-#define RES_DHEAD_OFF      (RES_SECT + 0x5400)
-#define RES_WAVES_OFF      (RES_SECT + 0x5D00)
-#define RES_TEXT_OFF       (RES_SECT + 0x6100)
+#define RES_DHEAD_OFF      (RES_SECT + 0x4C00)
+#define RES_WAVES_OFF      (RES_SECT + 0x5500)
+#define RES_TEXT_OFF       (RES_SECT + 0x5900)
 #define RES_MAP_OFF        (RES_TEXT_OFF + TXT_SIZE)
 
 /* Others (not Mode 74 specific) */

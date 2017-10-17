@@ -2,7 +2,7 @@
 Flight of a Dragon
 ==============================================================================
 
-.. image:: https://cdn.rawgit.com/Jubatian/foad/demo/screenshot.png
+.. image:: screenshot.png
    :align: center
    :width: 100%
 
