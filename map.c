@@ -43,7 +43,7 @@ void  map_init(uint16 map)
      (uint16)(pgm_read_byte(map +  5U) << 8), /* Map offset */
      pgm_read_byte(map +  6U),                /* Map width */
      pgm_read_byte(map +  7U),                /* Map height */
-     pgm_read_byte(map +  8U));               /* Parallax configuration */
+     pgm_read_byte(map +  8U));               /* Parallax & Sky configuration */
 
  dragon_setloc(
      (uint16)(pgm_read_byte(map      )) |

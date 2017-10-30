@@ -1,6 +1,6 @@
 /*
  *  Dragon - Parallax scrolling components
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,6 +35,22 @@
 ** the Y position in tiles (!), both in accordance with levelscr_scroll(). flg
 ** is the type of parallax to use, also the same as in levelscr_setmap(). hgt
 ** is the map height in L1 blocks.
+**
+** Parallax types (flg):
+** Low nybble: bottom:
+** bit 0-1: Graphics:
+**          0: Cave water (dark)
+**          1: Grass
+**          2: Cave floor
+**          3: Surface water (blue)
+** bit 2:   Layer drifts if clear (mostly for flowing water)
+** High nybble: top:
+** bit 0-1: Graphics:
+**          0: Sky with many clouds
+**          1: Sky with a few clouds
+**          2: Cave ceiling
+**          3: Nothing (mostly for cloudless sky)
+** bit 2:   Layer is a sky if clear (with drifting clouds if any)
 */
 void parallax_render(uint16 x, uint16 ty, auint flg, auint hgt);
 

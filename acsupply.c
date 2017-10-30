@@ -44,8 +44,7 @@
 */
 auint acsupply_process(mapact_t* actor, auint typ)
 {
- if ( acsupp_iscordnear(dragon_spr.xpos, dragon_spr.ypos,
-                        actor->spr.xpos, actor->spr.ypos) ){
+ if (acsupp_iscordneardragon(actor->spr.xpos, actor->spr.ypos, 0x0810U)){
 
   switch (typ){
 
@@ -75,7 +74,7 @@ auint acsupply_process(mapact_t* actor, auint typ)
 
    case ACT_ENERGY:
     gstat_score_add(100U); /* Collected energy capacity increment */
-    dragon_mod(DRAGON_CAP_FI | DRAGON_P_ADD, 1U);
+    dragon_mod(DRAGON_CAP_EN | DRAGON_P_ADD, 1U);
     break;
 
    default:

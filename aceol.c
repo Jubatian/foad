@@ -20,7 +20,6 @@
 
 #include "acsupply.h"
 #include "acsupp.h"
-#include "dragon.h"
 #include "spritelv.h"
 #include "gstat.h"
 #include "global.h"
@@ -35,8 +34,7 @@
 */
 auint aceol_process(mapact_t* actor)
 {
- if ( acsupp_iscordnear(dragon_spr.xpos, dragon_spr.ypos,
-                        actor->spr.xpos, actor->spr.ypos) ){
+ if (acsupp_iscordneardragon(actor->spr.xpos, actor->spr.ypos, 0x0810U)){
 
   gstat_score_add(100U); /* Level end reached */
   sound_effect(SOUND_ITEM, 0x40U);

@@ -19,6 +19,7 @@
 
 
 #include "acdoor.h"
+#include "acsupp.h"
 #include "fireball.h"
 #include "levelscr.h"
 #include "gstat.h"
@@ -58,11 +59,8 @@ auint acdoor_process(mapact_t* actor)
  if (fid != FIREBALL_N){
 
   fireball_age(fid, 0x20U);
-  if (d1 < 0xF0U){
-   d1 += 0x10U;
-  }else{
-   d1  = 0xFFU;
-  }
+  d1 += 0x10U;
+  if (d1 < 0x10U){ d1 = 0xFFU; }
   if (d1 == 0xFFU){
    level_repadd(xt, yt);
    levelscr_reset();
@@ -70,8 +68,8 @@ auint acdoor_process(mapact_t* actor)
    gstat_score_add(50U); /* Destroyed door */
    sound_effect(SOUND_BOOM, 0x80U);
   }
-  if (d0 < 0xE0U){ d0 += 0x20U; }
-  else{            d0  = 0xFFU; }
+  d0 += 0x20U;
+  if (d0 < 0x20U){ d0 = 0xFFU; }
 
  }else{
 
@@ -85,11 +83,7 @@ auint acdoor_process(mapact_t* actor)
 
  if (d0 > 0U){ d0 --; }
 
- actor->d0 = d0;
- actor->d1 = d1;
-
- if (d1 == 0xFFU){ return 0U; }
- else            { return 1U; }
+ return acsupp_procfin(actor, d0, d1);
 }
 
 

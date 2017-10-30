@@ -1,6 +1,6 @@
 /*
  *  Dragon - Bomb actor
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 
 #include "acbomb.h"
+#include "acsupp.h"
 #include "fireball.h"
 #include "levelscr.h"
 #include "gstat.h"
@@ -41,6 +42,7 @@ auint acbomb_process(mapact_t* actor)
  uint16 rpx;
  uint16 rpy;
  auint  fid;
+ auint  rnd;
 
  /*
  ** Bomb's layout:
@@ -58,13 +60,10 @@ auint acbomb_process(mapact_t* actor)
 
  if (fid != FIREBALL_N){
   fireball_age(fid, 0x20U);
-  if (d1 < 0xC8U){
-   d1 += 0x38U;
-  }else{
-   d1  = 0xFFU;
-  }
-  if (d0 < 0xE0U){ d0 += 0x20U; }
-  else{            d0  = 0xFFU; }
+  d1 += 0x38U;
+  if (d1 < 0x38U){ d1 = 0xFFU; }
+  d0 += 0x20U;
+  if (d0 < 0x20U){ d0 = 0xFFU; }
  }
 
  if (d0 > 0U){
@@ -75,19 +74,20 @@ auint acbomb_process(mapact_t* actor)
  if (d1 == 0xFFU){
   rpx = actor->spr.xpos;
   rpy = actor->spr.ypos;
-  fireball_new(rpx, rpy, (asint)(random_get() & 1U) - 5, -1);
-  fireball_new(rpx, rpy, (asint)(random_get() & 1U) + 4, -1);
-  fireball_new(rpx, rpy, (asint)(random_get() & 1U) - 4, -2);
-  fireball_new(rpx, rpy, (asint)(random_get() & 1U) + 3, -2);
-  fireball_new(rpx, rpy, (asint)(random_get() & 1U) - 3, -3);
-  fireball_new(rpx, rpy, (asint)(random_get() & 1U) + 2, -3);
+  rnd = random_get();
+  fireball_new(rpx, rpy, (asint)(rnd & 1U) - 5, -1); rnd >>= 1U;
+  fireball_new(rpx, rpy, (asint)(rnd & 1U) + 4, -1); rnd >>= 1U;
+  fireball_new(rpx, rpy, (asint)(rnd & 1U) - 4, -2); rnd >>= 1U;
+  fireball_new(rpx, rpy, (asint)(rnd & 1U) + 3, -2); rnd >>= 1U;
+  fireball_new(rpx, rpy, (asint)(rnd & 1U) - 3, -3); rnd >>= 1U;
+  fireball_new(rpx, rpy, (asint)(rnd & 1U) + 2, -3);
   rpx = rpx >> 3;
   rpy = rpy >> 3;
   level_repadd(rpx, rpy);
-  level_repadd(rpx - 1U, rpy);
-  level_repadd(rpx + 1U, rpy);
-  level_repadd(rpx, rpy - 1U);
-  level_repadd(rpx, rpy + 1U);
+  level_repadd(rpx - 4U, rpy);
+  level_repadd(rpx + 4U, rpy);
+  level_repadd(rpx, rpy - 4U);
+  level_repadd(rpx, rpy + 4U);
   levelscr_reset();
   levelscr_shake(8U);
   global_fadecolor = 0xBFU;
@@ -96,11 +96,7 @@ auint acbomb_process(mapact_t* actor)
   sound_effect(SOUND_BOOM, 0xFFU);
  }
 
- actor->d0 = d0;
- actor->d1 = d1;
-
- if (d1 == 0xFFU){ return 0U; }
- else            { return 1U; }
+ return acsupp_procfin(actor, d0, d1);
 }
 
 

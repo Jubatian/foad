@@ -35,7 +35,6 @@
 */
 auint acprison_process(mapact_t* actor)
 {
- auint  fid;
  auint  d0  = actor->d0;
  auint  d1  = actor->d1;
  uint16 axp = actor->spr.xpos;
@@ -44,7 +43,9 @@ auint acprison_process(mapact_t* actor)
  /*
  ** Prisoner's layout:
  **
- ** d0: Animation frame; bit 7: Running direction (1: right), bit 5: On fire if clear.
+ ** d0: bits 0-5: Animation frame & action timer
+ **     bit    6: Running direction (1: right)
+ **     bit    7: If set, on fire.
  ** d1: Health (negated as starting value is zero)
  **     0x00: In cell.
  **
@@ -59,20 +60,15 @@ auint acprison_process(mapact_t* actor)
  if (d1 == 0U){ /* Prisoner in cell: Waits for the dragon to free him */
 
   actor->spr.xvel = 0;
-  d0 = 0x20U;   /* Run to left (+ not on fire) */
+  d0 = 0x00U;   /* Run to left */
 
-  if (acsupp_iscordnear(dragon_spr.xpos, dragon_spr.ypos, axp, ayp)){
+  if (acsupp_iscordneardragon(axp, ayp, 0x0810U)){
 
    d1 ++;       /* Free the prisoner */
    gstat_score_add(75U); /* Freed a prisoner: add score. */
 
    if (passable(axp + 128U, ayp - 8U)){
-    d0 |= 0x80U;   /* If right is open, run to right (no random choice so multiple prisoners try to flee together) */
-   }
-   if ((d0 & 0x80U) != 0U){
-    actor->spr.xvel =  2;
-   }else{
-    actor->spr.xvel = -2;
+    d0 |= 0x40U;   /* If right is open, run to right (no random choice so multiple prisoners try to flee together) */
    }
 
   }
@@ -80,42 +76,30 @@ auint acprison_process(mapact_t* actor)
  }else{         /* Free prisoner: Runs */
 
   if (actor->spr.xvel == 0){ /* Escape path was blocked: Turn around */
-   d0 ^= 0x80U;
-  }
-  if ((d0 & 0x80U) != 0U){
-   actor->spr.xvel =  2;
-  }else{
-   actor->spr.xvel = -2;
+   d0 ^= 0x40U;
   }
 
-  fid = fireball_getat(&(actor->spr));
-
-  if (fid != FIREBALL_N){
-   fireball_age(fid, 0x20U);
-   if (d1 < 0xE8U){ d1 += 0x30U; }
-   else{            d1  = 0xFFU; }
-   d0 = d0 & 0x80U;       /* Reset animation, on fire */
-   if (d1 == 0xFFU){
-    gstat_score_sub(75U); /* Killed a prisoner: remove score. */
-   }
-  }
-
-  if ( ((dragon_spr.xpos) > (axp) + 128U) ||
-       ((dragon_spr.xpos + 128U) < (axp)) ||
-       ((dragon_spr.ypos) > (ayp) + 128U) ||
-       ((dragon_spr.ypos + 128U) < (ayp)) ){
+  if (!acsupp_iscordneardragon(axp, ayp, 0x8080)){
    d1 = 0xFFU;            /* Prisoner successfully escaped */
   }
 
  }
 
- d0 = (d0 & 0x80U) | (d0 & 0x20U) | ((d0 + 1U) & 0x3FU);
+ if (d1 != 0U){ /* Prisoner is not in cell */
 
- actor->d0 = d0;
- actor->d1 = d1;
+  if ((d0 & 0x40U) != 0U){
+   actor->spr.xvel =  2;
+  }else{
+   actor->spr.xvel = -2;
+  }
 
- if (d1 == 0xFFU){ return 0U; }
- else            { return 1U; }
+  return acsupp_procfin_fire(actor, ((uint16)(d1) << 8) | d0, 0x4B30U, 0x80C0U);
+
+ }else{
+
+  return 1U; /* Waiting in cell */
+
+ }
 }
 
 
@@ -146,7 +130,7 @@ void  acprison_render(mapact_t* actor)
 
  spritelv_blit(&(actor->spr), fra, flg, REC_STRAIGHT);
 
- if ((d0 & 0x20U) == 0U){ /* Fire */
+ if ((d0 & 0x80U) != 0U){ /* Fire */
   fireball_render_fire(
       (actor->spr.xpos),
       (actor->spr.ypos) - 8U,

@@ -86,7 +86,7 @@ display_set:
 
 	; Set up palettes
 
-	ldi   r21,     0x00    ; Black & White top palette, default sky
+	ldi   r21,     0x00    ; Black & White top palette, sky bits zero
 
 	; Initialize row selectors
 
@@ -94,9 +94,9 @@ display_set:
 	ldi   XH,      hi8(M74_ROWS_OFF)
 
 	ldi   r25,     0
-	ldi   r24,     20 * 8
+	ldi   r24,     19 * 8
 	st    X+,      r24
-	st    X+,      r25     ; 10 text rows beginning with row 20
+	st    X+,      r25     ; 10 + 1 text rows beginning with row 19
 	ldi   ZL,      80
 	ldi   r24,     248 + 4
 	st    X+,      ZL
@@ -115,7 +115,7 @@ mode_game:
 
 	; Set up palettes
 
-	ldi   r21,     0x10    ; Yellow & Red top palette, default sky
+	ldi   r21,     0x10    ; Yellow & Red top palette, sky bits zero
 
 	; Initialize row selectors
 
@@ -157,7 +157,7 @@ mode_story:
 
 	; Set up palettes
 
-	ldi   r21,     0x10    ; Yellow & Red top palette, default sky
+	ldi   r21,     0x10    ; Yellow & Red top palette, sky bits zero
 
 	; Initialize row selectors
 
@@ -218,7 +218,10 @@ mode_end:
 
 	; Write palette select
 
-	sts   global_palsel, r21
+	lds   r20,     global_palsel
+	andi  r20,     0x0F    ; Keep sky selection
+	or    r20,     r21     ; Add other palette settings
+	sts   global_palsel, r20
 
 	; Write tile row address
 
@@ -270,8 +273,8 @@ display_clear:
 
 	ldi   XL,      lo8(LOC_INTXTVRAM_OFF)
 	ldi   XH,      hi8(LOC_INTXTVRAM_OFF)
-	ldi   r24,     lo8(LOC_INTXTVRAM_OFF + (10 * 32))
-	ldi   r25,     hi8(LOC_INTXTVRAM_OFF + (10 * 32))
+	ldi   r24,     lo8(LOC_INTXTVRAM_OFF + (11 * 32))
+	ldi   r25,     hi8(LOC_INTXTVRAM_OFF + (11 * 32))
 	ldi   r23,     0x60    ; Blank tile (space)
 
 	rjmp  cl_crut

@@ -328,6 +328,7 @@ void dragon_logic(auint cmd)
 
   case DI_TURN:
 
+   if (dragon_stat.en != 0U){ dragon_stat.en --; } /* Energy: Can't recharge */
    if       (dragon_frctr == 0x00U){
     dragon_frame = 0U;
    }else if (dragon_frctr == 0x40U){
@@ -486,8 +487,16 @@ void dragon_logic(auint cmd)
    dragon_stat.en ++;
   }
  }
+
  if (dragon_stat.fi < (((dragon_stat.cap & 0x30U) << 2) | 0x3FU)){
   dragon_stat.fi ++;
+ }
+
+ t = ((dragon_stat.cap & 0x03U) << 6) | 0x3FU;
+ if (dragon_stat.hp < t){
+  if ((global_framectr & 0xFFU) == 0U){
+   dragon_stat.hp ++; /* Health slowly increments */
+  }
  }
 
 }

@@ -1,6 +1,6 @@
 /*
  *  Dragon - Archer actor
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,9 +20,7 @@
 
 #include "acarcher.h"
 #include "acsupp.h"
-#include "acsuppc.h"
 #include "dragon.h"
-#include "spritelv.h"
 #include "passable.h"
 #include "eproj.h"
 #include "fireball.h"
@@ -40,7 +38,6 @@
 auint acarcher_process(mapact_t* actor)
 {
  auint  rnd = random_get();
- auint  fid;
  auint  vis;
  asint  vy;
  asint  vx;
@@ -71,9 +68,6 @@ auint acarcher_process(mapact_t* actor)
    actor->spr.xvel =  2;
   }else{
    actor->spr.xvel = -2;
-  }
-  if ((d0 & 0x1FU) == 0x00U){
-   d0 &= ~0x80U;
   }
 
  }else if ((d0 & 0x40U) != 0U){ /* Firing */
@@ -132,12 +126,6 @@ auint acarcher_process(mapact_t* actor)
 
     }
 
-    if       (vx > 0){
-     if (acsupp_isatledge(&(actor->spr),  4)){ vx = 0; }
-    }else if (vx < 0){
-     if (acsupp_isatledge(&(actor->spr), -4)){ vx = 0; }
-    }else{}
-
    }
 
    if ( (vx == 0) && vis ){ /* No movement and dragon is visible: Shoot! */
@@ -146,29 +134,13 @@ auint acarcher_process(mapact_t* actor)
     actor->spr.xvel = vx;
    }
 
+   acsupp_haltatledge(&(actor->spr));
+
   }
 
  }
 
- fid = fireball_getat(&(actor->spr));
-
- if (fid != FIREBALL_N){
-  fireball_age(fid, 0x20U);
-  if (d1 < 0xCFU){ d1 += 0x30U; }
-  else{            d1  = 0xFFU; }
-  d0 = 0x80U; /* Cancel firing too */
-  if (d1 == 0xFFU){
-   gstat_score_sub(25U); /* Killed an archer (kill penalty). */
-  }
- }
-
- d0 = (d0 & (~0x3FU)) | ((d0 + 1U) & 0x3FU);
-
- actor->d0 = d0;
- actor->d1 = d1;
-
- if (d1 == 0xFFU){ return 0U; }
- else            { return 1U; }
+ return acsupp_procfin_fire(actor, ((uint16)(d1) << 8) | d0, 0x1930U, 0x8080U);
 }
 
 
@@ -201,5 +173,5 @@ void  acarcher_render(mapact_t* actor)
   fra = 0x89U;
  }
 
- acsuppc_rendernpc(actor, fra, d0);
+ acsupp_rendernpc(actor, fra, d0);
 }

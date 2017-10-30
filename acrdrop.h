@@ -1,5 +1,5 @@
 /*
- *  Dragon - Actor support functions, C
+ *  Dragon - Rock dropper actor
  *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,18 @@
 */
 
 
+/*
+** Logic and Render for rock dropper actor.
+**
+** This is a man with a pile of rock who is supposed to sit at a ledge,
+** pushing rocks onto the dragon. Initial logic puts it on the nearest
+** ledge, then if the dragon is on the appropriate side, he would
+** periodically push out a rock.
+*/
 
-#ifndef ACSUPPC_H
-#define ACSUPPC_H
+
+#ifndef ACRDROP_H
+#define ACRDROP_H
 
 
 
@@ -29,12 +38,16 @@
 
 
 /*
-** Renders a non-player-character sprite. Such a sprite faces the dragon when
-** not moving, and may be on fire. This can be used for typical 2x1 tile human
-** characters. The fra parameter is the frame to draw, fir is whether the
-** sprite should be on fire (bit 7 set; then bits 0-4 are the frame).
+** Processes the passed rock dropper actor. Returns the health of the actor:
+** if this is zero, the actor is destroyed.
 */
-void acsuppc_rendernpc(mapact_t* actor, auint fra, auint fir);
+auint acrdrop_process(mapact_t* actor);
+
+
+/*
+** Renders the passed rock dropper actor.
+*/
+void  acrdrop_render(mapact_t* actor);
 
 
 #endif

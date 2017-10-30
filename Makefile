@@ -51,7 +51,7 @@ LDFLAGS += -Wl,-gc-sections
 
 ## Setup for Mode 74 stuff
 CFLAGS  += -include m74cfg.h
-LDFLAGS += -Wl,--section-start=.res=0x7800
+LDFLAGS += -Wl,--section-start=.res=0x7B00
 
 ## Intel Hex file production flags
 HEX_FLASH_FLAGS = -R .eeprom
@@ -91,15 +91,17 @@ OBJECTS += $(OBJDIR)/global.o
 OBJECTS += $(OBJDIR)/gstat.o
 OBJECTS += $(OBJDIR)/torch.o
 OBJECTS += $(OBJDIR)/acsupp.o
-OBJECTS += $(OBJDIR)/acsuppc.o
 OBJECTS += $(OBJDIR)/acarcher.o
 OBJECTS += $(OBJDIR)/acswords.o
 OBJECTS += $(OBJDIR)/acpike.o
 OBJECTS += $(OBJDIR)/acdoor.o
 OBJECTS += $(OBJDIR)/acbomb.o
 OBJECTS += $(OBJDIR)/acprison.o
+OBJECTS += $(OBJDIR)/accivil.o
 OBJECTS += $(OBJDIR)/acsupply.o
 OBJECTS += $(OBJDIR)/aceol.o
+OBJECTS += $(OBJDIR)/acrdrop.o
+OBJECTS += $(OBJDIR)/acrfall.o
 OBJECTS += $(OBJDIR)/sound.o
 OBJECTS += $(OBJDIR)/eeprom.o
 OBJECTS += $(OBJDIR)/seq.o
@@ -107,6 +109,7 @@ OBJECTS += $(OBJDIR)/story.o
 OBJECTS += $(OBJDIR)/game.o
 OBJECTS += $(OBJDIR)/death.o
 OBJECTS += $(OBJDIR)/intro.o
+OBJECTS += $(OBJDIR)/gameend.o
 OBJECTS += $(OBJDIR)/hiscore.o
 OBJECTS += $(OBJDIR)/music.o
 
@@ -227,9 +230,6 @@ $(OBJDIR)/torch.o: torch.s $(DIRS)
 $(OBJDIR)/acsupp.o: acsupp.s $(DIRS)
 	$(CC) $(INCLUDES) $(ASMFLAGS) -c $< -o $@
 
-$(OBJDIR)/acsuppc.o: acsuppc.c $(DIRS)
-	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
-
 $(OBJDIR)/acarcher.o: acarcher.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
@@ -248,10 +248,19 @@ $(OBJDIR)/acbomb.o: acbomb.c $(DIRS)
 $(OBJDIR)/acprison.o: acprison.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
+$(OBJDIR)/accivil.o: accivil.c $(DIRS)
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
 $(OBJDIR)/acsupply.o: acsupply.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/aceol.o: aceol.c $(DIRS)
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/acrdrop.o: acrdrop.c $(DIRS)
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/acrfall.o: acrfall.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/sound.o: sound.c $(DIRS)
@@ -273,6 +282,9 @@ $(OBJDIR)/death.o: death.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/intro.o: intro.c $(DIRS)
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/gameend.o: gameend.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/hiscore.o: hiscore.c $(DIRS)

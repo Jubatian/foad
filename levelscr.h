@@ -52,7 +52,8 @@
 **
 ** The flags (flg) specify what to use on the upper / lower parallax regions.
 ** bits 0-3: Bottom parallax region type
-** bits 4-7: Top parallax region type
+** bits 4-7: Top parallax region type & Sky select
+** See parallax.h. Bit 7 selects sky, if set, dawn/dusk scheme.
 */
 void levelscr_setmap(uint16 map, auint wdt, auint hgt, auint flg);
 

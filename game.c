@@ -50,7 +50,8 @@
 #define GAME_BTNC_LO  global_shared[0]
 #define GAME_BTNC_HI  global_shared[1]
 
-/* Level End: Also see aceol.c which writes 1 here when collecting level end */
+/* Level End: Also see aceol.c which writes 1 here when collecting level end.
+** Death writes 2 in this, but that only happens in this module. */
 #define GAME_LEVEND   global_shared[7]
 
 /* Temp for health & time to run end level score animations */
@@ -71,7 +72,6 @@ extern uint8 sync_pulse;
 static void game_frame(void)
 {
  auint  cmd;
- auint  die = 0U;
  uint16 btn = GAME_BTNC_LO | ((uint16)(GAME_BTNC_HI) << 8);
 
  global_process();
@@ -81,11 +81,11 @@ static void game_frame(void)
 
  if ((global_framectr & 0x1U) == 0U){ /* Logic frame */
 
-  if (GAME_LEVEND != 0U){ /* End of level reached */
+  if ((GAME_LEVEND & 1U) != 0U){ /* End of level reached */
 
    if       (gstat_time != 0U){
     gstat_time --;
-    gstat_score_add(3U);  /* Each remaining tick of time adds 3 points (normally it is 2 points) */
+    gstat_score_add(2U);  /* Each remaining tick of time adds 2 points (normally it is 1 point) */
     if ((global_framectr & 0x7U) == 0U){ sound_effect(SOUND_TICK, 0x30U); }
    }else if (dragon_stat.hp != 0U){
     dragon_stat.hp --;
@@ -113,25 +113,22 @@ static void game_frame(void)
     if (gstat_time != 0U){             /* Remaining time decrements (~1 sec) */
      gstat_time --;
     }else{
-     die = 1U;
+     GAME_LEVEND = 2U; /* Die */
     }
    }
-   if ((global_framectr & 0x1FU) == 0U){
-    gstat_score_add(1U);               /* Score increments as time passes (~0.5 sec)*/
-   }
-   if ((global_framectr & 0xFFU) == 0U){
-    dragon_mod(DRAGON_STA_HP | DRAGON_P_ADD, 1U); /* Health slowly increments */
+   if ((global_framectr & 0x3FU) == 0U){
+    gstat_score_add(1U);               /* Score increments as time passes (~1 sec)*/
    }
 
    if (dragon_stat.hp == 0U){
-    die = 1U;
+    GAME_LEVEND = 2U; /* Die */
    }
 
   }
 
   /* Common processing (even at end level, so player may keep moving the dragon around) */
 
-  if (die != 0U){
+  if ((GAME_LEVEND & 2U) != 0U){
 
    /* Player died either by depleted health or time. Fade. */
 

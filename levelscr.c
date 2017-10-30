@@ -22,6 +22,7 @@
 #include "parallax.h"
 #include "random.h"
 #include "m74cfg.h"
+#include "global.h"
 #include <uzebox.h>
 
 
@@ -72,7 +73,8 @@ void levelscr_setmap(uint16 map, auint wdt, auint hgt, auint flg)
 {
  levelscr_bx  = ((uint16)(wdt) * 128U) - 192U;
  levelscr_by  = ((uint16)(hgt) *  64U) + 192U - 192U; /* (adds 128 for the top / 64 for the bottom parallax) */
- levelscr_flg = flg;
+ levelscr_flg = flg & 0x77U;
+ global_palsel = (global_palsel & 0xF0U) | (flg >> 7); /* Add sky */
  levelscr_mag = 0U;
  level_set(map, wdt, hgt);
  levelscr_reset();

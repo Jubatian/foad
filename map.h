@@ -38,7 +38,7 @@
 ** byte  5: Map (level) data pointer, high
 ** byte  6: Map (level) width in L1 blocks
 ** byte  7: Map (level) height in L1 blocks
-** byte  8: Parallax region configuration (as required by levelscr_setmap())
+** byte  8: Parallax region config & sky (as required by levelscr_setmap())
 ** byte  9: Dragon healing on entry (amount of health restored)
 ** byte 10: Initial remaining time
 **
@@ -52,10 +52,7 @@
 **
 ** Object types (identified by address in the object list):
 **
-** 0x00: Archer
-** 0x01: Door
-** 0x02: Bomb
-** 0x03: Prisoner
+** See mapobjp.c
 */
 
 

@@ -22,6 +22,7 @@
 #include "story.h"
 #include "game.h"
 #include "death.h"
+#include "gameend.h"
 #include "intro.h"
 #include "hiscore.h"
 #include "res.h"
@@ -106,7 +107,7 @@ void seq_next(void)
 
    case 0x81U: /* End of sequence */
 
-    hiscore_enter();
+    gameend_enter();
     break;
 
    default:

@@ -28,10 +28,13 @@
 #include "acdoor.h"
 #include "acbomb.h"
 #include "acprison.h"
+#include "accivil.h"
 #include "aceol.h"
 #include "acsupply.h"
 #include "acpike.h"
 #include "acswords.h"
+#include "acrdrop.h"
+#include "acrfall.h"
 
 
 
@@ -47,7 +50,10 @@
 
 
 
-/* Actor types. Supply actors are in the range 0x05 - 0x0A inclusive. */
+/* Actor types.
+** Supply actors are in the range 0x05 - 0x0A inclusive.
+** Rockfall actors are in the range 0x10 - 0x15 inclusive.
+** 0x0F is reserved for catapult (if I make one). */
 #define ACT_EOL      0x00U
 #define ACT_ARCHER   0x01U
 #define ACT_DOOR     0x02U
@@ -55,6 +61,9 @@
 #define ACT_PRISON   0x04U
 #define ACT_PIKE     0x0BU
 #define ACT_SWORDS   0x0CU
+#define ACT_RDROP    0x0DU
+#define ACT_CIVIL    0x0EU
+#define ACT_RFALL    0x10U
 
 
 
@@ -107,13 +116,16 @@ void  mapobjp_process(void)
    /* Actor specifics */
 
    switch (typ){
-    case ACT_ARCHER: hlt = acarcher_process(&actor); break;
-    case ACT_DOOR:   hlt = acdoor_process(&actor);   break;
-    case ACT_BOMB:   hlt = acbomb_process(&actor);   break;
-    case ACT_PRISON: hlt = acprison_process(&actor); break;
-    case ACT_EOL:    hlt = aceol_process(&actor);    break;
-    case ACT_PIKE:   hlt = acpike_process(&actor);   break;
-    case ACT_SWORDS: hlt = acswords_process(&actor); break;
+    case ACT_ARCHER: hlt = acarcher_process(&actor);      break;
+    case ACT_DOOR:   hlt = acdoor_process(&actor);        break;
+    case ACT_BOMB:   hlt = acbomb_process(&actor);        break;
+    case ACT_PRISON: hlt = acprison_process(&actor);      break;
+    case ACT_EOL:    hlt = aceol_process(&actor);         break;
+    case ACT_PIKE:   hlt = acpike_process(&actor);        break;
+    case ACT_SWORDS: hlt = acswords_process(&actor);      break;
+    case ACT_RDROP:  hlt = acrdrop_process(&actor);       break;
+    case ACT_CIVIL:  hlt = accivil_process(&actor);       break;
+    case ACT_RFALL:  hlt = acrfall_process(&actor, typ);  break;
     default:         hlt = acsupply_process(&actor, typ); break;
    }
 
@@ -157,13 +169,16 @@ void  mapobjp_render(void)
    typ = actor.typ & 0x3FU;
 
    switch (typ){
-    case ACT_ARCHER: acarcher_render(&actor); break;
-    case ACT_DOOR:   acdoor_render(&actor);   break;
-    case ACT_BOMB:   acbomb_render(&actor);   break;
-    case ACT_PRISON: acprison_render(&actor); break;
-    case ACT_EOL:    aceol_render(&actor);    break;
-    case ACT_PIKE:   acpike_render(&actor);   break;
-    case ACT_SWORDS: acswords_render(&actor); break;
+    case ACT_ARCHER: acarcher_render(&actor);      break;
+    case ACT_DOOR:   acdoor_render(&actor);        break;
+    case ACT_BOMB:   acbomb_render(&actor);        break;
+    case ACT_PRISON: acprison_render(&actor);      break;
+    case ACT_EOL:    aceol_render(&actor);         break;
+    case ACT_PIKE:   acpike_render(&actor);        break;
+    case ACT_SWORDS: acswords_render(&actor);      break;
+    case ACT_RDROP:  acrdrop_render(&actor);       break;
+    case ACT_CIVIL:  accivil_render(&actor);       break;
+    case ACT_RFALL:  acrfall_render(&actor, typ);  break;
     default:         acsupply_render(&actor, typ); break;
    }
 

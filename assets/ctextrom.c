@@ -46,6 +46,11 @@ int main(void)
  unsigned int  i;
  unsigned int  osi = 0U;
  unsigned int  pos = 0U;
+ unsigned int  ptb[256U];
+ unsigned int  ptp = 0U;
+
+ ptb[0] = 0U;
+ ptp = 1U;
 
  while (1){
 
@@ -63,6 +68,8 @@ int main(void)
     }
     printf("/* Position: %u (byte: %u, bit %u) */\n", pos, osi, bit - 1U);
     cin = 0xFFU;
+    ptb[ptp] = pos;
+    ptp ++;
    }else{                 cin = 0xFFU; }
 
   }else if (cin == '\n'){
@@ -116,6 +123,12 @@ int main(void)
   printf("\n");
  }
  printf("/* Size: %u */\n", osi);
+
+ printf("/* Position map (Little Endian words): */\n");
+
+ for (i = 0U; i < ptp; i++){
+  printf(" 0x%02XU, 0x%02XU,\n", ptb[i] & 0xFFU, ptb[i] >> 8);
+ }
 
  return 0;
 }

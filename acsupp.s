@@ -22,6 +22,9 @@
 ; (Needed only for register names for X, Y and Z)
 
 
+/* Count of fireballs. Note: Keep in sync with that in fireball.h! */
+#define FIREBALL_N 12
+
 
 .section .text
 
@@ -186,6 +189,38 @@ acsupp_isatledge:
 
 
 /*
+** Ledge halt. If sprite is at ledge, halts it (xvel), preventing it walking
+** or running into a chasm.
+**
+** Inputs:
+** r25:r24: Sprite pointer
+*/
+.global acsupp_haltatledge
+acsupp_haltatledge:
+
+	movw  ZL,      r24
+	ldd   r23,     Z + 6   ; spr->xvel
+	cpi   r23,     0
+	brmi  hal_0            ; xvel < 0
+	breq  hal_1            ; xvel == 0 (do nothing)
+	ldi   r22,     0x04    ; Test for ledge at +4
+	rjmp  .+2
+hal_0:
+	ldi   r22,     0xFC    ; Test for ledge at -4
+	push  ZL
+	push  ZH
+	rcall acsupp_isatledge
+	pop   ZH
+	pop   ZL
+	ldi   r23,     0
+	cpse  r24,     r23
+	std   Z + 6,   r23     ; spr->xvel = 0 if at ledge
+hal_1:
+	ret
+
+
+
+/*
 ** Returns the suggested Y velocity for a projectile to get it travelling from
 ** a location to a sprite with the given X velocity. Returns 0x7F if it can't
 ** be done (such as if the X velocity points the wrong way).
@@ -294,42 +329,239 @@ gsh_e0:
 
 
 /*
-** Simple coordinate nearness test. A pair of coordinates are nearby to each
-** if one is within 8 pixels distance to the other on X, and within 16 pixels
-** on Y (in accordance with typical sprite heights).
+** Tests if a given coordinate pair is in the dragon. Returns 1 if so.
 **
 ** Inputs:
-** r25:r24: x1
-** r23:r22: y1
-** r21:r20: x2
-** r19:r18: y2
+** r25:r24: x
+** r23:r22: y
 ** Outputs:
-** r25:r24: 1 if the coordinates are near to each other
+**     r24: 1 if the coordinate is in the dragon
 */
-.global acsupp_iscordnear
-acsupp_iscordnear:
+.global acsupp_iscordindragon
+acsupp_iscordindragon:
 
-	sub   r24,     r20
-	sbc   r25,     r21
-	subi  r24,     0xF8
-	sbci  r25,     0xFF    ; Adds 8, so 0 - 16 range can be tested
-	subi  r24,     0x10
-	sbci  r25,     0x00
+	lds   r21,     dragon_spr + 4 ; dragon_spr.xbs
+	lds   r20,     dragon_spr + 5 ; dragon_spr.ybs
+	                              ; Fall through to acsupp_iscordneardragon
+
+
+
+/*
+** Tests if a given coordinate pair is near to the dragon. Returns 1 if so.
+** dxy is the distances to test: X on high 8 bits, Y on low 8 bits.
+**
+** Inputs:
+** r25:r24: x
+** r23:r22: y
+** r21:r20: dxy (r21: dx; r20: dy)
+** Outputs:
+**     r24: 1 if the coordinate is near the dragon
+*/
+.global acsupp_iscordneardragon
+acsupp_iscordneardragon:
+
+	ldi   ZL,      lo8(dragon_spr)
+	ldi   ZH,      hi8(dragon_spr)
+	ld    r18,     Z+      ; dragon_spr.xpos
+	ld    r19,     Z+      ; dragon_spr.xpos >> 8
+	ld    XL,      Z+      ; dragon_spr.ypos
+	ld    XH,      Z+      ; dragon_spr.ypos >> 8
+
+	sub   r24,     r18
+	sbc   r25,     r19     ; x -= dragon_spr.xpos
+	clr   r0
+	add   r24,     r21
+	adc   r25,     r0      ; x += dx
+	lsl   r21
+	rol   r0
+	cp    r24,     r21
+	cpc   r25,     r0      ; x < 2 * dx
 	brcc  icn_0
 
-	sub   r22,     r18
-	sbc   r23,     r19
-	subi  r22,     0xF0
-	sbci  r23,     0xFF    ; Adds 16, so 0 - 32 range can be tested
-	subi  r22,     0x20
-	sbci  r23,     0x00
+	sub   r22,     XL
+	sbc   r23,     XH      ; y -= dragon_spr.ypos
+	clr   r0
+	add   r22,     r20
+	adc   r23,     r0      ; y += dy
+	lsl   r20
+	rol   r0
+	cp    r22,     r20
+	cpc   r23,     r0      ; y < 2 * dy
 	brcc  icn_0
 
 	ldi   r24,     1       ; Near
-	ldi   r25,     0
 	ret
 
 icn_0:
 	ldi   r24,     0       ; Not near
-	ldi   r25,     0
+	ret
+
+
+
+/*
+** Renders a non-player-character sprite. Such a sprite faces the dragon when
+** not moving, and may be on fire. This can be used for typical 2x1 tile human
+** characters. The fra parameter is the frame to draw, fir is whether the
+** sprite should be on fire (bit 7 set; then bits 0-4 are the frame).
+**
+** Inputs:
+** r25:r24: actor
+**     r22: fra
+**     r20: fir
+*/
+.global acsupp_rendernpc
+acsupp_rendernpc:
+
+	push  r20              ; Put away fire, will only be needed later
+
+	ldi   r20,     0x50    ; M74_SPR_I1 | M74_SPR_MASK
+	movw  ZL,      r24
+	ldd   r23,     Z + 6   ; actor->spr.xvel
+	cpi   r23,     0
+	breq  rnp_0            ; actor->spr.xvel == 0
+	brmi  rnp_1            ; actor->spr.xvel < 0
+	ori   r20,     0x01    ; M74_SPR_FLIPX
+
+rnp_0:
+
+	lds   r23,     dragon_spr + 0 ; dragon_spr.xpos
+	ldd   r21,     Z + 0   ; actor->spr.xpos
+	cp    r23,     r21
+	lds   r23,     dragon_spr + 1 ; dragon_spr.xpos >> 8
+	ldd   r21,     Z + 1   ; actor->spr.xpos >> 8
+	cpc   r23,     r21
+	brcs  .+2              ; dragon_spr.xpos < actor->spr.xpos
+	ori   r20,     0x01    ; M74_SPR_FLIPX
+
+rnp_1:
+
+	ldi   r18,     REC_FLAT_0
+	push  ZL
+	push  ZH
+	call  spritelv_blit
+	pop   ZH
+	pop   ZL
+
+	pop   r20
+	sbrs  r20,     7
+	ret                    ; No fire
+
+	ld    r24,     Z+
+	ld    r25,     Z+      ; actor->spr.xpos
+	ld    r22,     Z+
+	ld    r23,     Z+      ; actor->spr.ypos
+	subi  r22,     0x08
+	sbci  r23,     0x00    ; actor->spr.ypos - 8
+	com   r20
+	andi  r20,     0x1F    ; (0xFF - fir) & 0x1F
+	jmp   fireball_render_fire
+
+
+
+/*
+** Interacts an actor with a fireball and returns, assuming the most common
+** scenario for actor layout:
+** d0 is laid out as follows:
+** bit   7: On fire marker, cleared on frame 0x1F (~1sec burn).
+** bit   6: Not touched.
+** bit 0-5: Frame counter which is incremented.
+** Writes back d0 and d1 into the actor and returns 0 if health is depleted
+** (d1 = 0xFF) and 1 if not (d1 not 0xFF).
+** d1d0: d1 is high, d0 is low
+** shp: Kill penalty score (high) & Health decrement for actor (low)
+** d0m: Masks for d0 (high: OR, low: AND) when fireball hits
+**
+** Inputs:
+** r25:r24: actor
+** r23:r22: d1d0 (r23: d1; r22: d0)
+** r21:r20: shp (r21: sub; r20: hpp)
+** r19:r18: d0m (r19: d0or; r18: d0and)
+** Outputs:
+**     r24: 1 if d1 was not 0xFF, 0 otherwise
+*/
+.global acsupp_procfin_fire
+acsupp_procfin_fire:
+
+	; Calculate d0 for next frame; increment low 6 bits (frame counter)
+
+	bst   r22,     6
+	andi  r22,     0xBF    ; Clear bit 6 so a carry-over may only set it
+	inc   r22
+	bld   r22,     6
+
+	; Clear on fire marker if low 5 bits are zero
+
+	mov   ZL,      r22
+	andi  ZL,      0x1F
+	brne  .+2
+	andi  r22,     0x7F
+
+	; Fireball interaction
+
+	push  r25
+	push  r24
+	push  YH
+	push  YL
+	push  r17
+	push  r16
+	push  r15
+	push  r14
+	movw  r14,     r18     ; d0or:d0and
+	movw  YL,      r20     ; sub:hpp
+	movw  r16,     r22     ; d1:d0
+	call  fireball_getat
+	cpi   r24,     FIREBALL_N
+	breq  pff_0
+
+	; There is a fireball hitting the actor
+
+	ldi   r22,     0x20    ; Aging of the fireball
+	call  fireball_age
+	add   r17,     YH      ; d1 += sub
+	brcc  .+2
+	ldi   r17,     0xFF
+	cpi   r17,     0xFF
+	brne  .+6
+	mov   r24,     YL      ; hpp
+	call  gstat_score_sub
+	or    r16,     r15
+	and   r16,     r14
+
+pff_0:
+
+	; Interaction done, restore stuff
+
+	mov   r22,     r16     ; d0 for acsupp_procfin
+	mov   r20,     r17     ; d1 for acsupp_procfin
+	pop   r14
+	pop   r15
+	pop   r16
+	pop   r17
+	pop   YL
+	pop   YH
+	pop   r24              ; actor for acsupp_procfin
+	pop   r25              ; Fall through to acsupp_procfin
+
+
+
+/*
+** Simple return depending on the value of d1 (0xFF: 0; others: 1), writes
+** back d0 and d1.
+**
+** Inputs:
+** r25:r24: actor
+**     r22: d0
+**     r20: d1
+** Outputs:
+**     r24: 1 if d1 was not 0xFF, 0 otherwise
+*/
+.global acsupp_procfin
+acsupp_procfin:
+
+	movw  ZL,      r24
+	std   Z + 12,  r22     ; actor->d0 = d0
+	std   Z + 13,  r20     ; actor->d1 = d1
+	cpi   r20,     0xFF    ; C clear if 0xFF
+	sbc   r24,     r24     ; r24 = 0 if 0xFF, r24 = 0xFF otherwise
+	andi  r24,     1
 	ret

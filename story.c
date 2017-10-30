@@ -44,28 +44,27 @@ static auint story_txadd(void)
 {
  uint8* vram = ((uint8*)(M74_VRAM_OFF));
  uint16 txp = STORY_TEXTPOS_LO | ((uint16)(STORY_TEXTPOS_HI) << 8);
- uint16 txc = 0U;
  auint  py  = (16U - STORY_TEXTHEIGHT) >> 1;
  auint  pye = py + STORY_TEXTHEIGHT;
- auint  px  = 1U;
+ auint  px  = 2U;
  auint  ch;
 
  do{
 
-  if (txc == (STORY_TXE_LO | ((uint16)(STORY_TXE_HI) << 8))){ return 0U; }
+  if (txp == ( (STORY_TEXTPOS_LO | ((uint16)(STORY_TEXTPOS_HI) << 8)) +
+               (STORY_TXE_LO | ((uint16)(STORY_TXE_HI) << 8)) ) ){ return 0U; }
 
   ch = text_rom_getc(txp);
   txp ++;
 
-  if ((ch == 0x3FU) || (px == 31U)){
+  if ((ch == 0x3FU) || (px == 30U)){
    py ++;
-   px = 1U;
+   px = 2U;
   }
 
   if (ch != 0x3FU){
    vram[((uint16)(py) * 32U) + px] = ch;
    px ++;
-   txc ++;
   }
 
  }while (py != pye);

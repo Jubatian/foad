@@ -20,7 +20,6 @@
 
 #include "acpike.h"
 #include "acsupp.h"
-#include "acsuppc.h"
 #include "dragon.h"
 #include "spritelv.h"
 #include "passable.h"
@@ -36,7 +35,6 @@
 */
 auint acpike_process(mapact_t* actor)
 {
- auint  fid;
  auint  vis;
  asint  vy;
  asint  vx;
@@ -44,8 +42,6 @@ auint acpike_process(mapact_t* actor)
  auint  d1 = actor->d1;
  uint16 axp = actor->spr.xpos;
  uint16 ayp = actor->spr.ypos;
- auint  dragon_w = dragon_spr.xbs;
- auint  dragon_h = dragon_spr.ybs;
 
  /*
  ** Pikeman's layout:
@@ -71,9 +67,6 @@ auint acpike_process(mapact_t* actor)
    actor->spr.xvel =  2;
   }else{
    actor->spr.xvel = -2;
-  }
-  if ((d0 & 0x1FU) == 0x00U){
-   d0 &= ~0x80U;
   }
 
  }else if ((d0 & 0x40U) != 0U){ /* After attack */
@@ -101,18 +94,10 @@ auint acpike_process(mapact_t* actor)
 
    }
 
-   if       (vx > 0){ /* Don't run off a ledge */
-    if (acsupp_isatledge(&(actor->spr),  4)){ vx = 0; }
-   }else if (vx < 0){
-    if (acsupp_isatledge(&(actor->spr), -4)){ vx = 0; }
-   }else{}
-
    actor->spr.xvel = vx;
+   acsupp_haltatledge(&(actor->spr));
 
-   if ( ((axp + dragon_w) >= (dragon_spr.xpos)) &&
-        ((axp) <= (dragon_spr.xpos + dragon_w)) &&
-        ((ayp + dragon_h) >= (dragon_spr.ypos)) &&
-        ((ayp) <= (dragon_spr.ypos + 8U      )) ){ /* Within dragon: hit! */
+   if (acsupp_iscordindragon(axp, ayp)){ /* Within dragon: hit! */
 
     vx -= dragon_spr.xvel;
     if (vx < 0){ vx = -vx; }
@@ -132,25 +117,7 @@ auint acpike_process(mapact_t* actor)
 
  }
 
- fid = fireball_getat(&(actor->spr));
-
- if (fid != FIREBALL_N){
-  fireball_age(fid, 0x20U);
-  if (d1 < 0xCFU){ d1 += 0x30U; }
-  else{            d1  = 0xFFU; }
-  d0 |= 0x80U;           /* On fire */
-  if (d1 == 0xFFU){
-   gstat_score_sub(25U); /* Killed a pikeman (kill penalty). */
-  }
- }
-
- d0 = (d0 & (~0x3FU)) | ((d0 + 1U) & 0x3FU);
-
- actor->d0 = d0;
- actor->d1 = d1;
-
- if (d1 == 0xFFU){ return 0U; }
- else            { return 1U; }
+ return acsupp_procfin_fire(actor, ((uint16)(d1) << 8) | d0, 0x1930U, 0x80C0U);
 }
 
 
@@ -175,5 +142,5 @@ void  acpike_render(mapact_t* actor)
   fra = 0x9DU;
  }
 
- acsuppc_rendernpc(actor, fra, d0);
+ acsupp_rendernpc(actor, fra, d0);
 }

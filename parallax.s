@@ -1,6 +1,6 @@
 /*
  *  Dragon - Parallax scrolling components
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -48,9 +48,12 @@ data_sky_clear:
 	.byte  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte  0x00, 0x30, 0x31, 0x32, 0x33, 0x00, 0x00, 0x00
 	.byte  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-data_gnd_water:
+data_gnd_cwater:
 	.byte  0x34, 0x34, 0x35, 0x34, 0x35, 0x35, 0x34, 0x35
 	.byte  0x35, 0x34, 0x34, 0x35, 0x34, 0x35, 0x34, 0x35
+data_gnd_water:
+	.byte  0x5D, 0x5D, 0x5E, 0x5D, 0x5E, 0x5E, 0x5D, 0x5E
+	.byte  0x5E, 0x5D, 0x5D, 0x5E, 0x5D, 0x5E, 0x5D, 0x5E
 data_gnd_grass:
 	.byte  0x03, 0x03, 0x04, 0x03, 0x04, 0x04, 0x03, 0x04
 	.byte  0x04, 0x03, 0x03, 0x04, 0x03, 0x04, 0x03, 0x04
@@ -58,6 +61,7 @@ data_sky_cave:
 data_gnd_cave:
 	.byte  0x0C, 0x0C, 0x0D, 0x0C, 0x0D, 0x0D, 0x0C, 0x0D
 	.byte  0x0D, 0x0C, 0x0C, 0x0D, 0x0C, 0x0D, 0x0C, 0x0D
+.balign 2
 
 
 
@@ -159,10 +163,13 @@ renbp:
 	sbrc  r20,     0
 	rjmp  renbt1
 renbt0:
+	ori   ZL,      lo8(data_gnd_cwater)
+	ldi   ZH,      hi8(data_gnd_cwater)
+	rjmp  renl1
+renbt3:
 	ori   ZL,      lo8(data_gnd_water)
 	ldi   ZH,      hi8(data_gnd_water)
 	rjmp  renl1
-renbt3:
 renbt1:
 	ori   ZL,      lo8(data_gnd_grass)
 	ldi   ZH,      hi8(data_gnd_grass)
@@ -182,8 +189,6 @@ rentp:
 	ldi   ZH,      7       ; Sky, distant effect
 	sub   ZH,      r22
 	lsl   ZH
-;	lsl   ZH
-;	lsl   ZH
 	mul   ZH,      r16
 	mov   ZL,      r1
 	mul   ZH,      r17
@@ -224,6 +229,9 @@ rentt0:
 	adc   ZH,      r0
 	rjmp  renl1
 rentt3:
+	ori   ZL,      lo8(data_sky_clear)
+	ldi   ZH,      hi8(data_sky_clear)
+	rjmp  renl1
 rentt1:
 	ori   ZL,      lo8(data_sky_clear)
 	add   ZL,      ZH

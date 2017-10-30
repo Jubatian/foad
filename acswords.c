@@ -20,7 +20,6 @@
 
 #include "acpike.h"
 #include "acsupp.h"
-#include "acsuppc.h"
 #include "dragon.h"
 #include "spritelv.h"
 #include "passable.h"
@@ -36,15 +35,12 @@
 */
 auint acswords_process(mapact_t* actor)
 {
- auint  fid;
  auint  vis;
  asint  vx;
  auint  d0 = actor->d0;
  auint  d1 = actor->d1;
  uint16 axp = actor->spr.xpos;
  uint16 ayp = actor->spr.ypos;
- auint  dragon_w = dragon_spr.xbs;
- auint  dragon_h = dragon_spr.ybs;
 
  /*
  ** Swordsman's layout:
@@ -61,14 +57,6 @@ auint acswords_process(mapact_t* actor)
  */
 
  actor->spr.xvel = 0;
-
- if ((d0 & 0x80U) != 0U){ /* On fire: no effect, just time it out */
-
-  if ((d0 & 0x1FU) == 0x00U){
-   d0 &= ~0x80U;
-  }
-
- }
 
  if ((d0 & 0x40U) != 0U){ /* Attack animation */
 
@@ -90,18 +78,10 @@ auint acswords_process(mapact_t* actor)
     vx =  1;
    }else{}
 
-   if       (vx > 0){ /* Don't walk off a ledge */
-    if (acsupp_isatledge(&(actor->spr),  4)){ vx = 0; }
-   }else if (vx < 0){
-    if (acsupp_isatledge(&(actor->spr), -4)){ vx = 0; }
-   }else{}
-
    actor->spr.xvel = vx;
+   acsupp_haltatledge(&(actor->spr));
 
-   if ( ((axp + dragon_w) >= (dragon_spr.xpos)) &&
-        ((axp) <= (dragon_spr.xpos + dragon_w)) &&
-        ((ayp + dragon_h) >= (dragon_spr.ypos)) &&
-        ((ayp) <= (dragon_spr.ypos + 8U      )) ){ /* Within dragon: attack! */
+   if (acsupp_iscordindragon(axp, ayp)){ /* Within dragon: attack! */
 
     dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, (random_get() & 7U) + 8U);
 
@@ -114,25 +94,7 @@ auint acswords_process(mapact_t* actor)
 
  }
 
- fid = fireball_getat(&(actor->spr));
-
- if (fid != FIREBALL_N){
-  fireball_age(fid, 0x20U);
-  if (d1 < 0xEFU){ d1 += 0x10U; }
-  else{            d1  = 0xFFU; }
-  d0 |= 0xB0U;           /* On fire (with short animation) */
-  if (d1 == 0xFFU){
-   gstat_score_sub(25U); /* Killed a swordsman (kill penalty). */
-  }
- }
-
- d0 = (d0 & (~0x3FU)) | ((d0 + 1U) & 0x3FU);
-
- actor->d0 = d0;
- actor->d1 = d1;
-
- if (d1 == 0xFFU){ return 0U; }
- else            { return 1U; }
+ return acsupp_procfin_fire(actor, ((uint16)(d1) << 8) | d0, 0x1910U, 0xB0FFU);
 }
 
 
@@ -162,5 +124,5 @@ void  acswords_render(mapact_t* actor)
   fra = 0xA1U;
  }
 
- acsuppc_rendernpc(actor, fra, d0);
+ acsupp_rendernpc(actor, fra, d0);
 }

@@ -254,7 +254,7 @@ level_gettile:
 ** out of map coordinate is passed, return is generated according to the
 ** related defines in leveldef.h.
 **
-** For assembly routine calls XH:XL is not clobbered.
+** For assembly routine calls r18 and XH:XL is not clobbered.
 **
 ** r25:r24: x
 ** r23:r22: y
@@ -269,10 +269,12 @@ level_getl0:
 	lsr   r25
 	ror   r24
 	lsr   r25
+	brne  gl0_oxnc         ; r25 nonzero: Certainly off display
 	ror   r24              ; r24: L0 X (8 bits)
 	lsr   r23
 	ror   r22
 	lsr   r23
+	brne  gl0_oync         ; r23 nonzero: Certainly off display
 	ror   r22              ; r22: L0 Y (8 bits)
 	clr   r25              ; r25: Zero from now (for return)
 
@@ -288,6 +290,15 @@ level_getl0:
 	brne  gl0_nch
 	lds   r24,     v_l0ch  ; Cache valid, load from it & return
 	ret
+
+gl0_oxnc:
+	ldi   r24,     LEVEL_RET_XI
+	ret
+
+gl0_oync:
+	ldi   r24,     LEVEL_RET_YI
+	ret
+
 gl0_nch:
 	sts   v_l0chx, r24
 	sts   v_l0chy, r22
@@ -366,11 +377,9 @@ gl0_ret:
 	ret
 
 gl0_oxm:
-
 	ldi   r24,     LEVEL_RET_XI
 	rjmp  gl0_ret
 
 gl0_oym:
-
 	ldi   r24,     LEVEL_RET_YI
 	rjmp  gl0_ret

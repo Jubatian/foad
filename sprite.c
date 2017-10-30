@@ -1,6 +1,6 @@
 /*
  *  Dragon - Sprite blitter
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -39,10 +39,10 @@ void  sprite_blit(uint16 spo, auint x, auint y, auint flg, auint col)
  auint  b1;
  auint  b2;
  auint  b3;
- auint  xp;
- auint  yp;
- auint  cp;
- auint  fp;
+// auint  xp;
+// auint  yp;
+// auint  cp;
+// auint  fp;
  uint16 spp;
 
  /* Drop unsupported flags */
@@ -97,33 +97,35 @@ void  sprite_blit(uint16 spo, auint x, auint y, auint flg, auint col)
 
    }else{                   /* Particle generator */
 
-    cp = b0 >> 4;
-    fp = (flg & (M74_SPR_MASK)) | M74_SPR_I1;
-
-    xp = (b1 >> 4);         /* 1st particle */
-    yp = (b1 & 0x0FU);
-    if (flg & M74_SPR_FLIPX){ xp = 16U - xp; }
-    xp = xp + x;
-    yp = yp + y;
-    M74_PutPixel(cp, xp, yp, fp);
-
-    if (b2 != b1){          /* 2nd particle (only if differs from first) */
-     xp = (b2 >> 4);
-     yp = (b2 & 0x0FU);
-     if (flg & M74_SPR_FLIPX){ xp = 16U - xp; }
-     xp = xp + x;
-     yp = yp + y;
-     M74_PutPixel(cp, xp, yp, fp);
-    }
-
-    if (b3 != b2){          /* 3rd particle (only if differs from second) */
-     xp = (b3 >> 4);
-     yp = (b3 & 0x0FU);
-     if (flg & M74_SPR_FLIPX){ xp = 16U - xp; }
-     xp = xp + x;
-     yp = yp + y;
-     M74_PutPixel(cp, xp, yp, fp);
-    }
+// Removed since it is not used in FoaD
+//
+//    cp = b0 >> 4;
+//    fp = (flg & (M74_SPR_MASK)) | M74_SPR_I1;
+//
+//    xp = (b1 >> 4);         /* 1st particle */
+//    yp = (b1 & 0x0FU);
+//    if (flg & M74_SPR_FLIPX){ xp = 16U - xp; }
+//    xp = xp + x;
+//    yp = yp + y;
+//    M74_PutPixel(cp, xp, yp, fp);
+//
+//    if (b2 != b1){          /* 2nd particle (only if differs from first) */
+//     xp = (b2 >> 4);
+//     yp = (b2 & 0x0FU);
+//     if (flg & M74_SPR_FLIPX){ xp = 16U - xp; }
+//     xp = xp + x;
+//     yp = yp + y;
+//     M74_PutPixel(cp, xp, yp, fp);
+//    }
+//
+//    if (b3 != b2){          /* 3rd particle (only if differs from second) */
+//     xp = (b3 >> 4);
+//     yp = (b3 & 0x0FU);
+//     if (flg & M74_SPR_FLIPX){ xp = 16U - xp; }
+//     xp = xp + x;
+//     yp = yp + y;
+//     M74_PutPixel(cp, xp, yp, fp);
+//    }
 
    }
   }

@@ -25,6 +25,7 @@
 #include "dragon.h"
 #include "random.h"
 #include "passable.h"
+#include "acsupp.h"
 #include <uzebox.h>
 
 
@@ -124,8 +125,6 @@ void  eproj_process(void)
  auint typ;
  auint hit;
  physics_spr_t ph;
- auint dragon_w = dragon_spr.xbs;
- auint dragon_h = dragon_spr.ybs;
  asint txv;
  asint tyv;
  auint vda;
@@ -151,14 +150,7 @@ void  eproj_process(void)
 
    /* Test if the projectile hits the dragon */
 
-   if ( ((ph.xpos + dragon_w) >= (dragon_spr.xpos)) &&
-        ((ph.xpos) <= (dragon_spr.xpos + dragon_w)) &&
-        ((ph.ypos + dragon_h) >= (dragon_spr.ypos)) &&
-        ((ph.ypos) <= (dragon_spr.ypos           )) ){
-    hit = 1U;
-   }else{
-    hit = 0U;
-   }
+   hit = acsupp_iscordindragon(ph.xpos, ph.ypos);
 
    /* Calculate relative velocity difference, used for determining damage.
    ** This is calculated into vda for use by projectiles needing it. The txv
@@ -274,17 +266,13 @@ void  eproj_process(void)
 
      if ((typ & 0x30U) != 0U){ eproj_arr[i].typ -= 0x10U; }
 
-     /* Destroy rock when stopped or got too far */
+     /* Destroy rock when stopped */
 
-     if ( ( (ph.xvel == 0) &&
-            (ph.yvel == 0) &&
-            ((ph.flg & PHYSICS_F_GRND) != 0U) &&
-            ((eproj_dtim & 0x3U) == 0U) &&
-            ((random_get() & 7U) == 0U) ) ||
-          ((ph.xpos + 192U) < (dragon_spr.xpos)) ||
-          ((ph.xpos) > (dragon_spr.xpos + 192U)) ||
-          ((ph.ypos + 192U) < (dragon_spr.ypos)) ||
-          ((ph.ypos) > (dragon_spr.ypos + 192U)) ){
+     if ( (ph.xvel == 0) &&
+          (ph.yvel == 0) &&
+          ((ph.flg & PHYSICS_F_GRND) != 0U) &&
+          ((eproj_dtim & 0x3U) == 0U) &&
+          ((random_get() & 7U) == 0U) ){
       eproj_arr[i].typ = 0U; /* Rock dies */
      }
 
@@ -299,6 +287,12 @@ void  eproj_process(void)
    eproj_arr[i].xvel = ph.xvel;
    eproj_arr[i].yvel = ph.yvel;
 
+  }
+
+  /* Test if projectile got too far, then destroy */
+
+  if (!acsupp_iscordneardragon(ph.xpos, ph.ypos, 0xC0C0U)){
+   eproj_arr[i].typ = 0U; /* Projectile dies (too far) */
   }
 
  }

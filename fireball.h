@@ -1,6 +1,6 @@
 /*
  *  Dragon - Fireballs (dragon's breath)
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -45,7 +45,8 @@
 
 
 
-/* Total count of fireballs. Note: keep in sync with that in firebals.s!
+/* Total count of fireballs. Note: keep in sync with that in firebals.s and
+** in acsupp.s!
 ** Note: More is necessary than what the dragon might use since bombs and
 ** other things might also generate them. */
 #define FIREBALL_N 12U
