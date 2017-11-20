@@ -89,7 +89,7 @@ static void game_frame(void)
     if ((global_framectr & 0x7U) == 0U){ sound_effect(SOUND_TICK, 0x30U); }
    }else if (dragon_stat.hp != 0U){
     dragon_stat.hp --;
-    gstat_score_add(2U);  /* Each remaining unit of health adds 2 points */
+    gstat_score_add(1U);  /* Each remaining unit of health adds 1 point */
     if ((global_framectr & 0x7U) == 0U){ sound_effect(SOUND_TICK, 0x30U); }
     global_fadecolor = 0x00U;
    }else if (global_fadectr != 0xFFU){

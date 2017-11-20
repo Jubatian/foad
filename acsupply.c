@@ -59,7 +59,7 @@ auint acsupply_process(mapact_t* actor, auint typ)
 
    case ACT_HGLASS:
     gstat_score_add(10U);  /* Collected hourglass */
-    gstat_time_add(32U);
+    gstat_time_add(48U);
     break;
 
    case ACT_LIFE:

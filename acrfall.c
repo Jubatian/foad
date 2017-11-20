@@ -53,7 +53,7 @@
 */
 auint acrfall_process(mapact_t* actor, auint typ)
 {
- auint  rnd = random_get() & 0x3FU;
+ auint  rnd = random_get() & 0x0FU;
  uint16 axp = actor->spr.xpos;
  uint16 ayp = actor->spr.ypos;
  uint16 trg;
@@ -68,8 +68,8 @@ auint acrfall_process(mapact_t* actor, auint typ)
  ** d1: Unused
  */
 
- if ( ((dragon_spr.ypos + 32U) > (ayp)) && /* Dragon should be reasonably level with actor */
-      ((dragon_spr.ypos) < (ayp + 96U)) ){ /* Rather above than below */
+ if ( ((dragon_spr.ypos + 64U) > (ayp)) && /* Dragon should be reasonably level with actor */
+      ((dragon_spr.ypos) < (ayp + 64U)) ){
 
   switch (typ){
 
@@ -78,8 +78,8 @@ auint acrfall_process(mapact_t* actor, auint typ)
 
     /* Dragon triggers rockfall when on the left of the actor */
 
-    if ( (dragon_spr.xpos < axp) &&
-         (rnd == 0x23U) ){ rf = 1U; }
+    if ( ((dragon_spr.xpos) < (axp + 16U)) &&
+         (rnd == 0x3U) ){ rf = 1U; }
     break;
 
    case ACT_SM_R:
@@ -87,8 +87,8 @@ auint acrfall_process(mapact_t* actor, auint typ)
 
     /* Dragon triggers rockfall when on the right of the actor */
 
-    if ( (dragon_spr.xpos > axp) &&
-         (rnd == 0x17U) ){ rf = 1U; }
+    if ( ((dragon_spr.xpos + 16U) > (axp)) &&
+         (rnd == 0x7U) ){ rf = 1U; }
     break;
 
    case ACT_SM_M:
@@ -99,7 +99,7 @@ auint acrfall_process(mapact_t* actor, auint typ)
     if ( ((dragon_spr.ypos) < (ayp + 32U)) &&
          ((dragon_spr.xpos + 64U) > (axp)) &&
          ((dragon_spr.xpos) < (axp + 64U)) &&
-         (rnd == 0x09U) ){ rf = 1U; }
+         (rnd == 0x9U) ){ rf = 1U; }
     break;
 
    default:
@@ -114,23 +114,24 @@ auint acrfall_process(mapact_t* actor, auint typ)
 
  if (rf){
 
-  /* Find ceiling */
+  /* Find ceiling. If there is no ceiling, launch from "sky", useful for
+  ** in-cave setting (with cave ceiling). */
 
-  ayp = (ayp + 7U) & 0xFFF8U;
-  if (ayp < 192U){ trg = 0U; }
-  else           { trg = ayp - 192U; }
-  while (ayp > trg){
+  ayp = (ayp - 9U) & 0xFFF8U;
+  if (ayp < 200U){ trg = 0xFFF8U; }
+  else           { trg = ayp - 208U; }
+  while (ayp != trg){
    if (!passable(axp, ayp)){ break; }
    ayp -= 8U;
   }
 
-  if (ayp > trg){ /* Ceiling was found, can launch */
+  if ((ayp + 16U) < dragon_spr.ypos){ /* Launch if above dragon */
 
-   ayp ++;        /* Certainly passable (top of tile below the ceiling) */
+   ayp += 12U;    /* Certainly passable (tile below the ceiling) */
 
    xv = 0;
-   if ((typ == ACT_SM_L) || (typ == ACT_LG_L)){ xv = -1; }
-   if ((typ == ACT_SM_R) || (typ == ACT_LG_R)){ xv =  1; }
+   if ((typ == ACT_SM_L) || (typ == ACT_LG_L)){ xv = -2; }
+   if ((typ == ACT_SM_R) || (typ == ACT_LG_R)){ xv =  2; }
    rtp = EPROJ_SROCK;
    if ((typ == ACT_LG_L) || (typ == ACT_LG_R) || (typ == ACT_LG_M)){ rtp = EPROJ_LROCK; }
 

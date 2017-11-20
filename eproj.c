@@ -26,6 +26,7 @@
 #include "random.h"
 #include "passable.h"
 #include "acsupp.h"
+#include "sound.h"
 #include <uzebox.h>
 
 
@@ -161,9 +162,9 @@ void  eproj_process(void)
    if (txv < 0){ vda = (auint)(-txv); }
    else        { vda = (auint)( txv); }
    if (tyv < 0){
-    if (vda < (auint)(-tyv)){ vda = (auint)(-tyv); }
+    if (vda < (auint)(-tyv)){ vda = (auint)(-tyv) << 1; }
    }else{
-    if (vda < (auint)( tyv)){ vda = (auint)( tyv); }
+    if (vda < (auint)( tyv)){ vda = (auint)( tyv) << 1; }
    }
 
    /* Process projectiles */
@@ -201,18 +202,18 @@ void  eproj_process(void)
 
      /* Effects on the dragon */
 
-     if ( (hit != 0U) && ((typ & 0x30U) == 0U) && (vda > 1U) ){
-
-      tmp = random_get();
-      if ((typ & EPROJ_TMASK) == EPROJ_LROCK){ tmp = (tmp & 7U) + (vda << 1); }
-      else                                   { tmp = (tmp & 3U) + (vda >> 1); }
-      dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, tmp);
-      eproj_arr[i].typ |= 0x30U; /* Start damage timeout */
+     if ( (hit != 0U) && ((typ & 0x30U) == 0U) ){
+      if (vda > 2U){
+       tmp = random_get();
+       if ((typ & EPROJ_TMASK) == EPROJ_LROCK){ tmp = (tmp & 7U) + ((vda - 2U) << 2); }
+       else                                   { tmp = (tmp & 3U) + ((vda - 2U) << 1); }
+       dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, tmp);
+      }
+      eproj_arr[i].typ |= 0x30U; /* Start damage / effect timeout */
       if (txv < 0){ ph.xvel--; } /* Slow down or affect rock */
       if (txv > 0){ ph.xvel++; }
       if (tyv < 0){ ph.yvel--; }
       if (tyv > 0){ ph.yvel++; }
-
      }
 
      /* Movement logic beyond physics */
@@ -238,6 +239,7 @@ void  eproj_process(void)
            (ph.yacc <= -3) ){
        tmp <<= 1;
       }
+      sound_effect(SOUND_BOOM, 0x10U * tmp);
       levelscr_shake(tmp);
      }
 
@@ -363,6 +365,12 @@ void  eproj_render(void)
     case EPROJ_SROCK:
 
      fra = 0xE0U + (typ & 0x07U);
+     rec = REC_ROCK;
+     break;
+
+    case EPROJ_LROCK:
+
+     fra = 0xE8U + (typ & 0x07U);
      rec = REC_ROCK;
      break;
 

@@ -81,9 +81,9 @@ auint acswords_process(mapact_t* actor)
    actor->spr.xvel = vx;
    acsupp_haltatledge(&(actor->spr));
 
-   if (acsupp_iscordindragon(axp, ayp)){ /* Within dragon: attack! */
+   if (acsupp_iscordindragon(axp, ayp)){ /* Within dragon: attack! (Reduced atk. when on fire) */
 
-    dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, (random_get() & 7U) + 8U);
+    dragon_mod(DRAGON_STA_HP | DRAGON_P_SUB, (random_get() & 7U) + 8U - ((d0 & 0x80U) >> 6));
 
     d0 &= 0x80U; /* Preserve fire if any */
     d0 |= 0x70U; /* Attack + Animation */

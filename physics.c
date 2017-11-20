@@ -92,40 +92,28 @@ auint physics_gravrem(void)
 */
 static auint physics_getground(uint16 tx, uint16 ty, auint bx, auint by)
 {
- auint mid = passable(tx, ty + 1U);
- auint lft;
- auint rgt;
+ uint16 t16 = ty + 1U;
+ auint  mid = passable(tx, t16);
+ auint  lft;
+ auint  rgt;
 
- if (bx == 0U){
-  lft = mid;
-  rgt = mid;
- }else{
-  lft = passable(tx - bx, ty - (by >> 1) + 1U);
-  rgt = passable(tx + bx, ty - (by >> 1) + 1U);
- }
+ if (mid == 0U){ return PHYSICS_F_GRND; } /* Clearly on ground */
 
- if (mid != 0U){
-  if (lft != 0U){
-   if (rgt != 0U){ return 0U; }
-   else{
-    if (passable(tx, ty + 12U + 1U) != 0U){
-     return PHYSICS_F_GRND | PHYSICS_F_HK_R;
-    }else{
-     return PHYSICS_F_GRND;
-    }
-   }
-  }else{
-   if (rgt == 0U){ return PHYSICS_F_GRND; }
-   else{
-    if (passable(tx, ty + 12U + 1U) != 0U){
-     return PHYSICS_F_GRND | PHYSICS_F_HK_L;
-    }else{
-     return PHYSICS_F_GRND;
-    }
-   }
-  }
+ if (bx == 0U){ return 0U; } /* Clearly in air */
+
+ by >>= 1;
+ lft = passable(tx - (auint)(bx     ), t16 - by);
+ rgt = passable(tx + (auint)(bx - 1U), t16 - by);
+
+ if ((lft != 0U) && (rgt != 0U)){ return 0U; } /* In air */
+ if ((lft == 0U) && (rgt == 0U)){ return PHYSICS_F_GRND; } /* On ground */
+
+ if (passable(tx, t16 + 12U) == 0U){ return PHYSICS_F_GRND; } /* Not high enough to hook */
+
+ if (rgt == 0U){
+  return PHYSICS_F_GRND | PHYSICS_F_HK_R;
  }else{
-  return PHYSICS_F_GRND;
+  return PHYSICS_F_GRND | PHYSICS_F_HK_L;
  }
 }
 
@@ -174,15 +162,9 @@ void physics_proc(physics_spr_t* spr)
   flg |=  PHYSICS_F_GRND; /* On ground */
  }
 
- /* Check for climbing. It is so if the sprite location is on a climbable tile
- ** with a climb request present. Currently not implemented. */
-
- flg &= ~PHYSICS_F_CLIMB;
-
  /* If not on ground, the Y velocity increases if the gravity requests so */
 
  if ( ((flg & PHYSICS_F_GRND) == 0U) &&
-      ((flg & PHYSICS_F_CLIMB) == 0U) &&
       ((flg & PHYSICS_F_PWR_Y) == 0U) ){
   if (physics_gdiv == 0U){
    if (vy < 0x20){ vy ++; }
@@ -236,8 +218,8 @@ void physics_proc(physics_spr_t* spr)
 
   if (vy < 0){
    flg &= ~PHYSICS_F_GRND;
-   if ( (              (passable(tx - bx, ty - byc - 1U) != 0U)) &&
-        ((bx == 0U) || (passable(tx + bx, ty - byc - 1U) != 0U)) ){
+   if ( (              (passable(tx - (auint)(bx     ), ty - (auint)(byc + 1U)) != 0U)) &&
+        ((bx == 0U) || (passable(tx + (auint)(bx - 1U), ty - (auint)(byc + 1U)) != 0U)) ){
     ty --;
     vy ++;
     if ((flg & PHYSICS_F_RAMP) == 0U){
@@ -256,8 +238,8 @@ void physics_proc(physics_spr_t* spr)
 
   if (vx > 0){
    t = 0U;
-   if ( (              (passable(tx + bx + 1U, ty -  byc      ) != 0U)) &&
-        ((by == 0U) || (passable(tx + bx + 1U, ty - (byc >> 1)) != 0U)) ){
+   if ( (              (passable(tx + bx, ty - (auint)(byc     )) != 0U)) &&
+        ((by == 0U) || (passable(tx + bx, ty - (auint)(byc >> 1)) != 0U)) ){
     t = 1U; /* Didn't hit wall */
    }
    if (t != 0U){
@@ -300,8 +282,8 @@ void physics_proc(physics_spr_t* spr)
 
   if (vx < 0){
    t = 0U;
-   if ( (              (passable(tx - bx - 1U, ty -  byc      ) != 0U)) &&
-        ((by == 0U) || (passable(tx - bx - 1U, ty - (byc >> 1)) != 0U)) ){
+   if ( (              (passable(tx - (auint)(bx + 1U), ty - (auint)(byc     )) != 0U)) &&
+        ((by == 0U) || (passable(tx - (auint)(bx + 1U), ty - (auint)(byc >> 1)) != 0U)) ){
     t = 1U; /* Didn't hit wall */
    }
    if (t != 0U){

@@ -214,10 +214,12 @@ void dragon_logic(auint cmd)
    act = DI_TURN;
   }else if ( ((cmd & DRAGON_JUMP) != 0U) &&
              ((dragon_flg & DF_JBLOCK) == 0U) ){ /* Start jumping */
-   if ( (vab != 0) ||
-        (physics_gravrem() == 2U) ){    /* When not running, wait for a gravity frame (considering when the jump will start) */
-    act = DI_JUMPP;                     /* (to get a deterministic result these cases) */
-   }
+/* Removed: When not running, wait for a gravity frame to get deterministic
+** jump height. It is unnecessary as the game doesn't have critical jumps
+** which could be performed from standstill.
+**   if ( (vab != 0) ||
+**        (physics_gravrem() == 2U) ){ ... } */
+   act = DI_JUMPP;
   }else if ((cmd & DRAGON_RUN ) != 0U){
    vtg = 4;
    if (dragon_stat.en < 16U){ vtg --; } /* Slower with low energy */
@@ -488,14 +490,24 @@ void dragon_logic(auint cmd)
   }
  }
 
- if (dragon_stat.fi < (((dragon_stat.cap & 0x30U) << 2) | 0x3FU)){
+ t = ((dragon_stat.cap & 0x30U) << 2) | 0x3FU;
+ if (dragon_stat.fi < t){
   dragon_stat.fi ++;
+ }
+ if (dragon_stat.fi < t){ /* Extra charging when upgraded */
+  if ( (               ((global_framectr & 0x1FU) == 0U)) ||
+       ((t >= 0x80U) & ((global_framectr & 0x0FU) == 0U)) ||
+       ((t >= 0xC0U) & ((global_framectr & 0x07U) == 0U)) ){
+   dragon_stat.fi ++;
+  }
  }
 
  t = ((dragon_stat.cap & 0x03U) << 6) | 0x3FU;
- if (dragon_stat.hp < t){
-  if ((global_framectr & 0xFFU) == 0U){
-   dragon_stat.hp ++; /* Health slowly increments */
+ if (dragon_stat.hp < t){ /* Health slowly increments */
+  if ( (               ((global_framectr & 0x7FU) == 0U)) ||
+       ((t >= 0x80U) & ((global_framectr & 0x3FU) == 0U)) ||
+       ((t >= 0xC0U) & ((global_framectr & 0x1FU) == 0U)) ){
+   dragon_stat.hp ++;
   }
  }
 

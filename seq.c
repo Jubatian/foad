@@ -54,6 +54,7 @@ void seq_new(auint hs)
  dragon_mod(DRAGON_CAP_HP |
             DRAGON_CAP_EN |
             DRAGON_CAP_FI,
+//            3U);
             1U);
  dragon_mod(DRAGON_STA_HP |
             DRAGON_STA_EN |

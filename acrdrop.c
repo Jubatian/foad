@@ -77,16 +77,15 @@ auint acrdrop_process(mapact_t* actor)
  if (d1 == 0x00U){
 
   d1  = 0x01U; /* Initialized */
-  ayp = ayp + 8U;
   vis = 8U;
   while (1){
    if (passable(axp - vis, ayp + 8U)){
-    axp = axp - vis + 8U;
+    axp = axp - (auint)(vis - 8U);
     actor->spr.xpos = axp;
     break;
    }
    if (passable(axp + vis, ayp + 8U)){
-    axp = axp + vis - 8U;
+    axp = axp + (auint)(vis - 8U);
     actor->spr.xpos = axp;
     break;
    }
@@ -129,7 +128,7 @@ auint acrdrop_process(mapact_t* actor)
   t16 = dragon_spr.ypos;
   if ( (vis) &&
        (ayp < t16) &&
-       ((rnd & 0x1FU) == 0x15U) ){
+       ((rnd & 0x0FU) == 0x05U) ){
    t16 -= ayp;
    if ( ((lx > 0) && (dragon_spr.xpos >= axp) && ((dragon_spr.xpos - axp) <= t16)) ||
         ((lx < 0) && (dragon_spr.xpos <= axp) && ((axp - dragon_spr.xpos) <= t16)) ){

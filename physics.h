@@ -1,6 +1,6 @@
 /*
  *  Dragon - Low level physics
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -84,7 +84,8 @@
 /* Flags. The powered (PWR) flags indicate the motion is powered, so gravity
 ** or ground follow shouldn't permanently alter velocity. The HK (hook) flags
 ** are set (either the left or right) if only the left or right edge keeps the
-** sprite grounded (which may be used to display alternate sprites). */
+** sprite grounded (which may be used to display alternate sprites). The climb
+** flag is removed (original plan was to have ladders for NPCs). */
 #define PHYSICS_F_CLIMB 0x01U
 #define PHYSICS_F_GRND  0x02U
 #define PHYSICS_F_PWR_X 0x04U

@@ -2575,10 +2575,10 @@ const uint8 res_l1[2048] __attribute__ ((section (".res"))) = {
  0x60U, 0xA4U, 0xA5U, 0xA6U, 0xA5U, 0xA6U, 0x6CU, 0x6DU, /* 0x9FU */
  0x35U, 0xA7U, 0x37U, 0x00U, 0xADU, 0xACU, 0x31U, 0x00U, /* 0xA0U */
  0xACU, 0xADU, 0x31U, 0x00U, 0xADU, 0xACU, 0x31U, 0x00U, /* 0xA1U */
- 0xACU, 0xADU, 0x31U, 0x00U, 0xADU, 0xACU, 0x2EU, 0x38U, /* 0xA2U */
+ 0xACU, 0xADU, 0x31U, 0x00U, 0x3BU, 0xACU, 0x2EU, 0x38U, /* 0xA2U */
  0x00U, 0x37U, 0xA7U, 0x34U, 0x00U, 0x30U, 0xACU, 0xADU, /* 0xA3U */
  0x00U, 0x30U, 0xADU, 0xACU, 0x00U, 0x30U, 0xACU, 0xADU, /* 0xA4U */
- 0x00U, 0x30U, 0xADU, 0xACU, 0x39U, 0x2CU, 0xACU, 0xADU, /* 0xA5U */
+ 0x00U, 0x30U, 0xADU, 0xACU, 0x39U, 0x2CU, 0xACU, 0x3BU, /* 0xA5U */
  0x36U, 0x35U, 0xA7U, 0x34U, 0x5AU, 0xADU, 0xACU, 0x58U, /* 0xA6U */
  0xB2U, 0xACU, 0xADU, 0xB0U, 0xB2U, 0xADU, 0xACU, 0xB0U, /* 0xA7U */
  0xB2U, 0xACU, 0xADU, 0xB0U, 0xB2U, 0x3BU, 0xACU, 0xB0U, /* 0xA8U */
@@ -2621,7 +2621,7 @@ const uint8 res_l1[2048] __attribute__ ((section (".res"))) = {
  0x00U, 0x00U, 0xB3U, 0xB7U, 0x49U, 0x38U, 0x49U, 0x48U, /* 0xCDU */
  0xB3U, 0xA3U, 0xB7U, 0x00U, 0x49U, 0x3DU, 0x48U, 0x93U, /* 0xCEU */
  0x00U, 0xA3U, 0x46U, 0x00U, 0x4AU, 0x3DU, 0x52U, 0x38U, /* 0xCFU */
- 0x00U, 0x00U, 0x00U, 0x45U, 0x10U, 0x38U, 0x4AU, 0x51U, /* 0xD0U */
+ 0x00U, 0x00U, 0x00U, 0x45U, 0x10U, 0x39U, 0x4AU, 0x51U, /* 0xD0U */
  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0xA3U, /* 0xD1U */
  0x00U, 0x00U, 0x00U, 0x00U, 0xB3U, 0xA3U, 0x00U, 0x00U, /* 0xD2U */
  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0xB3U, 0xB7U, 0x00U, /* 0xD3U */
@@ -2645,6 +2645,16 @@ const uint8 res_l1[2048] __attribute__ ((section (".res"))) = {
  0x45U, 0x00U, 0x00U, 0x78U, 0x9FU, 0x05U, 0x74U, 0x25U, /* 0xE5U */
  0x00U, 0x9FU, 0x00U, 0x00U, 0x91U, 0xA3U, 0x93U, 0x01U, /* 0xE6U */
  0x00U, 0x0BU, 0x9FU, 0x00U, 0x01U, 0x0CU, 0xA3U, 0x92U, /* 0xE7U */
+ 0x0AU, 0x00U, 0x00U, 0x00U, 0x1BU, 0x12U, 0x0AU, 0x00U, /* 0xE8U */
+ 0x07U, 0x03U, 0x08U, 0x09U, 0x07U, 0x07U, 0x07U, 0x07U, /* 0xE9U */
+ 0x00U, 0x00U, 0x0BU, 0x04U, 0x00U, 0x04U, 0x0CU, 0x1AU, /* 0xEAU */
+ 0x05U, 0x06U, 0x03U, 0x07U, 0x07U, 0x07U, 0x07U, 0x07U, /* 0xEBU */
+ 0x5CU, 0x5EU, 0x5EU, 0x5DU, 0xB1U, 0x3BU, 0x3BU, 0xB1U, /* 0xECU */
+ 0x5CU, 0x5EU, 0x5EU, 0x5DU, 0xB2U, 0x7AU, 0x3BU, 0xB0U, /* 0xEDU */
+ 0x5FU, 0x6CU, 0x6BU, 0x6BU, 0xB1U, 0x61U, 0x64U, 0x61U, /* 0xEEU */
+ 0x6BU, 0x6BU, 0x6DU, 0x5FU, 0x61U, 0x64U, 0x61U, 0xB1U, /* 0xEFU */
+ 0x07U, 0x03U, 0x15U, 0x00U, 0x07U, 0x07U, 0x19U, 0x10U, /* 0xF0U */
+ 0x00U, 0x14U, 0x03U, 0x07U, 0x93U, 0x18U, 0x07U, 0x07U, /* 0xF1U */
 };
 
 
@@ -5181,7 +5191,7 @@ const uint8 res_spr[1664] __attribute__ ((section (".res"))) = {
  SP_LE(0xB0U), SP_HI(0xB0U), SPO(- 4), SPO(- 4),
 
  SP_LO(0xB2U), SP_HI(0xB2U), SPO(- 9), SPO(  0), /* 0x620: Rockdrop, push */
- SP_JPL(0x614U), SP_JPH(0x614U),                 /* (Used together with Archer run 1) */
+ SP_JPL(0x610U), SP_JPH(0x610U),                 /* (Used together with Archer run 1) */
 
 
  SP_LO(0x9CU), SP_HI(0x9CU), SPO(- 4), SPO(- 8), /* 0x626: Civilian stand */
@@ -5526,20 +5536,110 @@ const uint8 res_text[] __attribute__ ((section (".res"))) = {
  0x29U, 0x48U, 0x9DU, 0x2BU, 0x35U, 0xEBU, 0x52U, 0xB7U,
  0x50U, 0x95U, 0x92U, 0x5DU, 0xDBU, 0xB7U, 0x3FU,
 /* Position: 1288 (byte: 1127, bit 7) */
- 0x32U,
- 0xBDU, 0xAEU, 0x0CU, 0x09U, 0x14U, 0xA4U, 0xC0U, 0xA5U,
- 0xA6U, 0x1CU, 0x18U, 0x04U, 0xB4U, 0xC0U, 0xA5U, 0x9EU,
- 0x0CU, 0x0CU, 0xDAU, 0x29U, 0x58U, 0xB3U, 0x02U, 0x15U,
- 0x8BU, 0xD7U, 0x27U, 0xC0U, 0xDDU, 0x0BU, 0x9CU, 0x0DU,
- 0x17U, 0xE0U, 0x4EU, 0xBFU, 0x66U, 0x0CU, 0x0DU, 0x14U,
- 0x2FU, 0x6AU, 0x9DU, 0x46U, 0xCCU, 0x08U, 0x9AU, 0xB4U,
- 0x68U, 0xA1U, 0x4BU, 0x3CU, 0x0CU, 0xD4U, 0x2FU, 0x64U,
- 0xD3U, 0x02U, 0x44U, 0xABU, 0x57U, 0xE0U, 0x4CU, 0xBDU,
- 0x96U, 0x05U, 0xCBU, 0xDBU, 0xE0U, 0x4AU, 0xB9U, 0x23U,
- 0x35U, 0x09U, 0x59U, 0x25U, 0xDCU,
-/* Position: 1378 (byte: 1205, bit 1) */
- 0xFCU,
-/* Size: 1206 */
+ 0x1CU,
+ 0xA5U, 0x3AU, 0x86U, 0x89U, 0x90U, 0xACU, 0x59U, 0x81U,
+ 0x0AU, 0xE4U, 0x98U, 0x30U, 0x24U, 0x4AU, 0xB9U, 0x9AU,
+ 0x5CU, 0x09U, 0x97U, 0xB2U, 0x4AU, 0xCDU, 0xA3U, 0x35U,
+ 0xEBU, 0xB0U, 0x34U, 0x50U, 0x97U, 0x06U, 0x05U, 0xEDU,
+ 0x14U, 0x25U, 0x65U, 0x81U, 0x12U, 0x15U, 0xCAU, 0xF0U,
+ 0x60U, 0x50U, 0x95U, 0x63U, 0x0CU, 0x0EU, 0x57U, 0xB5U,
+ 0x58U, 0xBDU, 0x9AU, 0x95U, 0xC9U, 0xF0U, 0x39U, 0x5EU,
+ 0xD5U, 0x96U, 0x06U, 0x0DU, 0x59U, 0x33U, 0x6AU, 0x95U,
+ 0x93U, 0x3DU, 0xD8U, 0x30U, 0x08U, 0x52U, 0xB1U, 0x63U,
+ 0x96U, 0x49U, 0x53U, 0xA9U, 0x5EU, 0xB9U, 0x9EU, 0x05U,
+ 0x8BU, 0xD7U, 0xADU, 0xC0U, 0x85U, 0x42U, 0x54U, 0x29U,
+ 0x36U, 0x60U, 0x72U, 0xBDU, 0xAEU, 0x05U, 0x6BU, 0x97U,
+ 0xB7U, 0x68U, 0xA1U, 0x2AU, 0xDDU, 0x98U, 0x1AU, 0x28U,
+ 0x4BU, 0x83U, 0x02U, 0x56U, 0x6DU, 0x10U, 0xB4U, 0x4AU,
+ 0xCFU, 0x02U, 0xF4U, 0xD8U, 0x01U, 0x2FU, 0x64U, 0x91U,
+ 0x2BU, 0x21U, 0x8BU, 0xD9U, 0x24U, 0x67U, 0x83U, 0x03U,
+ 0x75U, 0x2DU, 0x14U, 0x60U, 0xC1U, 0x81U, 0xA2U, 0x84U,
+ 0xAAU, 0x59U, 0x60U, 0xC0U, 0x91U, 0x92U, 0x54U, 0x29U,
+ 0x12U, 0xA4U, 0x46U, 0x85U, 0x9BU, 0x45U, 0x89U, 0x59U,
+ 0xEEU, 0xC0U, 0x51U, 0x42U, 0x96U, 0x78U, 0x14U, 0xB3U,
+ 0xC0U, 0x9DU, 0x7AU, 0x95U, 0xC9U, 0xF0U, 0x34U, 0x5FU,
+ 0x81U, 0x12U, 0x54U, 0x38U, 0x12U, 0x29U, 0x4CU, 0x99U,
+ 0x4AU, 0x36U, 0xABU, 0x1AU, 0x60U, 0x5AU, 0x85U, 0x92U,
+ 0x35U, 0x1BU, 0xB7U, 0x6EU,
+/* Position: 1505 (byte: 1316, bit 0) */
+ 0x7EU, 0x51U, 0x4BU, 0x24U,
+ 0xA9U, 0x30U, 0x21U, 0x5CU, 0x93U, 0x02U, 0x57U, 0x0AU,
+ 0x10U, 0xB5U, 0x66U, 0xD1U, 0x2AU, 0x4CU, 0x0EU, 0x57U,
+ 0xB5U, 0xC0U, 0xB1U, 0x7AU, 0xF5U, 0x6DU, 0x58U, 0x60U,
+ 0x5EU, 0xBBU, 0x03U, 0x45U, 0x09U, 0x70U, 0x60U, 0x4CU,
+ 0xBDU, 0x93U, 0x45U, 0x29U, 0x94U, 0xA3U, 0x42U, 0xD1U,
+ 0x4AU, 0xF5U, 0xCCU, 0xF0U, 0x2FU, 0x4CU, 0x87U, 0x02U,
+ 0x76U, 0x49U, 0x50U, 0xB4U, 0xC0U, 0x8DU, 0x0BU, 0x36U,
+ 0x8BU, 0x12U, 0xEEU, 0xC0U, 0x25U, 0x9EU, 0x06U, 0x8AU,
+ 0x14U, 0xB3U, 0xC0U, 0xE5U, 0x7BU, 0x56U, 0x49U, 0x17U,
+ 0xAFU, 0x5BU, 0xFFU, 0x01U, 0x95U, 0xEDU, 0x70U, 0x23U,
+ 0x4AU, 0xC9U, 0xA2U, 0x15U, 0x2BU, 0x96U, 0x39U, 0xC0U,
+ 0xDDU, 0x7AU, 0xECU, 0xEDU, 0x30U, 0x22U, 0x4AU, 0x85U,
+ 0x12U, 0xC4U, 0xB8U, 0x1AU, 0x2FU, 0xC0U, 0x9DU, 0x2BU,
+ 0x4CU, 0x08U, 0x51U, 0xB2U, 0x5EU, 0xCDU, 0x9EU, 0x05U,
+ 0x09U, 0x59U, 0x25U, 0xDCU, 0xFDU, 0xF9U, 0x45U, 0x09U,
+ 0x57U, 0x60U, 0x72U, 0xBDU, 0xAEU, 0x06U, 0x49U, 0x51U,
+ 0xA1U, 0x58U, 0xB3U, 0x06U, 0x04U, 0x38U, 0x19U, 0xADU,
+ 0x42U, 0xB1U, 0x66U, 0x06U, 0x0AU, 0x5AU, 0x39U, 0x5EU,
+ 0xD7U, 0x03U, 0x04U, 0x2CU, 0xD9U, 0xA5U, 0x49U, 0x81U,
+ 0x2AU, 0x16U, 0x4BU, 0x14U, 0xA5U, 0x65U, 0xBBU, 0x00U,
+ 0x35U, 0xEDU, 0x56U, 0x24U, 0xC0U, 0xA5U, 0xA2U, 0x24U,
+ 0xB8U, 0x10U, 0xE0U, 0x46U, 0x85U, 0xB2U, 0x5FU, 0xF8U,
+ 0x30U, 0x01U, 0x69U, 0x81U, 0x62U, 0x54U, 0x2CU, 0xDAU,
+ 0x60U, 0x43U, 0x81U, 0x82U, 0xC4U, 0x28U, 0xD2U, 0xB7U,
+ 0x50U, 0x95U, 0x92U, 0x5CU, 0x0EU, 0x57U, 0xB5U, 0xC0U,
+ 0x8DU, 0x7BU, 0x55U, 0x89U, 0x30U, 0x28U, 0x52U, 0x91U,
+ 0x2EU, 0x04U, 0xCBU, 0xD9U, 0x60U, 0x68U, 0xA1U, 0x2AU,
+ 0xE5U, 0x29U, 0xD4U, 0x34U, 0xFEU,
+/* Position: 1762 (byte: 1541, bit 1) */
+ 0xFCU, 0x93U, 0x55U,
+ 0xCBU, 0x94U, 0xAEU, 0x4FU, 0xB3U, 0x06U, 0x0CU, 0x09U,
+ 0x96U, 0x25U, 0x4AU, 0xA5U, 0x72U, 0x7DU, 0x98U, 0x30U,
+ 0x60U, 0x42U, 0xB1U, 0xBAU, 0x17U, 0x2CU, 0xD9U, 0x35U,
+ 0x5CU, 0xB9U, 0x4AU, 0xE4U, 0xFBU, 0xB0U, 0x19U, 0x5EU,
+ 0xD7U, 0x03U, 0x36U, 0x8BU, 0xD9U, 0x2DU, 0x4AU, 0x93U,
+ 0x03U, 0x45U, 0x0CU, 0x97U, 0xB5U, 0x4EU, 0xA1U, 0xA2U,
+ 0x84U, 0xB8U, 0x30U, 0x2DU, 0x52U, 0xB9U, 0x2EU, 0x0CU,
+ 0x0EU, 0x57U, 0xB5U, 0xC1U, 0x83U, 0x03U, 0x55U, 0xCAU,
+ 0xD7U, 0x2FU, 0x6EU, 0xA5U, 0x72U, 0x75U, 0x8EU, 0x52U,
+ 0xAEU, 0x68U, 0x95U, 0x92U, 0x54U, 0x98U, 0x30U, 0x34U,
+ 0x5FU, 0x83U, 0x06U, 0x06U, 0x49U, 0x50U, 0xA3U, 0x51U,
+ 0x83U, 0x02U, 0x1CU, 0x18U, 0x1BU, 0xA1U, 0x66U, 0xD1U,
+ 0x0AU, 0x24U, 0x2BU, 0x92U, 0x2FU, 0x5CU, 0xB9U, 0x2AU,
+ 0x4CU, 0x0CU, 0xDCU, 0xB3U, 0x68U, 0x95U, 0x6EU, 0xE7U,
+ 0xEFU, 0xCCU, 0xAFU, 0x6BU, 0x81U, 0x1AU, 0x54U, 0x2CU,
+ 0xD2U, 0xA4U, 0xC0U, 0xD1U, 0x7EU, 0x05U, 0x6BU, 0x97U,
+ 0xB7U, 0xC0U, 0xD1U, 0x4AU, 0xD4U, 0xBBU, 0xB0U, 0x60U,
+ 0x12U, 0xD1U, 0x4BU, 0x3CU, 0x08U, 0x57U, 0x60U, 0xC0U,
+ 0x95U, 0xA2U, 0x56U, 0x4BU, 0x90U, 0xACU, 0xC1U, 0x81U,
+ 0x72U, 0x94U, 0xEAU, 0x1AU, 0x60U, 0xC0U, 0xA1U, 0x2BU,
+ 0x24U, 0xBBU, 0x17U, 0xAEU, 0x58U, 0xE7U, 0x03U, 0x95U,
+ 0xEDU, 0x59U, 0x60U, 0x4CU, 0xA5U, 0x92U, 0x5CU, 0x0BU,
+ 0x50U, 0xABU, 0x52U, 0xB9U, 0x3EU, 0x05U, 0x8AU, 0x53U,
+ 0xA8U, 0x69U, 0xB8U, 0xCAU, 0xF6U, 0xB8U, 0x30U, 0x37U,
+ 0x42U, 0xB9U, 0x22U, 0x56U, 0x58U, 0x30U, 0x21U, 0x64U,
+ 0xBDU, 0xAAU, 0xE4U, 0x98U, 0x11U, 0x39U, 0xC1U, 0x81U,
+ 0xCAU, 0xF6U, 0xACU, 0x97U, 0x35U, 0x5AU, 0x8BU, 0x03U,
+ 0x34U, 0xABU, 0x99U, 0xA5U, 0x67U, 0x81U, 0x42U, 0xF6U,
+ 0x0AU, 0x57U, 0x27U, 0xC0U, 0xE5U, 0x7BU, 0x5CU, 0x08U,
+ 0xD7U, 0xB5U, 0x58U, 0x91U, 0x32U, 0x95U, 0xC9U, 0x30U,
+ 0x39U, 0x5EU, 0xD5U, 0x96U, 0x06U, 0xE8U, 0x5CU, 0xEEU,
+ 0xC0U, 0x51U, 0x42U, 0x55U, 0xDBU, 0xB7U, 0x6EU,
+/* Position: 2057 (byte: 1799, bit 0) */
+ 0x7EU,
+ 0x65U, 0x7BU, 0x5CU, 0x18U, 0x12U, 0x29U, 0x49U, 0x81U,
+ 0x4BU, 0x4CU, 0x38U, 0x30U, 0x09U, 0x69U, 0x81U, 0x4BU,
+ 0x3CU, 0x18U, 0x19U, 0xB4U, 0x52U, 0xB1U, 0x66U, 0x04U,
+ 0x2BU, 0x17U, 0xAEU, 0x4FU, 0x81U, 0xBAU, 0x17U, 0x38U,
+ 0x1AU, 0x2FU, 0xC0U, 0x9DU, 0x7EU, 0xCCU, 0x18U, 0x1AU,
+ 0x28U, 0x5EU, 0xD5U, 0x3AU, 0x8DU, 0x98U, 0x11U, 0x35U,
+ 0x68U, 0xD1U, 0x42U, 0x96U, 0x78U, 0x19U, 0xA8U, 0x5EU,
+ 0xC9U, 0xA6U, 0x04U, 0x89U, 0x56U, 0xAFU, 0xC0U, 0x99U,
+ 0x7BU, 0x2CU, 0x0BU, 0x97U, 0xB7U, 0xC0U, 0x95U, 0x72U,
+ 0x46U, 0x6AU, 0x12U, 0xB2U, 0x4BU, 0xB9U,
+/* Position: 2147 (byte: 1878, bit 2) */
+ 0xF8U,
+/* Size: 1879 */
 };
 
 
@@ -5600,7 +5700,7 @@ const uint8 res_map_00_a00[] __attribute__ ((section (".res"))) = {
  ACT_END
 };
 
-/* Type 0x01: Achers */
+/* Type 0x01: Archers */
 const uint8 res_map_00_a01[] __attribute__ ((section (".res"))) = {
  ACT_ABS_L1(17U,  96U,  9U, 48U),
  ACT_ABS_L1(13U,  16U,  6U, 48U),
@@ -5678,6 +5778,10 @@ const uint8 res_map_00_a06[] __attribute__ ((section (".res"))) = {
 };
 
 /* Type 0x07: Hourglasses */
+const uint8 res_map_00_a07[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 5U,  16U,  8U,  48U),
+ ACT_END
+};
 
 /* Type 0x08: Life extenders */
 
@@ -5714,7 +5818,8 @@ const uint8 res_map_00_a06[] __attribute__ ((section (".res"))) = {
 #define MAP_00_A04_OFF  (MAP_00_A03_OFF  + sizeof(res_map_00_a03))
 #define MAP_00_A05_OFF  (MAP_00_A04_OFF  + sizeof(res_map_00_a04))
 #define MAP_00_A06_OFF  (MAP_00_A05_OFF  + sizeof(res_map_00_a05))
-#define MAP_00_HEAD_OFF (MAP_00_A06_OFF  + sizeof(res_map_00_a06))
+#define MAP_00_A07_OFF  (MAP_00_A06_OFF  + sizeof(res_map_00_a06))
+#define MAP_00_HEAD_OFF (MAP_00_A07_OFF  + sizeof(res_map_00_a07))
 #define MAP_00_END_OFF  (MAP_00_HEAD_OFF + sizeof(res_map_00_h))
 
 /* Map header */
@@ -5732,7 +5837,8 @@ const uint8 res_map_00_h[] __attribute__ ((section (".res"))) = {
  PTR_16_N(MAP_00_A03_OFF, 1U),    /* HP Bombs */
  PTR_16_N(MAP_00_A04_OFF, 0U),    /* LP Prisoners */
  PTR_16_N(MAP_00_A05_OFF, 0U),    /* LP Stars */
- PTR_16_E(MAP_00_A06_OFF, 1U),    /* HP Meats */
+ PTR_16_N(MAP_00_A06_OFF, 1U),    /* HP Meats */
+ PTR_16_E(MAP_00_A07_OFF, 1U),    /* HP Hourglasses */
 };
 
 
@@ -5752,7 +5858,7 @@ const uint8 res_map_01_a00[] __attribute__ ((section (".res"))) = {
  ACT_END
 };
 
-/* Type 0x01: Achers */
+/* Type 0x01: Archers */
 const uint8 res_map_01_a01[] __attribute__ ((section (".res"))) = {
  ACT_ABS_L1( 3U,  16U,  3U, 48U),
  ACT_REL(112,   0),
@@ -5919,7 +6025,7 @@ const uint8 res_map_02_d[] __attribute__ ((section (".res"))) = {
  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0xD1U, 0x46U, 0x0EU, 0x10U, 0x3EU, 0x0BU, 0x0DU, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x08U, 0x0DU,  0x1BU, 0x10U, 0x64U, 0x6CU, 0x0CU, 0x0BU, 0x99U, 0x7CU,  0x0EU, 0x10U,
  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x4CU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x08U,  0xE5U, 0x21U, 0x22U, 0x34U, 0x63U, 0x10U, 0x19U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x08U, 0xCDU, 0x0DU,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x08U, 0x0EU, 0x0CU,  0x1CU, 0x10U, 0x62U, 0xB4U, 0x54U, 0x50U, 0x9FU, 0x81U,  0x10U, 0x10U,
  0x00U, 0x00U, 0x4CU, 0x00U, 0x00U, 0x00U, 0x00U, 0xD4U,  0xCFU, 0x06U, 0x6BU, 0x0DU, 0x00U, 0x00U, 0x08U, 0x0EU,  0x10U, 0x10U, 0x10U, 0x38U, 0x10U, 0x10U, 0x1AU, 0x0BU,  0x0DU, 0x00U, 0x08U, 0x0DU, 0x08U, 0x1DU, 0x65U, 0x0FU,  0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x1BU, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
- 0x01U, 0x03U, 0xCEU, 0x95U, 0x06U, 0x0AU, 0x0BU, 0xD7U,  0x4FU, 0x54U, 0x6CU, 0x15U, 0x8BU, 0x04U, 0x13U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x12U, 0x04U, 0x11U, 0x14U, 0x0EU, 0x10U, 0x62U, 0x20U,  0x1EU, 0x8CU, 0x92U, 0x94U, 0x06U, 0x1CU, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U
+ 0x01U, 0x03U, 0xCEU, 0x95U, 0x06U, 0x0AU, 0x0BU, 0xD7U,  0x4FU, 0x54U, 0x6CU, 0x15U, 0x8BU, 0x04U, 0x13U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x12U, 0x04U, 0x11U, 0x14U, 0x0EU, 0x10U, 0x62U, 0x20U,  0x1EU, 0x8CU, 0x92U, 0x94U, 0x06U, 0xEBU, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U
 };
 
 /* Type 0x00: End of level */
@@ -5928,8 +6034,34 @@ const uint8 res_map_02_a00[] __attribute__ ((section (".res"))) = {
  ACT_END
 };
 
-/* Type 0x01: Achers */
+/* Type 0x01: Archers */
 const uint8 res_map_02_a01[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 2U,  32U,  3U, 48U),
+ ACT_REL(-32,  32),
+ ACT_ABS_L1( 7U,  32U,  3U, 16U),
+ ACT_REL(  0,  32),
+ ACT_REL( 48,  32),
+ ACT_REL(112,  32),
+ ACT_ABS_L1( 8U,  32U,  2U, 48U),
+ ACT_ABS_L1(10U, 112U,  3U, 48U),
+ ACT_ABS_L1(15U,   0U,  3U, 32U),
+ ACT_REL(-32,  32),
+ ACT_ABS_L1(16U, 112U,  1U, 48U),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(20U, 112U,  1U, 16U),
+ ACT_REL( 96,  16),
+ ACT_ABS_L1(27U,   0U,  3U, 48U),
+ ACT_ABS_L1(30U,   0U,  2U, 48U),
+ ACT_REL( 80, -32),
+ ACT_ABS_L1(36U,  32U,  4U, 32U),
+ ACT_REL(112, -16),
+ ACT_ABS_L1(38U,   0U,  2U, 32U),
+ ACT_REL( 96, -48),
+ ACT_ABS_L1(41U,  48U,  0U, 32U),
+ ACT_ABS_L1(46U,  32U,  1U, 16U),
+ ACT_REL( 96,   0),
+ ACT_REL(-16, -32),
+ ACT_ABS_L1(46U, 112U,  1U, 48U),
  ACT_END
 };
 
@@ -5948,16 +6080,24 @@ const uint8 res_map_02_a03[] __attribute__ ((section (".res"))) = {
 
 /* Type 0x04: Prisoners */
 const uint8 res_map_02_a04[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 9U,  32U,  4U, 48U),
+ ACT_REL( 16,   0),
+ ACT_ABS_L1(44U,  48U,  2U, 48U),
  ACT_END
 };
 
 /* Type 0x05: Stars */
 const uint8 res_map_02_a05[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(20U,   0U,  0U, 48U),
  ACT_END
 };
 
 /* Type 0x06: Meats */
 const uint8 res_map_02_a06[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(10U,  16U,  3U, 16U),
+ ACT_ABS_L1(18U,   0U,  2U, 48U),
+ ACT_ABS_L1(40U,  80U,  1U, 48U),
+ ACT_ABS_L1(43U,  48U,  1U, 32U),
  ACT_END
 };
 
@@ -5975,17 +6115,32 @@ const uint8 res_map_02_a09[] __attribute__ ((section (".res"))) = {
 
 /* Type 0x0B: Pikemen */
 const uint8 res_map_02_a0b[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(19U,   0U,  2U, 48U),
+ ACT_ABS_L1(30U,  96U,  2U, 48U),
+ ACT_ABS_L1(41U,  80U,  0U, 32U),
  ACT_END
 };
 
 /* Type 0x0C: Swordsmen */
 const uint8 res_map_02_a0c[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 8U, 112U,  4U, 48U),
+ ACT_REL( 96,   0),
+ ACT_ABS_L1(29U,  48U,  3U, 32U),
+ ACT_ABS_L1(35U,  32U,  4U, 48U),
+ ACT_REL( 64,   0),
+ ACT_ABS_L1(46U, 112U,  1U, 16U),
+ ACT_REL( 16,  32),
  ACT_END
 };
 
 /* Type 0x0D: Rock dropper */
 
 /* Type 0x0E: Civilian */
+const uint8 res_map_02_a0e[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(12U, 112U,  4U, 48U),
+ ACT_ABS_L1(33U,  80U,  4U, 48U),
+ ACT_END
+};
 
 /* Type 0x10: Small rockfall, Right of dragon */
 
@@ -6011,7 +6166,8 @@ const uint8 res_map_02_a0c[] __attribute__ ((section (".res"))) = {
 #define MAP_02_A09_OFF  (MAP_02_A06_OFF  + sizeof(res_map_02_a06))
 #define MAP_02_A0B_OFF  (MAP_02_A09_OFF  + sizeof(res_map_02_a09))
 #define MAP_02_A0C_OFF  (MAP_02_A0B_OFF  + sizeof(res_map_02_a0b))
-#define MAP_02_HEAD_OFF (MAP_02_A0C_OFF  + sizeof(res_map_02_a0c))
+#define MAP_02_A0E_OFF  (MAP_02_A0C_OFF  + sizeof(res_map_02_a0c))
+#define MAP_02_HEAD_OFF (MAP_02_A0E_OFF  + sizeof(res_map_02_a0e))
 #define MAP_02_END_OFF  (MAP_02_HEAD_OFF + sizeof(res_map_02_h))
 
 /* Map header */
@@ -6021,7 +6177,7 @@ const uint8 res_map_02_h[] __attribute__ ((section (".res"))) = {
  50U,                             /* Map width */
  5U,                              /* Map height */
  0x15U,                           /* Parallax region config */
- 32U,                             /* Initial dragon healing */
+ 96U,                             /* Initial dragon healing */
  224U,                            /* Initial remaining time */
  PTR_16_N(MAP_02_A00_OFF, 1U),    /* HP Level End */
  PTR_16_N(MAP_02_A01_OFF, 0U),    /* LP Archers */
@@ -6035,7 +6191,9 @@ const uint8 res_map_02_h[] __attribute__ ((section (".res"))) = {
  PTR_16_N(MAP_02_A09_OFF, 1U),    /* HP Fire extenders */
  PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Energy extenders */
  PTR_16_N(MAP_02_A0B_OFF, 0U),    /* LP Pikemen */
- PTR_16_E(MAP_02_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_02_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_AEMPTY_OFF, 0U),    /* LP Rock dropper */
+ PTR_16_E(MAP_02_A0E_OFF, 0U),    /* LP Civilian */
 };
 
 
@@ -6056,8 +6214,34 @@ const uint8 res_map_03_a00[] __attribute__ ((section (".res"))) = {
  ACT_END
 };
 
-/* Type 0x01: Achers */
+/* Type 0x01: Archers */
 const uint8 res_map_03_a01[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 4U,   0U,  0U, 16U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1( 7U,  80U,  0U, 16U),
+ ACT_REL( 80,  16),
+ ACT_ABS_L1(10U,  64U,  0U, 48U),
+ ACT_ABS_L1(11U,  80U,  1U, 48U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(14U,  64U,  1U, 32U),
+ ACT_REL( 80, -16),
+ ACT_ABS_L1(17U,  96U,  1U, 16U),
+ ACT_REL(112,  16),
+ ACT_REL(112,  48),
+ ACT_ABS_L1(23U,  80U,  4U, 16U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(25U,  64U,  3U, 16U),
+ ACT_REL( 64, -32),
+ ACT_ABS_L1(30U,  64U,  4U, 48U),
+ ACT_REL( 64,   0),
+ ACT_ABS_L1(40U,  64U,  4U, 16U),
+ ACT_REL( 80,   0),
+ ACT_ABS_L1(41U,  96U,  3U, 16U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(43U,  48U,  4U, 16U),
+ ACT_REL( 96,   0),
+ ACT_ABS_L1(45U,  96U,  2U, 48U),
+ ACT_REL( 48,   0),
  ACT_END
 };
 
@@ -6086,11 +6270,18 @@ const uint8 res_map_03_a04[] __attribute__ ((section (".res"))) = {
 
 /* Type 0x05: Stars */
 const uint8 res_map_03_a05[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(11U,  32U,  1U, 48U),
  ACT_END
 };
 
 /* Type 0x06: Meats */
 const uint8 res_map_03_a06[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 1U, 112U,  0U, 48U),
+ ACT_ABS_L1(16U,  48U,  0U, 48U),
+ ACT_ABS_L1(19U,  32U,  2U, 48U),
+ ACT_ABS_L1(26U,  96U,  2U, 48U),
+ ACT_ABS_L1(35U,  96U,  3U, 48U),
+ ACT_REL( 64,   0),
  ACT_END
 };
 
@@ -6108,17 +6299,41 @@ const uint8 res_map_03_a08[] __attribute__ ((section (".res"))) = {
 
 /* Type 0x0B: Pikemen */
 const uint8 res_map_03_a0b[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U, 112U,  0U, 16U),
+ ACT_ABS_L1(12U,   0U,  1U, 48U),
+ ACT_ABS_L1(22U,   0U,  4U, 16U),
+ ACT_ABS_L1(29U,  80U,  4U, 32U),
+ ACT_ABS_L1(41U,  80U,  4U, 16U),
+ ACT_REL(112,   0),
  ACT_END
 };
 
 /* Type 0x0C: Swordsmen */
 const uint8 res_map_03_a0c[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 5U,   0U,  0U, 16U),
+ ACT_ABS_L1(10U, 112U,  0U, 48U),
+ ACT_ABS_L1(14U,  16U,  1U, 48U),
+ ACT_ABS_L1(21U,  16U,  4U, 16U),
+ ACT_ABS_L1(28U,  32U,  4U,  0U),
+ ACT_ABS_L1(46U, 112U,  4U, 16U),
+ ACT_REL(112,   0),
  ACT_END
 };
 
 /* Type 0x0D: Rock dropper */
+const uint8 res_map_03_a0d[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(45U,  96U,  2U, 48U),
+ ACT_END
+};
 
 /* Type 0x0E: Civilian */
+const uint8 res_map_03_a0e[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(32U,  80U,  4U, 48U),
+ ACT_ABS_L1(35U,  80U,  3U, 48U),
+ ACT_REL(112,   0),
+ ACT_REL( 96,   0),
+ ACT_END
+};
 
 /* Type 0x10: Small rockfall, Right of dragon */
 
@@ -6132,7 +6347,7 @@ const uint8 res_map_03_a0c[] __attribute__ ((section (".res"))) = {
 
 /* Type 0x15: Large rockfall, Over dragon */
 
-/* Map 0x02 locations */
+/* Map 0x03 locations */
 #define MAP_03_DATA_OFF (MAP_03_OFF)
 #define MAP_03_A00_OFF  (MAP_03_DATA_OFF + sizeof(res_map_03_d))
 #define MAP_03_A01_OFF  (MAP_03_A00_OFF  + sizeof(res_map_03_a00))
@@ -6144,7 +6359,9 @@ const uint8 res_map_03_a0c[] __attribute__ ((section (".res"))) = {
 #define MAP_03_A08_OFF  (MAP_03_A06_OFF  + sizeof(res_map_03_a06))
 #define MAP_03_A0B_OFF  (MAP_03_A08_OFF  + sizeof(res_map_03_a08))
 #define MAP_03_A0C_OFF  (MAP_03_A0B_OFF  + sizeof(res_map_03_a0b))
-#define MAP_03_HEAD_OFF (MAP_03_A0C_OFF  + sizeof(res_map_03_a0c))
+#define MAP_03_A0D_OFF  (MAP_03_A0C_OFF  + sizeof(res_map_03_a0c))
+#define MAP_03_A0E_OFF  (MAP_03_A0D_OFF  + sizeof(res_map_03_a0d))
+#define MAP_03_HEAD_OFF (MAP_03_A0E_OFF  + sizeof(res_map_03_a0e))
 #define MAP_03_END_OFF  (MAP_03_HEAD_OFF + sizeof(res_map_03_h))
 
 /* Map header */
@@ -6168,7 +6385,968 @@ const uint8 res_map_03_h[] __attribute__ ((section (".res"))) = {
  PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Fire extenders */
  PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Energy extenders */
  PTR_16_N(MAP_03_A0B_OFF, 0U),    /* LP Pikemen */
- PTR_16_E(MAP_03_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_03_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_03_A0D_OFF, 0U),    /* LP Rock dropper */
+ PTR_16_E(MAP_03_A0E_OFF, 0U),    /* LP Civilian */
+};
+
+
+#define MAP_04_OFF     MAP_03_END_OFF
+
+/* Map data */
+const uint8 res_map_04_d[] __attribute__ ((section (".res"))) = {
+ 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0xAAU, 0xA9U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x08U, 0x48U, 0x8EU, 0x90U,  0x0DU, 0x00U, 0x00U, 0x08U, 0x06U, 0x0BU, 0x04U, 0xD2U,  0xD4U, 0x0DU, 0xAAU, 0xA0U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U,
+ 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x4AU, 0x00U,  0x6EU, 0x73U, 0x76U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x08U, 0x93U, 0x0EU, 0xC3U, 0x10U, 0x10U,  0x12U, 0x8BU, 0x0DU, 0x1BU, 0x10U, 0x31U, 0x1FU, 0xD8U,  0xD5U, 0x0CU, 0xE0U, 0xA1U, 0x00U, 0x00U, 0x00U, 0x08U,  0x06U, 0x09U,
+ 0x0BU, 0x0DU, 0x00U, 0x00U, 0x00U, 0xEAU, 0x4BU, 0x0BU,  0x6DU, 0x78U, 0x6FU, 0x03U, 0x0DU, 0x00U, 0x00U, 0x00U,  0x00U, 0xEAU, 0x07U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x17U, 0x10U, 0x3EU, 0x1CU, 0x5FU, 0x32U, 0x10U, 0x10U,  0x10U, 0x10U, 0xE1U, 0xA2U, 0x0DU, 0x00U, 0x08U, 0x16U,  0x10U, 0x10U,
+ 0x10U, 0x0CU, 0xE8U, 0x08U, 0x06U, 0x1CU, 0x10U, 0x10U,  0x10U, 0xB1U, 0xB4U, 0x1FU, 0x1EU, 0x0DU, 0x00U, 0x08U,  0x06U, 0xEBU, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x62U, 0x30U, 0x5DU, 0x27U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x0FU, 0x04U, 0x13U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x10U, 0xF0U, 0x13U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x19U, 0x08U, 0x13U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x2CU, 0x27U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x02U, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x10U, 0xC2U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0xE9U, 0x07U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U
+};
+
+/* Type 0x00: End of level */
+const uint8 res_map_04_a00[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(41U,   0U,  1U, 16U),
+ ACT_END
+};
+
+/* Type 0x01: Archers */
+const uint8 res_map_04_a01[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 1U,  96U,  3U, 16U),
+ ACT_ABS_L1( 3U, 112U,  3U, 48U),
+ ACT_REL( 96, -16),
+ ACT_REL(112, -48),
+ ACT_ABS_L1( 6U,  32U,  1U, 16U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1( 8U,  32U,  2U, 16U),
+ ACT_REL( 64, -32),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(10U,  80U,  2U, 16U),
+ ACT_ABS_L1(15U,   0U,  4U, 32U),
+ ACT_REL(112, -48),
+ ACT_ABS_L1(17U, 112U,  2U, 16U),
+ ACT_REL( 96, -16),
+ ACT_ABS_L1(24U,   0U,  0U, 48U),
+ ACT_ABS_L1(26U,  96U,  2U, 16U),
+ ACT_REL( 96, -32),
+ ACT_ABS_L1(28U,   0U,  0U, 32U),
+ ACT_REL(112, -16),
+ ACT_REL(112,  16),
+ ACT_REL(112,  16),
+ ACT_REL( 80,   0),
+ ACT_REL( 32,  32),
+ ACT_REL(112,   0),
+ ACT_REL( 96, -32),
+ ACT_REL(-96, -32),
+ ACT_ABS_L1(34U,  96U,  0U, 16U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(39U,  64U,  2U, 16U),
+ ACT_REL( 64, -48),
+ ACT_END
+};
+
+/* Type 0x02: Doors */
+const uint8 res_map_04_a02[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 6U,  32U,  2U, 16U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1( 8U,  96U,  2U, 48U),
+ ACT_ABS_L1(10U,  16U,  2U, 48U),
+ ACT_ABS_L1(34U,  96U,  1U, 16U),
+ ACT_ABS_L1(35U,  80U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x03: Bombs */
+const uint8 res_map_04_a03[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 6U,  64U,  2U, 16U),
+ ACT_ABS_L1(10U,  16U,  3U, 48U),
+ ACT_ABS_L1( 8U,  80U,  2U, 48U),
+ ACT_ABS_L1(35U,  32U,  1U, 48U),
+ ACT_REL(-16,  32),
+ ACT_REL( 16,  32),
+ ACT_REL( 32,   0),
+ ACT_END
+};
+
+/* Type 0x04: Prisoners */
+const uint8 res_map_04_a04[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 9U,  32U,  3U, 48U),
+ ACT_REL( 16,   0),
+ ACT_END
+};
+
+/* Type 0x05: Stars */
+const uint8 res_map_04_a05[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(27U,  32U,  4U, 48U),
+ ACT_END
+};
+
+/* Type 0x06: Meats */
+const uint8 res_map_04_a06[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 2U,  80U,  4U, 48U),
+ ACT_ABS_L1(10U, 112U,  2U, 48U),
+ ACT_ABS_L1(23U,  16U,  0U, 48U),
+ ACT_REL( 64,   0),
+ ACT_ABS_L1(35U,  64U,  0U, 48U),
+ ACT_END
+};
+
+/* Type 0x07: Hourglasses */
+
+/* Type 0x08: Life extenders */
+
+/* Type 0x09: Fire extenders */
+
+/* Type 0x0A: Energy extenders */
+const uint8 res_map_04_a0a[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(10U,   0U,  1U, 48U),
+ ACT_END
+};
+
+/* Type 0x0B: Pikemen */
+const uint8 res_map_04_a0b[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,  48U,  4U, 32U),
+ ACT_ABS_L1(19U,   0U,  1U, 48U),
+ ACT_ABS_L1(24U,  96U,  1U, 48U),
+ ACT_ABS_L1(35U,   0U,  1U, 16U),
+ ACT_END
+};
+
+/* Type 0x0C: Swordsmen */
+const uint8 res_map_04_a0c[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 6U,  48U,  2U, 16U),
+ ACT_ABS_L1( 9U,  16U,  1U, 48U),
+ ACT_ABS_L1(20U,  48U,  1U, 16U),
+ ACT_REL( 64, -32),
+ ACT_ABS_L1(35U,  48U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x0D: Rock dropper */
+const uint8 res_map_04_a0d[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 6U,  80U,  1U, 16U),
+ ACT_ABS_L1( 9U,  96U,  0U, 16U),
+ ACT_ABS_L1(34U,  96U,  0U, 16U),
+ ACT_END
+};
+
+/* Type 0x0E: Civilian */
+const uint8 res_map_04_a0e[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(22U,  48U,  0U, 48U),
+ ACT_REL(112,  0),
+ ACT_ABS_L1(25U,  80U,  1U, 48U),
+ ACT_END
+};
+
+/* Type 0x10: Small rockfall, Right of dragon */
+
+/* Type 0x11: Small rockfall, Left of dragon */
+
+/* Type 0x12: Small rockfall, Over dragon */
+const uint8 res_map_04_a12[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(27U,  96U,  4U, 48U),
+ ACT_ABS_L1(29U,  32U,  3U, 16U),
+ ACT_END
+};
+
+/* Type 0x13: Large rockfall, Right of dragon */
+
+/* Type 0x14: Large rockfall, Left of dragon */
+
+/* Type 0x15: Large rockfall, Over dragon */
+
+/* Map 0x04 locations */
+#define MAP_04_DATA_OFF (MAP_04_OFF)
+#define MAP_04_A00_OFF  (MAP_04_DATA_OFF + sizeof(res_map_04_d))
+#define MAP_04_A01_OFF  (MAP_04_A00_OFF  + sizeof(res_map_04_a00))
+#define MAP_04_A02_OFF  (MAP_04_A01_OFF  + sizeof(res_map_04_a01))
+#define MAP_04_A03_OFF  (MAP_04_A02_OFF  + sizeof(res_map_04_a02))
+#define MAP_04_A04_OFF  (MAP_04_A03_OFF  + sizeof(res_map_04_a03))
+#define MAP_04_A05_OFF  (MAP_04_A04_OFF  + sizeof(res_map_04_a04))
+#define MAP_04_A06_OFF  (MAP_04_A05_OFF  + sizeof(res_map_04_a05))
+#define MAP_04_A0A_OFF  (MAP_04_A06_OFF  + sizeof(res_map_04_a06))
+#define MAP_04_A0B_OFF  (MAP_04_A0A_OFF  + sizeof(res_map_04_a0a))
+#define MAP_04_A0C_OFF  (MAP_04_A0B_OFF  + sizeof(res_map_04_a0b))
+#define MAP_04_A0D_OFF  (MAP_04_A0C_OFF  + sizeof(res_map_04_a0c))
+#define MAP_04_A0E_OFF  (MAP_04_A0D_OFF  + sizeof(res_map_04_a0d))
+#define MAP_04_A12_OFF  (MAP_04_A0E_OFF  + sizeof(res_map_04_a0e))
+#define MAP_04_HEAD_OFF (MAP_04_A12_OFF  + sizeof(res_map_04_a12))
+#define MAP_04_END_OFF  (MAP_04_HEAD_OFF + sizeof(res_map_04_h))
+
+/* Map header */
+const uint8 res_map_04_h[] __attribute__ ((section (".res"))) = {
+ DRG_ABS_L1( 0U,  64U,  2U, 40U), /* Dragon location */
+ PTR_16(MAP_04_DATA_OFF),         /* Map data */
+ 42U,                             /* Map width */
+ 6U,                              /* Map height */
+ 0x06U,                           /* Parallax region config */
+ 128U,                            /* Initial dragon healing */
+ 208U,                            /* Initial remaining time */
+ PTR_16_N(MAP_04_A00_OFF, 1U),    /* HP Level End */
+ PTR_16_N(MAP_04_A01_OFF, 0U),    /* LP Archers */
+ PTR_16_N(MAP_04_A02_OFF, 1U),    /* HP Doors */
+ PTR_16_N(MAP_04_A03_OFF, 1U),    /* HP Bombs */
+ PTR_16_N(MAP_04_A04_OFF, 0U),    /* LP Prisoners */
+ PTR_16_N(MAP_04_A05_OFF, 0U),    /* LP Stars */
+ PTR_16_N(MAP_04_A06_OFF, 1U),    /* HP Meats */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Hourglasses */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Life extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Fire extenders */
+ PTR_16_N(MAP_04_A0A_OFF, 1U),    /* HP Energy extenders */
+ PTR_16_N(MAP_04_A0B_OFF, 0U),    /* LP Pikemen */
+ PTR_16_N(MAP_04_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_04_A0D_OFF, 0U),    /* LP Rock dropper */
+ PTR_16_N(MAP_04_A0E_OFF, 0U),    /* LP Civilian */
+ PTR_16_N(MAP_AEMPTY_OFF, 0U),    /* Reserved */
+ PTR_16_N(MAP_AEMPTY_OFF, 0U),    /* LP Small rockfall, Right of dragon */
+ PTR_16_N(MAP_AEMPTY_OFF, 0U),    /* LP Small rockfall, Left of dragon */
+ PTR_16_E(MAP_04_A12_OFF, 0U)     /* LP Small rockfall, Over dragon */
+};
+
+
+#define MAP_05_OFF     MAP_04_END_OFF
+
+/* Map data */
+const uint8 res_map_05_d[] __attribute__ ((section (".res"))) = {
+ 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0x00U, 0x08U, 0x48U, 0xCFU, 0x0DU,  0x00U, 0x00U, 0xEAU, 0x0AU, 0x0BU, 0x0DU, 0x6EU, 0x70U,  0x4CU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U,
+ 0x00U, 0x00U, 0x00U, 0x00U, 0x4DU, 0x08U, 0x04U, 0x0DU,  0x00U, 0xAAU, 0xA6U, 0xA9U, 0x00U, 0x4DU, 0x00U, 0x00U,  0x00U, 0x00U, 0x00U, 0xEAU, 0x07U, 0xC3U, 0x10U, 0x0CU,  0xE8U, 0xEAU, 0xEBU, 0x10U, 0x10U, 0x14U, 0x7BU, 0x7CU,  0xE6U, 0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x00U,
+ 0x00U, 0x00U, 0x08U, 0x42U, 0xE7U, 0x13U, 0x02U, 0x0CU,  0xD9U, 0xE0U, 0xA7U, 0x6FU, 0x47U, 0x46U, 0x0DU, 0x00U,  0x00U, 0x00U, 0x08U, 0xF1U, 0x10U, 0x10U, 0x10U, 0x10U,  0xF0U, 0xF1U, 0x10U, 0x10U, 0x10U, 0x10U, 0x82U, 0x81U,  0x02U, 0x12U, 0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x6EU,
+ 0x00U, 0x00U, 0x1BU, 0xC2U, 0x02U, 0x10U, 0x10U, 0x10U,  0x10U, 0xE1U, 0xA8U, 0xEEU, 0x54U, 0x66U, 0x1EU, 0x0DU,  0x00U, 0x00U, 0x1BU, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0xC2U, 0xC3U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x17U, 0x19U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U,  0x00U, 0x77U,
+ 0x06U, 0x09U, 0xEBU, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x61U, 0x10U, 0x0CU,  0x6BU, 0x06U, 0xEBU, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0xE9U, 0x0BU, 0x0DU, 0x08U, 0x03U, 0x06U,  0xD9U, 0xE0U,
+ 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x2CU, 0x22U, 0x20U,  0x6CU, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x15U, 0x13U, 0x02U, 0x10U,  0x10U, 0xE1U
+};
+
+/* Type 0x00: End of level */
+const uint8 res_map_05_a00[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(41U,   0U,  4U, 16U),
+ ACT_END
+};
+
+/* Type 0x01: Archers */
+const uint8 res_map_05_a01[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,   0U,  2U, 48U),
+ ACT_ABS_L1( 4U,  80U,  1U, 48U),
+ ACT_ABS_L1( 6U,   0U,  1U, 48U),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(10U,   0U,  1U, 16U),
+ ACT_REL(112,   0),
+ ACT_REL(-16,  32),
+ ACT_REL(112,  32),
+ ACT_ABS_L1(13U,  64U,  1U, 48U),
+ ACT_ABS_L1(15U,  96U,  4U, 16U),
+ ACT_ABS_L1(19U,  48U,  1U, 48U),
+ ACT_REL( 64, -32),
+ ACT_ABS_L1(22U,  32U,  0U, 16U),
+ ACT_REL( 48,  32),
+ ACT_ABS_L1(24U,  64U,  1U, 48U),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(26U, 112U,  0U, 16U),
+ ACT_REL( 80,   0),
+ ACT_ABS_L1(30U,  96U,  0U, 48U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(32U,  32U,  0U, 48U),
+ ACT_REL( 16,  32),
+ ACT_REL( 64,  32),
+ ACT_ABS_L1(33U, 112U,  2U, 48U),
+ ACT_ABS_L1(39U,  64U,  4U, 32U),
+ ACT_END
+};
+
+/* Type 0x02: Doors */
+const uint8 res_map_05_a02[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 9U,  96U,  2U, 16U),
+ ACT_ABS_L1(11U,  16U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x03: Bombs */
+const uint8 res_map_05_a03[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(11U,   0U,  2U, 48U),
+ ACT_REL(-64,   0),
+ ACT_ABS_L1(13U,  48U,  3U, 48U),
+ ACT_ABS_L1(16U,  80U,  5U, 16U),
+ ACT_REL(-32,  16),
+ ACT_END
+};
+
+/* Type 0x04: Prisoners */
+const uint8 res_map_05_a04[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(12U,   0U,  3U, 48U),
+ ACT_REL(112,   0),
+ ACT_END
+};
+
+/* Type 0x05: Stars */
+const uint8 res_map_05_a05[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(16U,   0U,  4U, 16U),
+ ACT_ABS_L1(34U,  16U,  3U, 48U),
+ ACT_END
+};
+
+/* Type 0x06: Meats */
+const uint8 res_map_05_a06[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 0U,  32U,  4U, 32U), /* Purposely hidden meat (need to turn back for it) */
+ ACT_ABS_L1( 4U,  64U,  2U, 16U),
+ ACT_ABS_L1(16U,  16U,  5U, 48U),
+ ACT_ABS_L1(18U,  80U,  3U, 48U),
+ ACT_ABS_L1(30U, 112U,  0U, 48U),
+ ACT_END
+};
+
+/* Type 0x07: Hourglasses */
+const uint8 res_map_05_a07[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(12U,  96U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x08: Life extenders */
+const uint8 res_map_05_a08[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(13U,  48U,  5U, 16U),
+ ACT_END
+};
+
+/* Type 0x09: Fire extenders */
+
+/* Type 0x0A: Energy extenders */
+
+/* Type 0x0B: Pikemen */
+const uint8 res_map_05_a0b[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 8U,  64U,  2U, 16U),
+ ACT_ABS_L1(10U,  32U,  3U, 48U),
+ ACT_ABS_L1(13U,  48U,  2U, 48U),
+ ACT_ABS_L1(15U,  48U,  4U,  0U),
+ ACT_ABS_L1(21U,  64U,  0U, 48U),
+ ACT_ABS_L1(29U,  16U,  1U, 16U),
+ ACT_END
+};
+
+/* Type 0x0C: Swordsmen */
+const uint8 res_map_05_a0c[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 4U,  64U,  2U, 48U),
+ ACT_ABS_L1(11U,   0U,  2U, 48U),
+ ACT_ABS_L1(10U,  48U,  3U, 48U),
+ ACT_ABS_L1(31U,  16U,  1U, 48U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(34U,  96U,  4U,  0U),
+ ACT_END
+};
+
+/* Type 0x0D: Rock dropper */
+const uint8 res_map_05_a0d[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 4U,  64U,  1U, 48U),
+ ACT_ABS_L1( 9U,  96U,  1U, 16U),
+ ACT_ABS_L1(11U,  16U,  1U, 16U),
+ ACT_ABS_L1(18U, 112U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x0E: Civilian */
+const uint8 res_map_05_a0e[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x10: Small rockfall, Right of dragon */
+
+/* Type 0x11: Small rockfall, Left of dragon */
+
+/* Type 0x12: Small rockfall, Over dragon */
+
+/* Type 0x13: Large rockfall, Right of dragon */
+
+/* Type 0x14: Large rockfall, Left of dragon */
+
+/* Type 0x15: Large rockfall, Over dragon */
+
+/* Map 0x05 locations */
+#define MAP_05_DATA_OFF (MAP_05_OFF)
+#define MAP_05_A00_OFF  (MAP_05_DATA_OFF + sizeof(res_map_05_d))
+#define MAP_05_A01_OFF  (MAP_05_A00_OFF  + sizeof(res_map_05_a00))
+#define MAP_05_A02_OFF  (MAP_05_A01_OFF  + sizeof(res_map_05_a01))
+#define MAP_05_A03_OFF  (MAP_05_A02_OFF  + sizeof(res_map_05_a02))
+#define MAP_05_A04_OFF  (MAP_05_A03_OFF  + sizeof(res_map_05_a03))
+#define MAP_05_A05_OFF  (MAP_05_A04_OFF  + sizeof(res_map_05_a04))
+#define MAP_05_A06_OFF  (MAP_05_A05_OFF  + sizeof(res_map_05_a05))
+#define MAP_05_A07_OFF  (MAP_05_A06_OFF  + sizeof(res_map_05_a06))
+#define MAP_05_A08_OFF  (MAP_05_A07_OFF  + sizeof(res_map_05_a07))
+#define MAP_05_A0B_OFF  (MAP_05_A08_OFF  + sizeof(res_map_05_a08))
+#define MAP_05_A0C_OFF  (MAP_05_A0B_OFF  + sizeof(res_map_05_a0b))
+#define MAP_05_A0D_OFF  (MAP_05_A0C_OFF  + sizeof(res_map_05_a0c))
+#define MAP_05_A0E_OFF  (MAP_05_A0D_OFF  + sizeof(res_map_05_a0d))
+#define MAP_05_HEAD_OFF (MAP_05_A0E_OFF  + sizeof(res_map_05_a0e))
+#define MAP_05_END_OFF  (MAP_05_HEAD_OFF + sizeof(res_map_05_h))
+
+/* Map header */
+const uint8 res_map_05_h[] __attribute__ ((section (".res"))) = {
+ DRG_ABS_L1( 1U,   0U,  4U, 24U), /* Dragon location */
+ PTR_16(MAP_05_DATA_OFF),         /* Map data */
+ 42U,                             /* Map width */
+ 6U,                              /* Map height */
+ 0x86U,                           /* Parallax region config */
+ 32U,                             /* Initial dragon healing */
+ 192U,                            /* Initial remaining time */
+ PTR_16_N(MAP_05_A00_OFF, 1U),    /* HP Level End */
+ PTR_16_N(MAP_05_A01_OFF, 0U),    /* LP Archers */
+ PTR_16_N(MAP_05_A02_OFF, 1U),    /* HP Doors */
+ PTR_16_N(MAP_05_A03_OFF, 1U),    /* HP Bombs */
+ PTR_16_N(MAP_05_A04_OFF, 0U),    /* LP Prisoners */
+ PTR_16_N(MAP_05_A05_OFF, 0U),    /* LP Stars */
+ PTR_16_N(MAP_05_A06_OFF, 1U),    /* HP Meats */
+ PTR_16_N(MAP_05_A07_OFF, 1U),    /* HP Hourglasses */
+ PTR_16_N(MAP_05_A08_OFF, 1U),    /* HP Life extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Fire extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Energy extenders */
+ PTR_16_N(MAP_05_A0B_OFF, 0U),    /* LP Pikemen */
+ PTR_16_N(MAP_05_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_05_A0D_OFF, 0U),    /* LP Rock dropper */
+ PTR_16_E(MAP_05_A0E_OFF, 0U),    /* LP Civilian */
+};
+
+
+#define MAP_06_OFF     MAP_05_END_OFF
+
+/* Map data */
+const uint8 res_map_06_d[] __attribute__ ((section (".res"))) = {
+ 0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x6EU,  0x72U, 0x70U,
+ 0x19U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x77U,  0xBBU, 0x74U,
+ 0xE9U, 0x0BU, 0x0DU, 0x08U, 0x03U, 0x06U, 0xD9U, 0xE0U,  0xA7U, 0x78U,
+ 0x10U, 0x64U, 0x1EU, 0x13U, 0x02U, 0x10U, 0x10U, 0xE1U,  0xECU, 0xA7U,
+ 0x64U, 0x63U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x62U, 0x30U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x26U, 0x22U, 0x20U, 0x21U, 0x5CU, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x10U, 0x10U, 0x10U, 0x31U, 0x2AU, 0x21U, 0x22U,  0x65U, 0x10U,
+
+ 0x10U, 0x10U, 0x64U, 0x21U, 0x27U, 0x10U, 0x10U, 0x31U,  0x63U, 0x10U,
+ 0x10U, 0x20U, 0x35U, 0x10U, 0x10U, 0x10U, 0x10U, 0x33U,  0x60U, 0x10U,
+ 0x10U, 0x10U, 0x3CU, 0x21U, 0x24U, 0x2FU, 0x23U, 0x2BU,  0x20U, 0x10U,
+ 0x10U, 0x10U, 0x10U, 0x31U, 0x2AU, 0x2DU, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x10U, 0x5FU, 0x32U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x10U, 0x10U, 0x26U, 0x28U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x10U, 0x10U, 0x10U, 0x3DU, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
+ 0x10U, 0x31U, 0x4FU, 0x4EU, 0x58U, 0x4EU, 0xAFU, 0x10U,  0x10U, 0x10U,
+
+ 0x10U, 0x38U, 0x10U, 0x10U, 0x10U, 0x10U, 0xB0U, 0xAEU,  0x52U, 0x10U,
+ 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x9EU, 0x86U,  0x10U, 0x10U,
+ 0x31U, 0x55U, 0x55U, 0x52U, 0x10U, 0x9EU, 0x9FU, 0x10U,  0x10U, 0x10U,
+ 0x3CU, 0x58U, 0x56U, 0x67U, 0x50U, 0x9FU, 0x10U, 0x10U,  0x5DU, 0x23U,
+ 0x10U, 0x10U, 0x10U, 0x61U, 0x10U, 0x10U, 0x10U, 0x9EU,  0x27U, 0x10U,
+ 0x10U, 0x31U, 0x21U, 0x27U, 0x10U, 0x53U, 0x55U, 0x9FU,  0x10U, 0x10U,
+ 0x10U, 0x3AU, 0x10U, 0x10U, 0x10U, 0x10U, 0x57U, 0xAFU,  0x10U, 0x10U,
+ 0x5FU, 0x2EU, 0x28U, 0x10U, 0x10U, 0x10U, 0x10U, 0xB1U,  0xAFU, 0x10U,
+
+ 0x10U, 0x2CU, 0x5EU, 0x22U, 0x58U, 0x51U, 0x54U, 0x54U,  0x85U, 0x52U
+};
+
+/* Type 0x00: End of level */
+const uint8 res_map_06_a00[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 9U,  16U, 19U, 48U),
+ ACT_END
+};
+
+/* Type 0x01: Archers */
+const uint8 res_map_06_a01[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 7U, 112U,  0U, 48U),
+ ACT_REL( 16,   0),
+ ACT_ABS_L1( 8U, 112U,  2U, 16U),
+ ACT_REL(  0,  32),
+ ACT_ABS_L1( 2U,  32U, 15U, 48U),
+ ACT_ABS_L1( 5U,  96U, 15U, 48U),
+ ACT_ABS_L1( 7U,  64U, 16U, 48U),
+ ACT_ABS_L1( 0U,  16U, 18U, 48U),
+ ACT_REL( 80,   0),
+ ACT_REL(112,   0),
+ ACT_ABS_L1( 5U,  16U, 24U, 48U),
+ ACT_REL(112,   0),
+ ACT_ABS_L1( 9U,   0U, 24U, 48U),
+ ACT_ABS_L1( 8U,  16U, 23U, 48U),
+ ACT_ABS_L1( 5U,  96U, 21U, 48U),
+ ACT_END
+};
+
+/* Type 0x02: Doors */
+const uint8 res_map_06_a02[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 7U,  96U,  2U, 16U),
+ ACT_END
+};
+
+/* Type 0x03: Bombs */
+const uint8 res_map_06_a03[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,  64U, 19U, 48U),
+ ACT_REL( 16,   0),
+ ACT_ABS_L1( 2U,   0U, 15U, 48U),
+ ACT_REL(-48,  16),
+ ACT_END
+};
+
+/* Type 0x04: Prisoners */
+const uint8 res_map_06_a04[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 6U,  32U, 24U, 48U),
+ ACT_REL( 16,   0),
+ ACT_REL(112,   0),
+ ACT_REL( 80,   0),
+ ACT_END
+};
+
+/* Type 0x05: Stars */
+const uint8 res_map_06_a05[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 1U,  96U,  9U, 48U),
+ ACT_ABS_L1( 7U, 112U, 10U, 48U),
+ ACT_ABS_L1( 1U,  32U, 24U, 48U),
+ ACT_END
+};
+
+/* Type 0x06: Meats */
+const uint8 res_map_06_a06[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 0U,  16U,  1U, 48U),
+ ACT_ABS_L1( 2U,   0U,  3U, 48U),
+ ACT_ABS_L1( 1U, 112U, 15U, 48U),
+ ACT_ABS_L1( 8U,   0U, 16U, 48U),
+ ACT_ABS_L1( 3U,  48U, 18U, 48U),
+ ACT_ABS_L1( 9U,  48U, 24U, 48U),
+ ACT_END
+};
+
+/* Type 0x07: Hourglasses */
+
+/* Type 0x08: Life extenders */
+
+/* Type 0x09: Fire extenders */
+const uint8 res_map_06_a09[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,  32U, 18U, 48U),
+ ACT_END
+};
+
+/* Type 0x0A: Energy extenders */
+
+/* Type 0x0B: Pikemen */
+const uint8 res_map_06_a0b[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 8U,  48U,  2U, 48U),
+ ACT_REL( 64,   0),
+ ACT_ABS_L1( 5U, 112U, 18U, 48U),
+ ACT_ABS_L1( 4U,  64U, 19U, 48U),
+ ACT_ABS_L1( 3U,  48U, 18U, 48U),
+ ACT_ABS_L1( 1U,  96U, 19U, 48U),
+ ACT_ABS_L1( 7U,  32U, 24U, 48U),
+ ACT_END
+};
+
+/* Type 0x0C: Swordsmen */
+const uint8 res_map_06_a0c[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 7U,  80U,  2U, 16U),
+ ACT_REL( 48,   0),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1( 7U,  16U, 17U, 48U),
+ ACT_ABS_L1( 2U,  96U, 18U, 48U),
+ ACT_END
+};
+
+/* Type 0x0D: Rock dropper */
+const uint8 res_map_06_a0d[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 7U,  96U,  0U, 48U),
+ ACT_ABS_L1( 1U,  64U, 18U, 48U),
+ ACT_REL( 80,   0),
+ ACT_END
+};
+
+/* Type 0x0E: Civilian */
+const uint8 res_map_06_a0e[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 8U,  16U,  1U, 48U),
+ ACT_REL( 80,   0),
+ ACT_END
+};
+
+/* Type 0x10: Small rockfall, Right of dragon */
+const uint8 res_map_06_a10[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 5U,  32U, 10U, 48U),
+ ACT_ABS_L1( 8U,  48U,  7U, 48U),
+ ACT_ABS_L1( 4U,  80U, 14U,  0U),
+ ACT_REL( 16,   0),
+ ACT_ABS_L1( 3U,  64U, 20U, 48U),
+ ACT_REL( 32,   0),
+ ACT_END
+};
+
+/* Type 0x11: Small rockfall, Left of dragon */
+const uint8 res_map_06_a11[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 1U,  16U,  5U, 48U),
+ ACT_REL( 32,   0),
+ ACT_ABS_L1( 2U,  16U,  9U, 32U),
+ ACT_ABS_L1( 1U,  16U, 23U, 48U),
+ ACT_END
+};
+
+/* Type 0x12: Small rockfall, Over dragon */
+const uint8 res_map_06_a12[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 0U,  48U,  5U, 16U),
+ ACT_ABS_L1( 2U,  48U,  8U, 48U),
+ ACT_ABS_L1( 4U,  16U, 10U, 48U),
+ ACT_ABS_L1( 6U, 112U,  7U, 48U),
+ ACT_ABS_L1( 8U,  32U,  7U, 48U),
+ ACT_ABS_L1( 7U,  32U, 10U, 48U),
+ ACT_REL( 32, -48),
+ ACT_ABS_L1( 3U,  48U, 12U, 32U),
+ ACT_ABS_L1( 4U,  48U, 24U, 48U),
+ ACT_END
+};
+
+/* Type 0x13: Large rockfall, Right of dragon */
+const uint8 res_map_06_a13[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 8U,  16U,  9U, 16U),
+ ACT_ABS_L1( 3U,  96U, 11U, 48U),
+ ACT_ABS_L1( 1U,  64U, 21U, 48U),
+ ACT_END
+};
+
+/* Type 0x14: Large rockfall, Left of dragon */
+const uint8 res_map_06_a14[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 5U,   0U,  6U, 48U),
+ ACT_ABS_L1( 3U,  16U, 12U, 32U),
+ ACT_END
+};
+
+/* Type 0x15: Large rockfall, Over dragon */
+const uint8 res_map_06_a15[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,  80U, 13U, 16U),
+ ACT_ABS_L1( 1U,  64U, 24U, 48U),
+ ACT_END
+};
+
+/* Map 0x06 locations */
+#define MAP_06_DATA_OFF (MAP_06_OFF)
+#define MAP_06_A00_OFF  (MAP_06_DATA_OFF + sizeof(res_map_06_d))
+#define MAP_06_A01_OFF  (MAP_06_A00_OFF  + sizeof(res_map_06_a00))
+#define MAP_06_A02_OFF  (MAP_06_A01_OFF  + sizeof(res_map_06_a01))
+#define MAP_06_A03_OFF  (MAP_06_A02_OFF  + sizeof(res_map_06_a02))
+#define MAP_06_A04_OFF  (MAP_06_A03_OFF  + sizeof(res_map_06_a03))
+#define MAP_06_A05_OFF  (MAP_06_A04_OFF  + sizeof(res_map_06_a04))
+#define MAP_06_A06_OFF  (MAP_06_A05_OFF  + sizeof(res_map_06_a05))
+#define MAP_06_A09_OFF  (MAP_06_A06_OFF  + sizeof(res_map_06_a06))
+#define MAP_06_A0B_OFF  (MAP_06_A09_OFF  + sizeof(res_map_06_a09))
+#define MAP_06_A0C_OFF  (MAP_06_A0B_OFF  + sizeof(res_map_06_a0b))
+#define MAP_06_A0D_OFF  (MAP_06_A0C_OFF  + sizeof(res_map_06_a0c))
+#define MAP_06_A0E_OFF  (MAP_06_A0D_OFF  + sizeof(res_map_06_a0d))
+#define MAP_06_A10_OFF  (MAP_06_A0E_OFF  + sizeof(res_map_06_a0e))
+#define MAP_06_A11_OFF  (MAP_06_A10_OFF  + sizeof(res_map_06_a10))
+#define MAP_06_A12_OFF  (MAP_06_A11_OFF  + sizeof(res_map_06_a11))
+#define MAP_06_A13_OFF  (MAP_06_A12_OFF  + sizeof(res_map_06_a12))
+#define MAP_06_A14_OFF  (MAP_06_A13_OFF  + sizeof(res_map_06_a13))
+#define MAP_06_A15_OFF  (MAP_06_A14_OFF  + sizeof(res_map_06_a14))
+#define MAP_06_HEAD_OFF (MAP_06_A15_OFF  + sizeof(res_map_06_a15))
+#define MAP_06_END_OFF  (MAP_06_HEAD_OFF + sizeof(res_map_06_h))
+
+/* Map header */
+const uint8 res_map_06_h[] __attribute__ ((section (".res"))) = {
+ DRG_ABS_L1( 6U,  16U,  2U, 24U), /* Dragon location */
+ PTR_16(MAP_06_DATA_OFF),         /* Map data */
+ 10U,                             /* Map width */
+ 25U,                             /* Map height */
+ 0x80U,                           /* Parallax region config */
+ 32U,                             /* Initial dragon healing */
+ 224U,                            /* Initial remaining time */
+ PTR_16_N(MAP_06_A00_OFF, 1U),    /* HP Level End */
+ PTR_16_N(MAP_06_A01_OFF, 0U),    /* LP Archers */
+ PTR_16_N(MAP_06_A02_OFF, 1U),    /* HP Doors */
+ PTR_16_N(MAP_06_A03_OFF, 1U),    /* HP Bombs */
+ PTR_16_N(MAP_06_A04_OFF, 0U),    /* LP Prisoners */
+ PTR_16_N(MAP_06_A05_OFF, 0U),    /* LP Stars */
+ PTR_16_N(MAP_06_A06_OFF, 1U),    /* HP Meats */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Hourglasses */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Life extenders */
+ PTR_16_N(MAP_06_A09_OFF, 1U),    /* HP Fire extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Energy extenders */
+ PTR_16_N(MAP_06_A0B_OFF, 0U),    /* LP Pikemen */
+ PTR_16_N(MAP_06_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_06_A0D_OFF, 0U),    /* LP Rock dropper */
+ PTR_16_N(MAP_06_A0E_OFF, 0U),    /* LP Civilian */
+ PTR_16_N(MAP_AEMPTY_OFF, 0U),    /* Reserved */
+ PTR_16_N(MAP_06_A10_OFF, 0U),    /* LP Small rockfall, Right of dragon */
+ PTR_16_N(MAP_06_A11_OFF, 0U),    /* LP Small rockfall, Left of dragon */
+ PTR_16_N(MAP_06_A12_OFF, 0U),    /* LP Small rockfall, Over dragon */
+ PTR_16_N(MAP_06_A13_OFF, 0U),    /* LP Large rockfall, Right of dragon */
+ PTR_16_N(MAP_06_A14_OFF, 0U),    /* LP Large rockfall, Left of dragon */
+ PTR_16_E(MAP_06_A15_OFF, 0U)     /* LP Large rockfall, Over dragon */
+};
+
+
+#define MAP_07_OFF     MAP_06_END_OFF
+
+/* Map data */
+const uint8 res_map_07_d[] __attribute__ ((section (".res"))) = {
+ 0x10U, 0x10U, 0x10U, 0x10U, 0x5BU, 0x4FU, 0xAEU, 0x4EU,  0x55U, 0x52U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x29U, 0x2FU, 0x25U, 0x24U, 0x28U, 0x10U, 0x10U,  0x10U, 0x10U, 0x29U, 0x25U, 0x36U, 0x36U, 0x24U, 0x28U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x64U, 0x20U, 0x21U, 0x22U, 0x67U, 0x4FU, 0x5AU, 0x10U,  0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x53U, 0xAEU,  0x4EU, 0x59U, 0x52U, 0x10U, 0x64U, 0x21U, 0x5CU, 0x29U,
+ 0x10U, 0x10U, 0x10U, 0x5DU, 0x2DU, 0x10U, 0xB1U, 0x51U,  0x58U, 0x54U, 0x9CU, 0x10U, 0x10U, 0x10U, 0x9EU, 0x5AU,  0x10U, 0x3DU, 0x2CU, 0x32U, 0x26U, 0x5EU, 0x2FU, 0x23U,  0x5CU, 0x29U, 0x2EU, 0x2BU, 0x3BU, 0x3AU, 0x33U, 0x37U,  0x60U, 0x10U, 0x10U, 0x31U, 0x34U, 0x65U, 0x10U, 0x31U,  0x63U, 0x10U, 0x10U, 0x9EU, 0x56U, 0x50U, 0x5EU, 0x5CU,  0x10U, 0x10U, 0x10U, 0x10U, 0x9EU, 0x51U, 0x55U, 0x86U,  0x10U, 0x3AU, 0x10U, 0x10U, 0x62U, 0x65U, 0x26U, 0x5EU,
+ 0x5DU, 0x23U, 0x23U, 0x32U, 0x10U, 0x10U, 0x31U, 0x20U,  0x30U, 0x10U, 0x9DU, 0x55U, 0xAEU, 0x50U, 0x9FU, 0x39U,  0x34U, 0x63U, 0x10U, 0x3CU, 0x35U, 0x21U, 0x2DU, 0x31U,  0x2AU, 0x5EU, 0x2DU, 0x10U, 0x5DU, 0x5EU, 0x27U, 0x3CU,  0x65U, 0x31U, 0x21U, 0x27U, 0x38U, 0x61U, 0x5FU, 0x2BU,  0x66U, 0x54U, 0x50U, 0x9FU, 0x10U, 0x10U, 0x10U, 0x26U,  0x4EU, 0xAEU, 0x4EU, 0x55U, 0x9FU, 0x9EU, 0x56U, 0x52U,  0x5FU, 0x37U, 0x60U, 0x5BU, 0x58U, 0x63U, 0x10U, 0x10U,
+ 0x27U, 0x10U, 0x10U, 0x26U, 0x22U, 0x20U, 0x39U, 0xB4U,  0x2AU, 0x22U, 0x20U, 0x56U, 0x85U, 0x52U, 0x10U, 0x10U,  0x38U, 0x10U, 0x10U, 0x10U, 0x39U, 0x20U, 0x21U, 0x27U,  0x10U, 0x10U, 0x10U, 0x10U, 0x38U, 0x10U, 0x10U, 0x10U,  0x62U, 0x3BU, 0x10U, 0x10U, 0x10U, 0x26U, 0x22U, 0x20U,  0x63U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0xB1U, 0x54U, 0x56U, 0x50U, 0x9FU, 0x10U, 0x10U,  0x10U, 0x3CU, 0x21U, 0x27U, 0x10U, 0x10U, 0x10U, 0x10U,
+};
+
+/* Type 0x00: End of level */
+const uint8 res_map_07_a00[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(63U,  32U,  1U, 48U),
+ ACT_END
+};
+
+/* Type 0x01: Archers */
+const uint8 res_map_07_a01[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,  64U,  2U,  0U),
+ ACT_ABS_L1( 6U,  96U,  0U, 48U),
+ ACT_REL(112,   0),
+ ACT_REL(112,   0),
+ ACT_ABS_L1( 8U,  96U,  1U, 48U),
+ ACT_REL( 96,   0),
+ ACT_ABS_L1(11U,  64U,  2U, 48U),
+ ACT_REL( 80,   0),
+ ACT_ABS_L1(14U,  48U,  2U, 16U),
+ ACT_REL( 64, -32),
+ ACT_ABS_L1(17U, 112U,  1U,  0U),
+ ACT_ABS_L1(19U,  64U,  1U,  0U),
+ ACT_REL( 64, -16),
+ ACT_REL( 96,  48),
+ ACT_ABS_L1(23U,   0U,  1U, 48U),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(27U,  64U,  1U,  0U),
+ ACT_REL( 64, -16),
+ ACT_ABS_L1(29U,  64U,  1U,  0U),
+ ACT_REL( 64, -16),
+ ACT_REL( 48,  16),
+ ACT_REL( 64,  48),
+ ACT_ABS_L1(44U,  64U,  0U, 48U),
+ ACT_REL( 80,   0),
+ ACT_ABS_L1(49U,  64U,  2U, 48U),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(51U, 112U,  2U, 48U),
+ ACT_REL( 64, -32),
+ ACT_REL( 80, -32),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(55U,  64U,  0U, 48U),
+ ACT_REL(112,   0),
+ ACT_ABS_L1(57U,  64U,  1U,  0U),
+ ACT_END
+};
+
+/* Type 0x02: Doors */
+const uint8 res_map_07_a02[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x03: Bombs */
+const uint8 res_map_07_a03[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 7U,  16U,  3U, 48U),
+ ACT_ABS_L1(40U,  48U,  3U, 16U),
+ ACT_REL( 48, -32),
+ ACT_ABS_L1(44U,  16U,  0U, 48U),
+ ACT_END
+};
+
+/* Type 0x04: Prisoners */
+const uint8 res_map_07_a04[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 6U,  32U,  1U, 48U),
+ ACT_ABS_L1(41U,   0U,  2U, 48U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(49U,  48U,  3U, 48U),
+ ACT_REL(112,   0),
+ ACT_END
+};
+
+/* Type 0x05: Stars */
+const uint8 res_map_07_a05[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(17U,   0U,  1U, 16U),
+ ACT_ABS_L1(26U,  32U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x06: Meats */
+const uint8 res_map_07_a06[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 9U,  32U,  0U, 48U),
+ ACT_ABS_L1( 7U,   0U,  2U, 48U),
+ ACT_ABS_L1(15U,   0U,  2U, 48U),
+ ACT_ABS_L1(22U,  48U,  2U, 48U),
+ ACT_ABS_L1(32U,  16U,  1U, 32U),
+ ACT_ABS_L1(40U, 112U,  2U, 48U),
+ ACT_ABS_L1(54U,  64U,  0U, 48U),
+ ACT_END
+};
+
+/* Type 0x07: Hourglasses */
+const uint8 res_map_07_a07[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 9U,  48U,  0U, 48U),
+ ACT_ABS_L1( 7U,   0U,  3U, 48U),
+ ACT_ABS_L1(20U,   0U,  3U, 48U),
+ ACT_ABS_L1(28U,  48U,  3U,  0U),
+ ACT_ABS_L1(46U,  16U,  0U, 48U),
+ ACT_ABS_L1(58U,  48U,  0U, 48U),
+ ACT_END
+};
+
+/* Type 0x08: Life extenders */
+
+/* Type 0x09: Fire extenders */
+
+/* Type 0x0A: Energy extenders */
+
+/* Type 0x0B: Pikemen */
+const uint8 res_map_07_a0b[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 9U,   0U,  0U, 48U),
+ ACT_ABS_L1( 6U,  48U,  1U, 48U),
+ ACT_ABS_L1(13U,  16U,  2U, 48U),
+ ACT_ABS_L1(21U, 112U,  3U, 48U),
+ ACT_ABS_L1(43U, 112U,  0U, 48U),
+ ACT_ABS_L1(45U, 112U,  1U, 48U),
+ ACT_REL( 64,   0),
+ ACT_ABS_L1(49U,  16U,  2U, 48U),
+ ACT_ABS_L1(53U,   0U,  1U, 48U),
+ ACT_END
+};
+
+/* Type 0x0C: Swordsmen */
+const uint8 res_map_07_a0c[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(11U,  48U,  3U, 48U),
+ ACT_ABS_L1(44U, 112U,  0U, 48U),
+ ACT_REL( 32,   0),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(48U,   0U,  2U, 48U),
+ ACT_ABS_L1(54U, 112U,  0U, 48U),
+ ACT_ABS_L1(57U,  96U,  0U, 48U),
+ ACT_END
+};
+
+/* Type 0x0D: Rock dropper */
+const uint8 res_map_07_a0d[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(51U,  64U,  2U, 48U),
+ ACT_ABS_L1(54U,  16U,  1U, 48U),
+ ACT_END
+};
+
+/* Type 0x0E: Civilian */
+const uint8 res_map_07_a0e[] __attribute__ ((section (".res"))) = {
+ ACT_END
+};
+
+/* Type 0x10: Small rockfall, Right of dragon */
+const uint8 res_map_07_a10[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(17U, 112U,  0U, 48U),
+ ACT_ABS_L1(19U,  96U,  0U, 48U),
+ ACT_ABS_L1(20U,  96U,  2U, 48U),
+ ACT_ABS_L1(23U,  64U,  3U,  0U),
+ ACT_ABS_L1(26U,  80U,  1U, 48U),
+ ACT_ABS_L1(29U,  80U,  0U, 48U),
+ ACT_ABS_L1(29U,  96U,  2U, 48U),
+ ACT_ABS_L1(31U,  80U,  0U, 48U),
+ ACT_ABS_L1(57U,  96U,  2U, 48U),
+ ACT_REL( 16,   0),
+ ACT_END
+};
+
+/* Type 0x11: Small rockfall, Left of dragon */
+const uint8 res_map_07_a11[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,  80U,  3U,  0U),
+ ACT_ABS_L1( 6U,  48U,  2U, 48U),
+ ACT_ABS_L1(20U,   0U,  0U, 48U),
+ ACT_ABS_L1(24U,  32U,  1U, 48U),
+ ACT_ABS_L1(25U,  96U,  1U, 48U),
+ ACT_ABS_L1(30U,   0U,  0U, 48U),
+ ACT_ABS_L1(35U,  64U,  1U, 48U),
+ ACT_REL( 16,   0),
+ ACT_ABS_L1(57U,  16U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x12: Small rockfall, Over dragon */
+const uint8 res_map_07_a12[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 3U,  16U,  2U, 48U),
+ ACT_ABS_L1(22U,   0U,  2U, 48U),
+ ACT_ABS_L1(31U,  32U,  0U, 48U),
+ ACT_ABS_L1(32U,  32U,  2U, 48U),
+ ACT_REL( 16,   0),
+ ACT_ABS_L1(37U,  80U,  2U, 48U),
+ ACT_ABS_L1(39U,  32U,  2U, 48U),
+ ACT_ABS_L1(40U,  32U,  1U,  0U),
+ ACT_REL( 16,   0),
+ ACT_ABS_L1(42U, 112U,  0U, 48U),
+ ACT_END
+};
+
+/* Type 0x13: Large rockfall, Right of dragon */
+const uint8 res_map_07_a13[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(28U, 112U,  0U, 48U),
+ ACT_ABS_L1(30U, 112U,  0U, 48U),
+ ACT_ABS_L1(32U,  32U,  1U, 16U),
+ ACT_ABS_L1(37U,  16U,  2U, 48U),
+ ACT_REL( 48,   0),
+ ACT_ABS_L1(57U,  80U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x14: Large rockfall, Left of dragon */
+const uint8 res_map_07_a14[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1( 8U,  32U,  2U, 48U),
+ ACT_ABS_L1(20U,  32U,  2U, 48U),
+ ACT_ABS_L1(20U,  16U,  0U, 48U),
+ ACT_ABS_L1(31U,   0U,  0U, 48U),
+ ACT_ABS_L1(33U,  32U,  2U, 48U),
+ ACT_ABS_L1(39U,  80U,  1U, 48U),
+ ACT_ABS_L1(57U,   0U,  2U, 48U),
+ ACT_END
+};
+
+/* Type 0x15: Large rockfall, Over dragon */
+const uint8 res_map_07_a15[] __attribute__ ((section (".res"))) = {
+ ACT_ABS_L1(26U,  16U,  1U, 48U),
+ ACT_ABS_L1(35U,  32U,  2U, 16U),
+ ACT_ABS_L1(39U,  64U,  2U, 16U),
+ ACT_END
+};
+
+/* Map 0x07 locations */
+#define MAP_07_DATA_OFF (MAP_07_OFF)
+#define MAP_07_A00_OFF  (MAP_07_DATA_OFF + sizeof(res_map_07_d))
+#define MAP_07_A01_OFF  (MAP_07_A00_OFF  + sizeof(res_map_07_a00))
+#define MAP_07_A02_OFF  (MAP_07_A01_OFF  + sizeof(res_map_07_a01))
+#define MAP_07_A03_OFF  (MAP_07_A02_OFF  + sizeof(res_map_07_a02))
+#define MAP_07_A04_OFF  (MAP_07_A03_OFF  + sizeof(res_map_07_a03))
+#define MAP_07_A05_OFF  (MAP_07_A04_OFF  + sizeof(res_map_07_a04))
+#define MAP_07_A06_OFF  (MAP_07_A05_OFF  + sizeof(res_map_07_a05))
+#define MAP_07_A07_OFF  (MAP_07_A06_OFF  + sizeof(res_map_07_a06))
+#define MAP_07_A0B_OFF  (MAP_07_A07_OFF  + sizeof(res_map_07_a07))
+#define MAP_07_A0C_OFF  (MAP_07_A0B_OFF  + sizeof(res_map_07_a0b))
+#define MAP_07_A0D_OFF  (MAP_07_A0C_OFF  + sizeof(res_map_07_a0c))
+#define MAP_07_A0E_OFF  (MAP_07_A0D_OFF  + sizeof(res_map_07_a0d))
+#define MAP_07_A10_OFF  (MAP_07_A0E_OFF  + sizeof(res_map_07_a0e))
+#define MAP_07_A11_OFF  (MAP_07_A10_OFF  + sizeof(res_map_07_a10))
+#define MAP_07_A12_OFF  (MAP_07_A11_OFF  + sizeof(res_map_07_a11))
+#define MAP_07_A13_OFF  (MAP_07_A12_OFF  + sizeof(res_map_07_a12))
+#define MAP_07_A14_OFF  (MAP_07_A13_OFF  + sizeof(res_map_07_a13))
+#define MAP_07_A15_OFF  (MAP_07_A14_OFF  + sizeof(res_map_07_a14))
+#define MAP_07_HEAD_OFF (MAP_07_A15_OFF  + sizeof(res_map_07_a15))
+#define MAP_07_END_OFF  (MAP_07_HEAD_OFF + sizeof(res_map_07_h))
+
+/* Map header */
+const uint8 res_map_07_h[] __attribute__ ((section (".res"))) = {
+ DRG_ABS_L1( 1U,  24U,  2U, 56U), /* Dragon location */
+ PTR_16(MAP_07_DATA_OFF),         /* Map data */
+ 64U,                             /* Map width */
+ 4U,                              /* Map height */
+ 0x66U,                           /* Parallax region config */
+ 32U,                             /* Initial dragon healing */
+ 96U,                             /* Initial remaining time */
+ PTR_16_N(MAP_07_A00_OFF, 1U),    /* HP Level End */
+ PTR_16_N(MAP_07_A01_OFF, 0U),    /* LP Archers */
+ PTR_16_N(MAP_07_A02_OFF, 1U),    /* HP Doors */
+ PTR_16_N(MAP_07_A03_OFF, 1U),    /* HP Bombs */
+ PTR_16_N(MAP_07_A04_OFF, 0U),    /* LP Prisoners */
+ PTR_16_N(MAP_07_A05_OFF, 0U),    /* LP Stars */
+ PTR_16_N(MAP_07_A06_OFF, 1U),    /* HP Meats */
+ PTR_16_N(MAP_07_A07_OFF, 1U),    /* HP Hourglasses */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Life extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Fire extenders */
+ PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Energy extenders */
+ PTR_16_N(MAP_07_A0B_OFF, 0U),    /* LP Pikemen */
+ PTR_16_N(MAP_07_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_N(MAP_07_A0D_OFF, 0U),    /* LP Rock dropper */
+ PTR_16_N(MAP_07_A0E_OFF, 0U),    /* LP Civilian */
+ PTR_16_N(MAP_AEMPTY_OFF, 0U),    /* Reserved */
+ PTR_16_N(MAP_07_A10_OFF, 0U),    /* LP Small rockfall, Right of dragon */
+ PTR_16_N(MAP_07_A11_OFF, 0U),    /* LP Small rockfall, Left of dragon */
+ PTR_16_N(MAP_07_A12_OFF, 0U),    /* LP Small rockfall, Over dragon */
+ PTR_16_N(MAP_07_A13_OFF, 0U),    /* LP Large rockfall, Right of dragon */
+ PTR_16_N(MAP_07_A14_OFF, 0U),    /* LP Large rockfall, Left of dragon */
+ PTR_16_E(MAP_07_A15_OFF, 0U)     /* LP Large rockfall, Over dragon */
 };
 
 
@@ -6179,6 +7357,10 @@ const uint8 res_maplist[] __attribute__ ((section (".res"))) = {
  PTR_16(MAP_01_HEAD_OFF),
  PTR_16(MAP_02_HEAD_OFF),
  PTR_16(MAP_03_HEAD_OFF),
+ PTR_16(MAP_04_HEAD_OFF),
+ PTR_16(MAP_05_HEAD_OFF),
+ PTR_16(MAP_06_HEAD_OFF),
+ PTR_16(MAP_07_HEAD_OFF),
 };
 
 
@@ -6206,6 +7388,23 @@ const uint8 res_sequence[] __attribute__ ((section (".res"))) = {
  0x03U,          /* Map to use */
  1288U >> 8,     /* Story panel */
  1288U & 0xFFU,  /* Text begin (L) */
+    8U,          /* Text height (rows) */
+ 0x80U,          /* Game level */
+ 0x04U,          /* Map to use */
+ 0x80U,          /* Game level */
+ 0x05U,          /* Map to use */
+ 1505U >> 8,     /* Story panel */
+ 1505U & 0xFFU,  /* Text begin (L) */
+   11U,          /* Text height (rows) */
+ 0x80U,          /* Game level */
+ 0x06U,          /* Map to use */
+ 0x80U,          /* Game level */
+ 0x07U,          /* Map to use */
+ 1762U >> 8,     /* Story panel */
+ 1762U & 0xFFU,  /* Text begin (L) */
+   12U,          /* Text height (rows) */
+ 2057U >> 8,     /* Story panel */
+ 2057U & 0xFFU,  /* Text begin (L) */
     4U,          /* Text height (rows) */
  0x81U           /* End of sequence */
 };

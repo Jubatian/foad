@@ -30,7 +30,7 @@
 #define RES_SECT           (0xFFFF - 0xFFFF + 0x7B00)
 
 /* Text material */
-#define TXT_SIZE           1206
+#define TXT_SIZE           1879
 #define TXT_TITLE_POS      0
 #define TXT_AUTH_POS       25
 #define TXT_OVER_POS       78

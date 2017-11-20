@@ -3,8 +3,8 @@
 ###############################################################################
 
 ## General Flags
-PROJECT = foaddemo
-GAME    = foaddemo
+PROJECT = foad
+GAME    = foad
 INFO    = gameinfo.properties
 MCU     = atmega644
 TARGET  = $(GAME).elf

@@ -1,6 +1,6 @@
 /*
  *  Dragon - Fireballs (dragon's breath), companion asm module
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -33,7 +33,8 @@
 
 /*
 ** Returns whether there is a fireball within a sprite. Returns the fireball's
-** ID if there is any or FIREBALL_N if there is none.
+** ID if there is any or FIREBALL_N if there is none. This only returns
+** fireballs which aren't inactivated.
 **
 ** Inputs:
 ** r25:r24: spr (pointer to sprite)
@@ -90,7 +91,7 @@ gatl0e:
 	ld    r20,     X+      ; Fireball's burnout timer (exists?)
 	cpi   r20,     0
 	breq  gatl0i           ; Zero: Fireball does not exist
-	cpi   r20,     63
+	cpi   r20,     64
 	brcc  gatl0i           ; Fireball is temporarily inactivated
 	adiw  XL,      2       ; Fireball's coordinates
 	call  levelcor_decode_asm

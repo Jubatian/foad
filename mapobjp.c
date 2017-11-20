@@ -63,7 +63,12 @@
 #define ACT_SWORDS   0x0CU
 #define ACT_RDROP    0x0DU
 #define ACT_CIVIL    0x0EU
-#define ACT_RFALL    0x10U
+#define ACT_RFALL0   0x10U
+#define ACT_RFALL1   0x11U
+#define ACT_RFALL2   0x12U
+#define ACT_RFALL3   0x13U
+#define ACT_RFALL4   0x14U
+#define ACT_RFALL5   0x15U
 
 
 
@@ -125,7 +130,12 @@ void  mapobjp_process(void)
     case ACT_SWORDS: hlt = acswords_process(&actor);      break;
     case ACT_RDROP:  hlt = acrdrop_process(&actor);       break;
     case ACT_CIVIL:  hlt = accivil_process(&actor);       break;
-    case ACT_RFALL:  hlt = acrfall_process(&actor, typ);  break;
+    case ACT_RFALL0:
+    case ACT_RFALL1:
+    case ACT_RFALL2:
+    case ACT_RFALL3:
+    case ACT_RFALL4:
+    case ACT_RFALL5: hlt = acrfall_process(&actor, typ);  break;
     default:         hlt = acsupply_process(&actor, typ); break;
    }
 
@@ -178,7 +188,12 @@ void  mapobjp_render(void)
     case ACT_SWORDS: acswords_render(&actor);      break;
     case ACT_RDROP:  acrdrop_render(&actor);       break;
     case ACT_CIVIL:  accivil_render(&actor);       break;
-    case ACT_RFALL:  acrfall_render(&actor, typ);  break;
+    case ACT_RFALL0:
+    case ACT_RFALL1:
+    case ACT_RFALL2:
+    case ACT_RFALL3:
+    case ACT_RFALL4:
+    case ACT_RFALL5: acrfall_render(&actor, typ);  break;
     default:         acsupply_render(&actor, typ); break;
    }
 

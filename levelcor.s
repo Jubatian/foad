@@ -1,6 +1,6 @@
 /*
  *  Dragon - Level (map) coordinate encoding & decoding
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -45,44 +45,16 @@ levelcor_encode:
 	; into 2's complement negatives.
 
 	movw  XL,      r24
-	lds   r24,     level_h ; r24: map height in L1
-
 	st    X+,      r20     ; Byte 0: Y low
 
-	cpi   r24,     57
-	brcc  ench16
-	cpi   r24,     25
-	brcc  ench4
-
 	; X pos is at most 8191 (256 L0 blocks)
-	; Y range is 2048 lines (At most 24 L0 blocks)
+	; Y range is 2048 lines (At most 56 L0 blocks)
 
-	andi  r21,     0x07
-	lsl   r23              ; 5 bits of X high will be stored
-	rjmp  encel
-
-ench4:
-
-	; X pos is at most 4096 (128 L0 blocks)
-	; Y range is 4096 lines (At most 56 L0 blocks)
-
-	andi  r21,     0x0F
-	swap  r23
-	andi  r23,     0xF0    ; 4 bits of X high will be stored
-	rjmp  ence
-
-ench16:
-
-	; X pos is at most 1024 (32 L0 blocks)
-	; Y range is 16384 lines (Allowing 256 L0 blocks)
-
-	andi  r21,     0x3F
-	swap  r23
-	andi  r23,     0xF0
-encel:
+	andi  r21,     0x07    ; 3 bits of Y high will be stored
 	lsl   r23
-	lsl   r23              ; 2 bits of X high will be stored
-ence:
+	lsl   r23
+	lsl   r23              ; 5 bits of X high will be stored
+
 	or    r21,     r23
 	st    X+,      r21     ; Byte 1: Y & X mix
 	st    X+,      r22     ; Byte 2: X low
@@ -103,57 +75,23 @@ ence:
 levelcor_decode:
 
 	movw  XL,      r24
-	lds   r24,     level_h ; r24: map height in L1
-
 	movw  ZL,      r20
 	ld    r20,     X+      ; Byte 0: Y low
 	st    Z+,      r20
 	ld    r20,     X+      ; Byte 1: Y & X mix
 	mov   r21,     r20
 
-	cpi   r24,     57
-	brcc  dech16
-	cpi   r24,     25
-	brcc  dech4
-
 	; X pos is at most 8191 (256 L0 blocks)
-	; Y range is 2048 lines (At most 24 L0 blocks)
+	; Y range is 2048 lines (At most 56 L0 blocks)
 
 	andi  r20,     0x07    ; Y high
 	cpi   r20,     0x07
 	brne  .+2
-	ldi   r20,     0xFF
-	lsr   r21              ; X high
-	rjmp  decel
-
-dech4:
-
-	; X pos is at most 4096 (128 L0 blocks)
-	; Y range is 4096 lines (At most 56 L0 blocks)
-
-	andi  r20,     0x0F    ; Y high
-	cpi   r20,     0x0F
-	brne  .+2
-	ldi   r20,     0xFF
-	swap  r21
-	andi  r21,     0x0F    ; X high
-	rjmp  dece
-
-dech16:
-
-	; X pos is at most 1024 (32 L0 blocks)
-	; Y range is 16384 lines (Allowing 256 L0 blocks)
-
-	andi  r20,     0x3F    ; Y high
-	cpi   r20,     0x3F
-	brne  .+2
-	ldi   r20,     0xFF
-	swap  r21
-	andi  r21,     0x0F
-decel:
+	ldi   r20,     0xFF    ; 1792 - 2047: Convert to 2's compl. negative
+	lsr   r21
 	lsr   r21
 	lsr   r21              ; X high
-dece:
+
 	st    Z+,      r20
 	movw  ZL,      r22
 	ld    r20,     X+      ; Byte 2: X low
@@ -178,54 +116,19 @@ dece:
 .global levelcor_decode_asm
 levelcor_decode_asm:
 
-	lds   r22,     level_h ; r22: map height in L1
-
 	ld    r20,     X+      ; Byte 0: Y low
 	ld    r21,     X+      ; Byte 1: Y & X mix
 	mov   r23,     r21
 
-	cpi   r22,     57
-	brcc  deah16
-	cpi   r22,     25
-	brcc  deah4
-
 	; X pos is at most 8191 (256 L0 blocks)
-	; Y range is 2048 lines (At most 24 L0 blocks)
+	; Y range is 2048 lines (At most 56 L0 blocks)
 
 	andi  r21,     0x07    ; Y high
 	cpi   r21,     0x07
 	brne  .+2
-	ldi   r21,     0xFF
-	lsr   r23              ; X high
-	rjmp  deael
-
-deah4:
-
-	; X pos is at most 4096 (128 L0 blocks)
-	; Y range is 4096 lines (At most 56 L0 blocks)
-
-	andi  r21,     0x0F    ; Y high
-	cpi   r21,     0x0F
-	brne  .+2
-	ldi   r21,     0xFF
-	swap  r23
-	andi  r23,     0x0F    ; X high
-	rjmp  dece
-
-deah16:
-
-	; X pos is at most 1024 (32 L0 blocks)
-	; Y range is 16384 lines (Allowing 256 L0 blocks)
-
-	andi  r21,     0x3F    ; Y high
-	cpi   r21,     0x3F
-	brne  .+2
-	ldi   r21,     0xFF
-	swap  r23
-	andi  r23,     0x0F
-deael:
+	ldi   r21,     0xFF    ; 1792 - 2047: Convert to 2's compl. negative
+	lsr   r23
 	lsr   r23
 	lsr   r23              ; X high
-deae:
 	ld    r22,     X+      ; Byte 2: X low
 	ret

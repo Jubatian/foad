@@ -1,6 +1,6 @@
 /*
  *  Dragon - Map actors (enemies and objects), backend
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -201,7 +201,7 @@ psrac:
 
 	; ID check: If already active, do nothing
 
-	ldi   r24,     13
+	ldi   r24,     12 + 1
 	ldi   XL,      lo8(v_store - 7)
 	ldi   XH,      hi8(v_store - 7)
 psrl2:
@@ -210,10 +210,9 @@ psrl2:
 	breq  psrl2x
 	ld    r0,      X+
 	ld    r25,     X+
-	cpse  r25,     r23
-	rjmp  psrl2            ; ID not equal: skip
-	sbrs  r0,      7
-	rjmp  psrl2            ; Free slot: skip
+	sbrc  r0,      7       ; Free slot (r0.7 clear): skip
+	cpse  r25,     r23     ; Non-free slot: Check ID
+	rjmp  psrl2            ; ID not equal: skip (or free slot)
 	rjmp  psrl0            ; ID equal: don't add again
 psrl2x:
 
@@ -236,16 +235,16 @@ psrl1:
 	ld    r0,      X
 	sbrs  r0,      7
 	rjmp  psrl1f           ; Free slot: search completed
-	sbrs  r0,      6
-	mov   r25,     r24     ; Low pri. slot found (r25: How far back it is from end + 1)
 	adiw  XL,      9
+	sbrs  r0,      6
+	mov   r25,     r24     ; Low pri. slot found (r25: How far back it is from end)
 	dec   r24
-	brne  psrl1
+	brne  psrl1            ; When this exits, X == v_store + 9 * 12
 	cpi   r25,     0
 	breq  psre2            ; No free slot, no low pri. slot: Totally occupied, exit
 	sbrs  r22,     6
 	rjmp  psre2            ; Input is low priority: No further allocations will happen, exit
-	mov   r24,     9
+	ldi   r24,     9
 	mul   r25,     r24
 	sub   XL,      r0
 	sbc   XH,      r1      ; Step back onto low priority slot to occupy it
@@ -290,20 +289,18 @@ psra:
 	ori   r18,     0x0C
 	rjmp  psrac            ; Go on to activity & availability checks
 
-psre2:
-
 	; Skim over the remaining objects to count them
 
 psrsk:
+	lpm   r25,     Z+
+	lpm   r25,     Z+
+psre2:
 	inc   r23              ; Next ID
 	lpm   r25,     Z+
 	sbrc  r25,     7
-	rjmp  psrsk            ; Was relative position
-	cpi   r25,     0x7F
-	breq  psre1            ; End of list
-	lpm   r25,     Z+
-	lpm   r25,     Z+
-	rjmp  psrsk            ; Was absolute position
+	rjmp  psre2            ; Was relative position
+	cpi   r25,     0x7F    ; End of list?
+	brne  psrsk            ; Was absolute position
 
 psre1:
 	clr   r25

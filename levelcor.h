@@ -1,6 +1,6 @@
 /*
  *  Dragon - Level (map) coordinate encoding & decoding
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,6 +27,11 @@
 ** in 3 bytes (instead of 4 which would be used if they were uint16s).
 **
 ** Using the map height (level_h) this performs such encoding.
+**
+** The encoding is fixed, supporting 8192 x 2048 pixels. The reason is that
+** tall maps aren't typical (in the end I didn't need such), so there was no
+** point in supporting them. The maximal height is limited to 28 L1 blocks
+** (due to 256 pixels top / bottom clearance).
 */
 
 
