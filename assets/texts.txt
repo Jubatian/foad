@@ -24,38 +24,6 @@ RShift ......: Walk\e\
 Up, LShift ..: Look up\e\
 Left, Right .: Move\e\
 Down ........: Look down\e\p\
-           The  End\e\
-\e\
-\e\
-\e\
-\e\
-\e\
-      Flight of a Dragon\e\
-\e\
-  By Jubatian (Sandor Zsuga)\e\
-\e\
-\e\
-Released in 2016 for UCC 2016\e\
-\e\
-      Completed in 2017\e\
-\e\
-\e\
-       The Uzebox crew:\e\
-\e\
-      Alec Bourque (Uze)\e\
-     Lee Weber (D3thAdd3r)\e\
-Nickolas Andersen (Nicksen782)\e\
-     Matt Pandina (Artcfox)\e\
-    Lawrence Brooks (L4rry)\e\
-         CunningFellow\e\
-\e\
-      And numerous others\e\
- by the spirit of Open Source\e\
-\e\
-\e\
-\e\
-\e\
-    Keep the spirit alive!\e\p\
 Escaping the  immediate area\
 of your  captivity  you  can\
 have some rest.  But not for\
@@ -101,7 +69,46 @@ only your fire making light.\
 You  wander  around by  your\
 numb senses hoping you could\
 find your way. Then...\e\p\
-You  did it!  It is  still a\
-long way to go,  though, but\
-this short demo for now ends\
-here.\e\p\
+You fought your  way through\
+the last fortification,  you\
+ascended the  last mountain.\
+Now you  look down  the wast\
+distance,  the  magnificence\
+of the sunset  over a walley\
+which you remember...\e\
+\e\
+This is the  entrance to the\
+land  of  dragons.  You  are\
+finally home. You are free!\e\p\
+           The  End\e\
+\e\
+\e\
+\e\
+\e\
+\e\
+      Flight of a Dragon\e\
+\e\
+  By Jubatian (Sandor Zsuga)\e\
+\e\
+\e\
+Released in 2016 for UCC 2016\e\
+\e\
+      Completed in 2017\e\
+\e\
+\e\
+       The Uzebox crew:\e\
+\e\
+      Alec Bourque (Uze)\e\
+     Lee Weber (D3thAdd3r)\e\
+Nickolas Andersen (Nicksen782)\e\
+     Matt Pandina (Artcfox)\e\
+    Lawrence Brooks (L4rry)\e\
+         CunningFellow\e\
+\e\
+      And numerous others\e\
+ by the spirit of Open Source\e\
+\e\
+\e\
+\e\
+\e\
+    Keep the spirit alive!\e\p\

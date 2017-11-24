@@ -36,7 +36,6 @@ auint aceol_process(mapact_t* actor)
 {
  if (acsupp_iscordneardragon(actor->spr.xpos, actor->spr.ypos, 0x0810U)){
 
-  gstat_score_add(100U); /* Level end reached */
   sound_effect(SOUND_ITEM, 0x40U);
   global_shared[7] = 1U; /* Mark level end */
 

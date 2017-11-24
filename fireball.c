@@ -169,7 +169,7 @@ void  fireball_process(void)
         (t1 == 0x50U) || (t1 == 0x51U) ){
     level_repadd(tx, ty); /* Light up torch */
     levelscr_reset();
-    gstat_score_add(10U); /* A little fun element: a minor score increment for making light */
+    gstat_score_add(25U); /* A little fun element: a minor score increment for making light */
     sound_effect(SOUND_FIRE, 0x40U);
    }
 

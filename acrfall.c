@@ -78,7 +78,7 @@ auint acrfall_process(mapact_t* actor, auint typ)
 
     /* Dragon triggers rockfall when on the left of the actor */
 
-    if ( ((dragon_spr.xpos) < (axp + 16U)) &&
+    if ( ((dragon_spr.xpos) < (axp + 24U)) &&
          (rnd == 0x3U) ){ rf = 1U; }
     break;
 
@@ -87,7 +87,7 @@ auint acrfall_process(mapact_t* actor, auint typ)
 
     /* Dragon triggers rockfall when on the right of the actor */
 
-    if ( ((dragon_spr.xpos + 16U) > (axp)) &&
+    if ( ((dragon_spr.xpos + 24U) > (axp)) &&
          (rnd == 0x7U) ){ rf = 1U; }
     break;
 

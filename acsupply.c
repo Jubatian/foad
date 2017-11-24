@@ -48,32 +48,28 @@ auint acsupply_process(mapact_t* actor, auint typ)
 
   switch (typ){
 
-   case ACT_STAR:
-    gstat_score_add(50U);  /* Collected star */
+   case ACT_STAR:          /* Collected star */
+    gstat_score_add(125U);
     break;
 
-   case ACT_MEAT:
-    gstat_score_add(10U);  /* Collected meat */
+   case ACT_MEAT:          /* Collected meat */
+    gstat_score_add(75U);
     dragon_mod(DRAGON_STA_HP | DRAGON_P_ADD, 32U);
     break;
 
-   case ACT_HGLASS:
-    gstat_score_add(10U);  /* Collected hourglass */
+   case ACT_HGLASS:        /* Collected hourglass */
     gstat_time_add(48U);
     break;
 
-   case ACT_LIFE:
-    gstat_score_add(100U); /* Collected life capacity increment */
+   case ACT_LIFE:          /* Collected life capacity increment */
     dragon_mod(DRAGON_CAP_HP | DRAGON_P_ADD, 1U);
     break;
 
-   case ACT_FIRE:
-    gstat_score_add(100U); /* Collected fire capacity increment */
+   case ACT_FIRE:          /* Collected fire capacity increment */
     dragon_mod(DRAGON_CAP_FI | DRAGON_P_ADD, 1U);
     break;
 
-   case ACT_ENERGY:
-    gstat_score_add(100U); /* Collected energy capacity increment */
+   case ACT_ENERGY:        /* Collected energy capacity increment */
     dragon_mod(DRAGON_CAP_EN | DRAGON_P_ADD, 1U);
     break;
 

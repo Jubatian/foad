@@ -59,6 +59,7 @@ void seq_new(auint hs)
  dragon_mod(DRAGON_STA_HP |
             DRAGON_STA_EN |
             DRAGON_STA_FI,
+//            255U);
             1U);
 
  /* Initial score is zero */

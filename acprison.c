@@ -65,7 +65,7 @@ auint acprison_process(mapact_t* actor)
   if (acsupp_iscordneardragon(axp, ayp, 0x0810U)){
 
    d1 ++;       /* Free the prisoner */
-   gstat_score_add(75U); /* Freed a prisoner: add score. */
+   gstat_score_add(150U); /* Freed a prisoner: add score. */
 
    if (passable(axp + 128U, ayp - 8U)){
     d0 |= 0x40U;   /* If right is open, run to right (no random choice so multiple prisoners try to flee together) */
@@ -93,7 +93,7 @@ auint acprison_process(mapact_t* actor)
    actor->spr.xvel = -2;
   }
 
-  return acsupp_procfin_fire(actor, ((uint16)(d1) << 8) | d0, 0x4B30U, 0x80C0U);
+  return acsupp_procfin_fire(actor, ((uint16)(d1) << 8) | d0, 0x9630U, 0x80C0U);
 
  }else{
 

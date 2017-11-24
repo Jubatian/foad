@@ -92,7 +92,7 @@ auint acbomb_process(mapact_t* actor)
   levelscr_shake(8U);
   global_fadecolor = 0xBFU;
   global_palctr = GLOBAL_FADE_FLASH | GLOBAL_FADE_2X | GLOBAL_FADE_INC | GLOBAL_FADE_GAME;
-  gstat_score_add(50U); /* Destroyed bomb */
+  gstat_score_add(75U); /* Destroyed bomb */
   sound_effect(SOUND_BOOM, 0xFFU);
  }
 

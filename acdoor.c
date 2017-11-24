@@ -65,7 +65,7 @@ auint acdoor_process(mapact_t* actor)
    level_repadd(xt, yt);
    levelscr_reset();
    levelscr_shake(3U);
-   gstat_score_add(50U); /* Destroyed door */
+   gstat_score_add(75U); /* Destroyed door */
    sound_effect(SOUND_BOOM, 0x80U);
   }
   d0 += 0x20U;
