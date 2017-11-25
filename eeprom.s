@@ -1,6 +1,6 @@
 /*
  *  Dragon - EEPROM score storage
- *  Copyright (C) 2016 Sandor Zsuga (Jubatian)
+ *  Copyright (C) 2017 Sandor Zsuga (Jubatian)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,16 +30,16 @@
 /*
 ** Default EEPROM data:
 **
-** Alec-Uze    1200
-** D3thAdd3r    950
-** Jubatian     500
+** Alec-Uze    6000
+** D3thAdd3r   4000
+** Jubatian    2000
 **
-** (Maximal possible score in the demo is above 1400 points)
+** (Maximal possible score is above 14000 points)
 */
 eeprom_def:
-	.byte  0, 11 + 26,  4 + 26,  2 + 26, 62,      20,      25 + 26,  4 + 26, 63,      63, 1200 & 0xFF, 1200 >> 8
-	.byte  3,  3 + 52, 19 + 26,  7 + 26,  0,       3 + 26,  3 + 26,  3 + 52, 17 + 26, 63,  950 & 0xFF,  950 >> 8
-	.byte  9, 20 + 26,  1 + 26,  0 + 26, 19 + 26,  8 + 26,  0 + 26, 13 + 26, 63,      63,  500 & 0xFF,  500 >> 8
+	.byte  0, 11 + 26,  4 + 26,  2 + 26, 62,      20,      25 + 26,  4 + 26, 63,      63, 6000 & 0xFF, 6000 >> 8
+	.byte  3,  3 + 52, 19 + 26,  7 + 26,  0,       3 + 26,  3 + 26,  3 + 52, 17 + 26, 63, 4000 & 0xFF, 4000 >> 8
+	.byte  9, 20 + 26,  1 + 26,  0 + 26, 19 + 26,  8 + 26,  0 + 26, 13 + 26, 63,      63, 2000 & 0xFF, 2000 >> 8
 
 
 

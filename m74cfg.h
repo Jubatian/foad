@@ -49,13 +49,13 @@
 #define RES_L1_OFF         (RES_SECT + 0x2700)
 #define RES_L0REPD_OFF     (RES_SECT + 0x3000)
 #define RES_SPR_TILES_OFF  (RES_SECT + 0x3100)
-#define RES_SPR_OFF        (RES_SECT + 0x4C00)
+#define RES_SPR_OFF        (RES_SECT + 0x4B00)
 #define RES_TILEFLG_OFF    (RES_SECT + 0x2F00)
 #define RES_SPRIDCONV_OFF  (RES_SECT + 0x4900)
 #define RES_SPRIDSIZE_OFF  (RES_SECT + 0x0180)
-#define RES_DHEAD_OFF      (RES_SECT + 0x4B00)
-#define RES_WAVES_OFF      (RES_SECT + 0x5300)
-#define RES_TEXT_OFF       (RES_SECT + 0x5700)
+#define RES_DHEAD_OFF      (RES_SECT + 0x5600)
+#define RES_WAVES_OFF      (RES_SECT + 0x5200)
+#define RES_TEXT_OFF       (RES_SECT + 0x5680)
 #define RES_MAP_OFF        (RES_TEXT_OFF + TXT_SIZE)
 
 /* Others (not Mode 74 specific) */
@@ -85,7 +85,7 @@
 #define M74_VRAM_H         24
 #define M74_ROMTD_OFF      (RES_SECT + 0x0000)
 #define M74_RECTB_OFF      (RES_SECT + 0x0100)
-#define M74_ROMMASKIDX_OFF (RES_SECT + 0x5280 - (RES_TILES_00_OFF / 32))
+#define M74_ROMMASKIDX_OFF (RES_SECT + 0x5180 - (RES_TILES_00_OFF / 32))
 #define M74_ROMMASK_OFF    (RES_SECT + 0x1A00)
 #define M74_RTLIST_OFF     0x1051
 #define M74_ROWS_OFF       0x1000

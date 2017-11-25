@@ -264,7 +264,7 @@ void gameend_enter(void)
 
  /* Start music */
 
- music_start_id(0U);
+ music_start_id(3U);
 
  /* Sets display for intro mode */
 

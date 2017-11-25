@@ -4600,53 +4600,7 @@ const uint8 res_spridconv_hi[256] __attribute__ ((section (".res"))) = {
 
 
 
-/* + 0x4B00: Dragon head's location relative to sprite base on each frame */
-
-const uint8 res_dhead[256] __attribute__ ((section (".res"))) = {
- 13U, 12U, 13U, 15U, /* 0x00: Dragon walk */
- 13U, 12U, 13U, 15U,
- 13U, 12U, 13U, 15U,
- 13U, 12U, 13U, 15U,
-
- 13U, 13U, 13U, 16U, /* 0x08: Dragon stand */
- 13U, 13U, 13U, 16U,
-
-  9U, 14U,  9U, 17U, /* 0x0C: Dragon sit */
-  9U, 14U,  9U, 17U,
-
- 12U,  6U, 12U,  9U, /* 0x10: Dragon lay */
- 12U,  6U, 12U,  9U,
-
-  5U, 12U,  5U, 12U, /* 0x14: Dragon turn */
-  0U, 12U,  0U, 12U,
-250U, 12U,250U, 12U,
- 10U, 12U, 10U, 12U,
-
- 12U, 10U, 12U, 13U, /* 0x1C: Dragon run */
- 12U, 10U, 12U, 13U,
- 13U, 10U, 13U, 13U,
- 13U, 10U, 13U, 13U,
- 13U, 10U, 13U, 13U,
- 13U, 10U, 13U, 13U,
- 12U, 10U, 12U, 13U,
-
- 11U, 15U, 11U, 15U, /* 0x2A: Dragon jump */
- 10U, 25U, 10U, 25U,
- 12U, 33U, 12U, 33U,
- 12U, 33U, 12U, 33U,
- 13U, 25U, 13U, 25U,
- 13U, 21U, 13U, 21U,
- 13U, 13U, 13U, 13U,
- 13U, 12U, 13U, 12U,
- 13U, 11U, 13U, 11U,
- 13U, 11U, 13U, 11U,
-
-  9U, 14U,  9U, 17U  /* 0x3E: Dragon hook */
-};
-
-
-
-/* + 0x4C00: Sprite definitions */
+/* + 0x4B00: Sprite definitions */
 
 #define SP_LO(i) ((((uint16)(RES_SPR_TILES_OFF) + (i * 32U)) & 0xFFU) | 0x01U)
 #define SP_LE(i) ((((uint16)(RES_SPR_TILES_OFF) + (i * 32U)) & 0xFFU) | 0x03U)
@@ -5217,7 +5171,7 @@ const uint8 res_spr[1664] __attribute__ ((section (".res"))) = {
 
 
 
-/* +0x5280: Mask indices for 0x00 - 0x7F */
+/* +0x5180: Mask indices for 0x00 - 0x7F */
 
 const uint8 res_mskidx_00[128] __attribute__ ((section (".res"))) = {
 
@@ -5234,7 +5188,7 @@ const uint8 res_mskidx_00[128] __attribute__ ((section (".res"))) = {
 
 
 
-/* +5300: Waves (name notes: this is for the kernel) */
+/* +5200: Waves (name notes: this is for the kernel) */
 
 const uint8 waves[1024] __attribute__ ((section (".res"))) = {
 
@@ -5382,11 +5336,57 @@ const uint8 waves[1024] __attribute__ ((section (".res"))) = {
 
 
 
+/* + 0x5600: Dragon head's location relative to sprite base on each frame */
+
+const uint8 res_dhead[128] __attribute__ ((section (".res"))) = {
+ 13U, 12U, 13U, 15U, /* 0x00: Dragon walk */
+ 13U, 12U, 13U, 15U,
+ 13U, 12U, 13U, 15U,
+ 13U, 12U, 13U, 15U,
+
+ 13U, 13U, 13U, 16U, /* 0x08: Dragon stand */
+ 13U, 13U, 13U, 16U,
+
+  9U, 14U,  9U, 17U, /* 0x0C: Dragon sit */
+  9U, 14U,  9U, 17U,
+
+ 12U,  6U, 12U,  9U, /* 0x10: Dragon lay */
+ 12U,  6U, 12U,  9U,
+
+  5U, 12U,  5U, 12U, /* 0x14: Dragon turn */
+  0U, 12U,  0U, 12U,
+250U, 12U,250U, 12U,
+ 10U, 12U, 10U, 12U,
+
+ 12U, 10U, 12U, 13U, /* 0x1C: Dragon run */
+ 12U, 10U, 12U, 13U,
+ 13U, 10U, 13U, 13U,
+ 13U, 10U, 13U, 13U,
+ 13U, 10U, 13U, 13U,
+ 13U, 10U, 13U, 13U,
+ 12U, 10U, 12U, 13U,
+
+ 11U, 15U, 11U, 15U, /* 0x2A: Dragon jump */
+ 10U, 25U, 10U, 25U,
+ 12U, 33U, 12U, 33U,
+ 12U, 33U, 12U, 33U,
+ 13U, 25U, 13U, 25U,
+ 13U, 21U, 13U, 21U,
+ 13U, 13U, 13U, 13U,
+ 13U, 12U, 13U, 12U,
+ 13U, 11U, 13U, 11U,
+ 13U, 11U, 13U, 11U,
+
+  9U, 14U,  9U, 17U  /* 0x3E: Dragon hook */
+};
+
+
+
 /* From this point there is no 256 byte alignment. */
 
 
 
-/* +5700: ROM text source material */
+/* + 0x5680: ROM text source material */
 
 const uint8 res_text[] __attribute__ ((section (".res"))) = {
  0xC1U, 0x83U, 0x06U, 0x0CU, 0x18U, 0x03U, 0x2CU, 0x52U,
@@ -5671,7 +5671,7 @@ const uint8 res_text[] __attribute__ ((section (".res"))) = {
 
 
 
-/* +5900 + TEXT: Maps */
+/* + 0x5680 + TEXT: Maps */
 
 
 
@@ -5752,7 +5752,6 @@ const uint8 res_map_00_a01[] __attribute__ ((section (".res"))) = {
  ACT_ABS_L1( 2U, 112U,  3U, 32U),
  ACT_REL( 96,  16),
  ACT_ABS_L1( 6U,   0U,  3U, 48U),
- ACT_REL( 64,   0),
  ACT_ABS_L1( 7U,   0U,  2U, 32U),
  ACT_REL( 64, -32),
  ACT_ABS_L1( 9U,  64U,  0U, 32U),
@@ -6040,7 +6039,7 @@ const uint8 res_map_01_h[] __attribute__ ((section (".res"))) = {
  PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Fire extenders */
  PTR_16_N(MAP_01_A0A_OFF, 1U),    /* HP Energy extenders */
  PTR_16_N(MAP_01_A0B_OFF, 0U),    /* LP Pikemen */
- PTR_16_E(MAP_01_A0C_OFF, 0U),    /* LP Swordsmen */
+ PTR_16_E(MAP_01_A0C_OFF, 0U)     /* LP Swordsmen */
 };
 
 
@@ -6155,8 +6154,7 @@ const uint8 res_map_02_a0c[] __attribute__ ((section (".res"))) = {
  ACT_ABS_L1(29U,  48U,  3U, 32U),
  ACT_ABS_L1(35U,  32U,  4U, 48U),
  ACT_REL( 64,   0),
- ACT_ABS_L1(46U, 112U,  1U, 16U),
- ACT_REL( 16,  32),
+ ACT_ABS_L1(47U,   0U,  1U, 48U),
  ACT_END
 };
 
@@ -6767,9 +6765,6 @@ const uint8 res_map_05_a0d[] __attribute__ ((section (".res"))) = {
 };
 
 /* Type 0x0E: Civilian */
-const uint8 res_map_05_a0e[] __attribute__ ((section (".res"))) = {
- ACT_END
-};
 
 /* Type 0x10: Small rockfall, Right of dragon */
 
@@ -6797,8 +6792,7 @@ const uint8 res_map_05_a0e[] __attribute__ ((section (".res"))) = {
 #define MAP_05_A0B_OFF  (MAP_05_A08_OFF  + sizeof(res_map_05_a08))
 #define MAP_05_A0C_OFF  (MAP_05_A0B_OFF  + sizeof(res_map_05_a0b))
 #define MAP_05_A0D_OFF  (MAP_05_A0C_OFF  + sizeof(res_map_05_a0c))
-#define MAP_05_A0E_OFF  (MAP_05_A0D_OFF  + sizeof(res_map_05_a0d))
-#define MAP_05_HEAD_OFF (MAP_05_A0E_OFF  + sizeof(res_map_05_a0e))
+#define MAP_05_HEAD_OFF (MAP_05_A0D_OFF  + sizeof(res_map_05_a0d))
 #define MAP_05_END_OFF  (MAP_05_HEAD_OFF + sizeof(res_map_05_h))
 
 /* Map header */
@@ -6823,8 +6817,7 @@ const uint8 res_map_05_h[] __attribute__ ((section (".res"))) = {
  PTR_16_N(MAP_AEMPTY_OFF, 1U),    /* HP Energy extenders */
  PTR_16_N(MAP_05_A0B_OFF, 0U),    /* LP Pikemen */
  PTR_16_N(MAP_05_A0C_OFF, 0U),    /* LP Swordsmen */
- PTR_16_N(MAP_05_A0D_OFF, 0U),    /* LP Rock dropper */
- PTR_16_E(MAP_05_A0E_OFF, 0U),    /* LP Civilian */
+ PTR_16_E(MAP_05_A0D_OFF, 0U)     /* LP Rock dropper */
 };
 
 
@@ -6834,8 +6827,8 @@ const uint8 res_map_05_h[] __attribute__ ((section (".res"))) = {
 const uint8 res_map_06_d[] __attribute__ ((section (".res"))) = {
  0x0DU, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x6EU,  0x72U, 0x70U,
  0x19U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x77U,  0xBBU, 0x74U,
- 0xE9U, 0x0BU, 0x0DU, 0x08U, 0x03U, 0x06U, 0xD9U, 0xE0U,  0xA7U, 0x78U,
- 0x10U, 0x64U, 0x1EU, 0x13U, 0x02U, 0x10U, 0x10U, 0xE1U,  0xECU, 0xA7U,
+ 0xE9U, 0x0BU, 0x0DU, 0x08U, 0x03U, 0x06U, 0xD9U, 0xE0U,  0xA8U, 0x78U,
+ 0x10U, 0x64U, 0x1EU, 0x13U, 0x02U, 0x10U, 0x10U, 0xE1U,  0xECU, 0xA8U,
  0x64U, 0x63U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
  0x62U, 0x30U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U, 0x10U,  0x10U, 0x10U,
  0x10U, 0x26U, 0x22U, 0x20U, 0x21U, 0x5CU, 0x10U, 0x10U,  0x10U, 0x10U,
@@ -7802,7 +7795,7 @@ const uint8 res_maplist[] __attribute__ ((section (".res"))) = {
 
 
 
-/* +5900 + TEXT + MAPS: Sequence (see SEQUENCE) */
+/* + 0x5680 + TEXT + MAPS: Sequence (see SEQUENCE) */
 
 const uint8 res_sequence[] __attribute__ ((section (".res"))) = {
   105U >> 8,     /* Story panel */
@@ -7851,7 +7844,7 @@ const uint8 res_sequence[] __attribute__ ((section (".res"))) = {
 
 
 
-/* +5900 + TEXT + MAPS + SEQUENCE: Audio patches and stuff */
+/* + 0x5680 + TEXT + MAPS + SEQUENCE: Audio patches and stuff */
 
 const uint8 res_patch_boom[] __attribute__ ((section (".res"))) = {
   0U, PC_WAVE,              1U,
@@ -7933,7 +7926,7 @@ const uint8 res_patch_i0[] __attribute__ ((section (".res"))) = {
 const uint8 res_patch_i1[] __attribute__ ((section (".res"))) = {
   0U, PC_WAVE,              3U,
   0U, PC_ENV_VOL,        0xFFU,
-  0U, PC_NOTE_UP,          12U,
+  0U, PC_NOTE_UP,           8U,
   2U, PC_ENV_SPEED, 256U - 16U,
   0U, PC_TREMOLO_LEVEL,   120U,
   0U, PC_TREMOLO_RATE,     13U,
@@ -7979,7 +7972,7 @@ const struct PatchStruct res_patches[] __attribute__ ((section (".res"))) = {
 
 
 
-/* +5900 + TEXT + MAPS + SEQUENCE + Patches: Music */
+/* + 0x5680 + TEXT + MAPS + SEQUENCE + Patches: Music */
 
 #define MC_RETURN  0x0U
 #define MC_RESET   0x1U
@@ -8016,7 +8009,9 @@ const struct PatchStruct res_patches[] __attribute__ ((section (".res"))) = {
 #define MU_INS1    6U
 #define MU_INS2    4U
 
+
 /* Note: for all themes the last sequence is which plays it */
+
 
 /* Silence all channels */
 
@@ -8035,6 +8030,7 @@ const uint8 res_music_01[] __attribute__ ((section (".res"))) = {
  MU_CD(MC_NOTEOFF,  0U),
  MU_CD(MC_RETURN,   0U)
 };
+
 
 /* Story theme */
 
@@ -8084,17 +8080,173 @@ const uint8 res_music_03[] __attribute__ ((section (".res"))) = {
 #define MSEQ_04    (MSEQ_03 + sizeof(res_music_03))
 
 const uint8 res_music_04[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_01),
  MU_CD(MC_PATCH,    0U), MU_INS2,
- MU_CD(MC_VOL,      0U), 0x7FU,
+ MU_CD(MC_VOL,      0U), 0x6FU,
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_03),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_03),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_02),
  MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_04)
 };
 
+
+/* End theme */
+
+#define MSEQ_40    (MSEQ_04 + sizeof(res_music_04))
+
+const uint8 res_music_40[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_DELAY,    1U),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_C),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_D),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_D),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_G),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_DELAY,    2U),
+ MU_CD(MC_RETURN,   0U)
+};
+
+#define MSEQ_41    (MSEQ_40 + sizeof(res_music_40))
+
+const uint8 res_music_41[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_DELAY,    1U),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_C),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_DELAY,    1U),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_D),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_DELAY,    1U),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_C),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_RETURN,   8U)
+};
+
+#define MSEQ_42    (MSEQ_41 + sizeof(res_music_41))
+
+const uint8 res_music_42[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_F),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(6U, MU_F),
+ MU_CD(MC_RETURN,   0U)
+};
+
+#define MSEQ_43    (MSEQ_42 + sizeof(res_music_42))
+
+const uint8 res_music_43[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_42),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_D),
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_42),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_G),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(6U, MU_E),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(6U, MU_C),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(6U, MU_D),
+ MU_CD(MC_NOTEOFF,  8U),
+ MU_CD(MC_DELAY,    1U),
+ MU_CD(MC_RETURN,   8U)
+};
+
+#define MSEQ_50    (MSEQ_43 + sizeof(res_music_43))
+
+const uint8 res_music_50[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(1U, MU_D),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_D),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_D),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_E),
+ MU_CD(MC_NOTEON,  12U), MU_NOTE(1U, MU_D),
+ MU_CD(MC_RETURN,   0U)
+};
+
+#define MSEQ_51    (MSEQ_50 + sizeof(res_music_50))
+
+const uint8 res_music_51[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_50),
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_50),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_D),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_D),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_E),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_D),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_E),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(1U, MU_G),
+ MU_CD(MC_DELAY,    2U),
+ MU_CD(MC_RETURN,   8U)
+};
+
+#define MSEQ_60    (MSEQ_51 + sizeof(res_music_51))
+
+const uint8 res_music_60[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(4U, MU_E),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_E),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_G),
+ MU_CD(MC_NOTEON,   0U), MU_NOTE(4U, MU_A),
+ MU_CD(MC_DELAY,    1U),
+ MU_CD(MC_NOTEON,   8U), MU_NOTE(4U, MU_G),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_G),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_A),
+ MU_CD(MC_NOTEON,   0U), MU_NOTE(5U, MU_C),
+ MU_CD(MC_DELAY,    1U),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_A),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_G),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_A),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_A),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_G),
+ MU_CD(MC_NOTEON,   4U), MU_NOTE(4U, MU_A),
+ MU_CD(MC_NOTEON,   0U), MU_NOTE(5U, MU_C),
+ MU_CD(MC_DELAY,    2U),
+ MU_CD(MC_RETURN,   8U)
+};
+
+#define MSEQ_70    (MSEQ_60 + sizeof(res_music_60))
+
+const uint8 res_music_70[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_PATCH,    0U), MU_INS1,
+ MU_CD(MC_VOL,      0U), 0x3FU,
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_40),
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_40),
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_41),
+ MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_43)
+};
+
+#define MSEQ_71    (MSEQ_70 + sizeof(res_music_70))
+
+const uint8 res_music_71[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_PATCH,    0U), MU_INS0,
+ MU_CD(MC_VOL,      0U), 0x7FU,
+ MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_51),
+ MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_51)
+};
+
+#define MSEQ_72    (MSEQ_71 + sizeof(res_music_71))
+
+const uint8 res_music_72[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_PATCH,    0U), MU_INS2,
+ MU_CD(MC_VOL,      0U), 0x47U,
+ MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
+ MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
+ MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_60)
+};
+
+#define MSEQ_73    (MSEQ_72 + sizeof(res_music_72))
+
+const uint8 res_music_73[] __attribute__ ((section (".res"))) = {
+ MU_CD(MC_RESET,    0U), 0x01U, MU_ADDR(MSEQ_71),
+ MU_CD(MC_RESET,    0U), 0x02U, MU_ADDR(MSEQ_72),
+ MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_70),
+ MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_73)
+};
+
+
 /* Game theme */
 
-#define MSEQ_80    (MSEQ_04 + sizeof(res_music_04))
+#define MSEQ_80    (MSEQ_73 + sizeof(res_music_73))
 
 const uint8 res_music_80[] __attribute__ ((section (".res"))) = {
  MU_CD(MC_NOTEOFF,  8U),
@@ -8338,15 +8490,14 @@ const uint8 res_music_b0[] __attribute__ ((section (".res"))) = {
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_82),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_83),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_83),
- MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_84),
- MU_CD(MC_RETURN,   0U)
+ MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_84)
 };
 
 #define MSEQ_B1    (MSEQ_B0 + sizeof(res_music_b0))
 
 const uint8 res_music_b1[] __attribute__ ((section (".res"))) = {
  MU_CD(MC_PATCH,    0U), MU_INS0,
- MU_CD(MC_VOL,      0U), 0x6FU,
+ MU_CD(MC_VOL,      0U), 0x7FU,
  MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_91),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_91),
@@ -8355,15 +8506,14 @@ const uint8 res_music_b1[] __attribute__ ((section (".res"))) = {
  MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_93),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_93),
- MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_95),
- MU_CD(MC_RETURN,   0U)
+ MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_95)
 };
 
 #define MSEQ_B2    (MSEQ_B1 + sizeof(res_music_b1))
 
 const uint8 res_music_b2[] __attribute__ ((section (".res"))) = {
  MU_CD(MC_PATCH,    0U), MU_INS2,
- MU_CD(MC_VOL,      0U), 0x4FU,
+ MU_CD(MC_VOL,      0U), 0x47U,
  MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
  MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
  MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
@@ -8372,8 +8522,7 @@ const uint8 res_music_b2[] __attribute__ ((section (".res"))) = {
  MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    3U), MU_CD(MC_DELAY,    2U),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_A3),
  MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_A3),
- MU_CD(MC_CALL,     0U), MU_ADDR(MSEQ_A4),
- MU_CD(MC_RETURN,   0U)
+ MU_CD(MC_JUMP,     0U), MU_ADDR(MSEQ_A4)
 };
 
 #define MSEQ_B3    (MSEQ_B2 + sizeof(res_music_b2))
@@ -8390,5 +8539,6 @@ const uint8 res_music_b3[] __attribute__ ((section (".res"))) = {
 const uint16 res_music_list[] __attribute__ ((section (".res"))) = {
  MSEQ_01,
  MSEQ_04,
- MSEQ_B3
+ MSEQ_B3,
+ MSEQ_73
 };
