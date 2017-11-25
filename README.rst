@@ -69,14 +69,3 @@ All the game contents created by Jubatian (Sandor Zsuga) may also be used
 according to the Creative Commons CC-BY-SA 4.0 license. Note that the game
 kernel contains components which are created by various authors (from the
 UzeBox project) which can only be used under GPLv3.
-
-
-
-
-Demo version notes
-------------------------------------------------------------------------------
-
-
-The game is released as a demo since the full version isn't complete yet. It
-contains most game elements for trying out, if interested, you may provide
-feedback by it which might affect the eventual full version.
