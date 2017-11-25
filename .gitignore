@@ -12,6 +12,7 @@
 !/assets/*.c
 !/assets/*.h
 !/assets/texts.txt
+!/assets/*.it
 /kernelm74/videoMode74/examples
 /kernelm74/videoMode74/generators
 cuzebox
