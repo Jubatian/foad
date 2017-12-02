@@ -61,6 +61,45 @@ Make producing the .hex file. To get a .uze file, you need the UzeRom packager
 
 
 
+Controls
+------------------------------------------------------------------------------
+
+
+During the game, the following controls are used:
+
+- Dpad: Left / Right movement, looking up and down (also for firing angle)
+- A, X: Jump
+- B, Y: Fire
+- Right Shoulder: Walk
+- Left Shoulder: Look up
+
+During high score entry, the followings are used:
+
+- Dpad: Navigate between characters, select character
+- A, X, B, Y, Shoulders: Toggle Upper / Lowercase
+- Enter, Select: Accept name
+
+
+
+
+Hints
+------------------------------------------------------------------------------
+
+
+- Pay attention to your energy (stamina) bar (third bar on the upper left). If
+  it is depleted, you run slower, and can't jump high. You can't catch some
+  ledges without sufficient energy.
+
+- Initially the dragon doesn't have his full potential. Collect power-ups,
+  without those it might be impossible to finish the game.
+
+- Always keep moving (unless purposely resting to restore energy). Usually
+  enemies are the least effective when you are running, but be vary of pikemen
+  who charge at you.
+
+
+
+
 Alternate licenses
 ------------------------------------------------------------------------------
 
