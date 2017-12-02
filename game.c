@@ -58,6 +58,11 @@
 #define GAME_THEALTH  global_shared[2]
 #define GAME_TTIME    global_shared[3]
 
+/* Pause function */
+#define GAME_PAUSED   global_shared[4]
+
+/* "Any movement button" mask */
+#define GAME_BTN_ANYM (BTN_RIGHT | BTN_LEFT | BTN_UP | BTN_DOWN | BTN_A | BTN_B | BTN_X | BTN_Y | BTN_SR | BTN_SL)
 
 
 #if (PERF_DBG != 0)
@@ -80,6 +85,29 @@ static void game_frame(void)
 
 
  if ((global_framectr & 0x1U) == 0U){ /* Logic frame */
+
+  if ((GAME_PAUSED & 1U) != 0U){ /* Game is paused */
+
+   global_fadecolor = 0xADU;
+   if (global_fadectr == 0x00U){
+    global_palctr = GLOBAL_FADE_TOP | GLOBAL_FADE_INC;
+   }
+   if (global_fadectr == 0xFFU){
+    global_palctr = GLOBAL_FADE_TOP;
+   }
+
+   if ( ((btn & (BTN_START | BTN_SELECT)) == 0U) &&
+        ((btn & (GAME_BTN_ANYM)) != 0U) ){
+    GAME_PAUSED = 0U;
+    global_palctr = GLOBAL_FADE_TOP;
+   }
+
+   GAME_BTNC_LO = 0x00U;
+   GAME_BTNC_HI = 0x00U;
+
+   M74_Halt(); /* If paused, logic frame ends here */
+
+  }
 
   if ((GAME_LEVEND & 1U) != 0U){ /* End of level reached */
 
@@ -156,6 +184,10 @@ static void game_frame(void)
    if ((btn & BTN_DOWN)  != 0U){ cmd |= DRAGON_DOWN; }
    if ((btn & BTN_UP)    != 0U){ cmd |= DRAGON_UP; }
    if ((btn & BTN_SL)    != 0U){ cmd |= DRAGON_UP; }
+   if ( ((btn & (BTN_START | BTN_SELECT)) == (BTN_START | BTN_SELECT)) ){
+    gstat_score_sub(100U); /* Pausing removes score */
+    GAME_PAUSED = 1U;
+   }
 
    GAME_BTNC_LO = 0x00U;
    GAME_BTNC_HI = 0x00U;
@@ -189,7 +221,11 @@ static void game_frame(void)
 
  torch_prep();
 
- levelscr_scroll();
+ if ((GAME_PAUSED & 1U) == 0U){
+  levelscr_scroll();
+ }else{
+  levelscr_screen();
+ }
 
  global_genpal();
 
@@ -225,6 +261,7 @@ void game_enter(auint map)
  GAME_BTNC_LO = 0x00U;
  GAME_BTNC_HI = 0x00U;
  GAME_LEVEND  = 0x00U;
+ GAME_PAUSED  = 0x00U;
 
  /* Clear VRAM */
 

@@ -72,12 +72,33 @@ During the game, the following controls are used:
 - B, Y: Fire
 - Right Shoulder: Walk
 - Left Shoulder: Look up
+- Start + Select (press both): Pause (removes 100 score)
 
 During high score entry, the followings are used:
 
 - Dpad: Navigate between characters, select character
 - A, X, B, Y, Shoulders: Toggle Upper / Lowercase
 - Enter, Select: Accept name
+
+
+
+
+The in-game status displays
+------------------------------------------------------------------------------
+
+
+From left to right, the followings are displayed:
+
+- Dragon head: Your health. The amount of health you have contributes to your
+  score on the end of a level.
+- Fireball: Remaining fuel in your flame glands. It replenishes quickly, but
+  you will deplete it by contiguous fire.
+- Double up-arrow: Remaining energy, if it depletes, you run slow and your
+  ability to jump is hindered. Have a rest!
+- Score display: How well you are going. Usually staying alive, collecting
+  stuff and freeing prisoners increment it and killing decrements.
+- Hourglass: How long you have until you are overwhelmed and have to give up.
+  Finishing a level faster increases your score!
 
 
 

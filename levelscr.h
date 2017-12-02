@@ -100,6 +100,15 @@ void levelscr_shake(auint mag);
 
 
 /*
+** Set up screen
+**
+** This may be used if the panning logic should be suspended, sets us the
+** game screen without performing scrolling.
+*/
+void levelscr_screen(void);
+
+
+/*
 ** Performs a scroll step
 **
 ** VRAM must be restored before calling this. It carries out a frame of

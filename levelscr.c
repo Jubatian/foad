@@ -155,15 +155,12 @@ void levelscr_shake(auint mag)
 
 
 /*
-** Performs a scroll step
-**
-** VRAM must be restored before calling this. It carries out a frame of
-** scrolling as necessary. After this, sprites may be blitted.
+** Internal function to set up screen by a previous position.
 */
-void levelscr_scroll(void)
+static void levelscr_screen_byprev(uint16 px, uint16 py)
 {
- uint16 ptx;
- uint16 pty;
+ uint16 ptx = px >> 3;
+ uint16 pty = py >> 3;
  uint16 tx;
  uint16 ty;
  uint8* vram = (uint8*)(M74_VRAM_OFF);
@@ -178,94 +175,6 @@ void levelscr_scroll(void)
  asint  sy;
  uint16 t16;
  uint16 u16;
-
-
- /* Prepare previous tile locations */
-
- ptx = levelscr_x >> 3;
- pty = levelscr_y >> 3;
-
-
- /* Scroll. Tricky for smoothening the scroll, also limiting to 8px at most.
- ** Note an exploit of C conversion rules between signed and unsigned. */
-
- t16 = levelscr_tx - levelscr_x;
- t   = levelscr_psx;
- i   = (auint)(t16 & 0xFFU);
- if ((t16 & 0x8000U) == 0U){ /* Right scroll */
-  if (t16 > 0x0080U){ i = 0x80U; }
-  i += 15U;
-  i >>= 4;
-  t ++;
-  if ((asint)(t) >= (asint)(i)){ t = i; }
- }else{                      /* Left scroll */
-  if (t16 < 0xFF80U){ i = 0x80U; }
-  i >>= 4;
-  i |= 0xF0U;
-  t --;
-  if ((asint)(t) <= (asint)(i)){ t = i; }
- }
- levelscr_psx = t;
- if (levelscr_mag != 0U){    /* Screen shaking */
-  i = random_get();
-  if (levelscr_mag > 4U){ i &= 0xFU; j = 8U; }
-  else                  { i &= 0x7U; j = 4U; }
-  t = (t + i) - j;
-  if ((t & 0x80U) != 0U){
-   if (t < 0xF8U){ t = 0xF8U; }
-  }else{
-   if (t > 0x08U){ t = 0x08U; }
-  }
-  t16 = (uint16)((asint)(t));
-  levelscr_x += t16;
-  if      (levelscr_x >=     0xFF00U){ levelscr_x = 0U; }
-  else if (levelscr_x >= levelscr_bx){ levelscr_x = levelscr_bx; }
-  else                               {}
- }else{                      /* Normal (no shaking) output */
-  t16 = (uint16)((asint)(t));
-  levelscr_x += t16;
-  if      (levelscr_x >=     0xFF00U){ levelscr_x = 0U; }
-  else if (levelscr_x >= levelscr_bx){ levelscr_x = levelscr_bx; }
-  else                               {}
- }
-
- t16 = levelscr_ty - levelscr_y;
- t   = levelscr_psy;
- i   = (auint)(t16 & 0xFFU);
- if ((t16 & 0x8000U) == 0U){ /* Down scroll */
-  if (t16 > 0x0080U){ i = 0x80U; }
-  i += 15U;
-  i >>= 4;
-  t ++;
-  if ((asint)(t) >= (asint)(i)){ t = i; }
- }else{                      /* Up scroll */
-  if (t16 < 0xFF80U){ i = 0x80U; }
-  i >>= 4;
-  i |= 0xF0U;
-  t --;
-  if ((asint)(t) <= (asint)(i)){ t = i; }
- }
- levelscr_psy = t;
- if (levelscr_mag != 0U){    /* Screen shaking */
-  i = random_get();
-  if (levelscr_mag > 4U){ i &= 0xFU; j = 8U; }
-  else                  { i &= 0x7U; j = 4U; }
-  t = (t + i) - j;
-  if ((t & 0x80U) != 0U){
-   if (t < 0xF8U){ t = 0xF8U; }
-  }else{
-   if (t > 0x08U){ t = 0x08U; }
-  }
-  t16 = (uint16)((asint)(t));
-  levelscr_y += t16;
-  if      (levelscr_y >=     0xFF00U){ levelscr_y = 0U; }
-  else if (levelscr_y >= levelscr_by){ levelscr_y = levelscr_by; }
-  else                               {}
-  levelscr_mag --;
- }else{                      /* Normal (no shaking) output */
-  t16 = (uint16)((asint)(t));
-  levelscr_y += t16;
- }
 
 
  /* Prepare tile locations */
@@ -355,4 +264,128 @@ void levelscr_scroll(void)
  /* Top / bottom parallax regions */
 
  parallax_render(levelscr_x, ty, levelscr_flg, level_h);
+}
+
+
+
+/*
+** Set up screen
+**
+** This may be used if the panning logic should be suspended, sets us the
+** game screen without performing scrolling.
+*/
+void levelscr_screen(void)
+{
+ levelscr_screen_byprev(levelscr_x, levelscr_y);
+}
+
+
+
+/*
+** Performs a scroll step
+**
+** VRAM must be restored before calling this. It carries out a frame of
+** scrolling as necessary. After this, sprites may be blitted.
+*/
+void levelscr_scroll(void)
+{
+ uint16 ptx;
+ uint16 pty;
+ auint  i;
+ auint  j;
+ auint  t;
+ uint16 t16;
+
+
+ /* Prepare previous locations */
+
+ ptx = levelscr_x;
+ pty = levelscr_y;
+
+
+ /* Scroll. Tricky for smoothening the scroll, also limiting to 8px at most.
+ ** Note an exploit of C conversion rules between signed and unsigned. */
+
+ t16 = levelscr_tx - levelscr_x;
+ t   = levelscr_psx;
+ i   = (auint)(t16 & 0xFFU);
+ if ((t16 & 0x8000U) == 0U){ /* Right scroll */
+  if (t16 > 0x0080U){ i = 0x80U; }
+  i += 15U;
+  i >>= 4;
+  t ++;
+  if ((asint)(t) >= (asint)(i)){ t = i; }
+ }else{                      /* Left scroll */
+  if (t16 < 0xFF80U){ i = 0x80U; }
+  i >>= 4;
+  i |= 0xF0U;
+  t --;
+  if ((asint)(t) <= (asint)(i)){ t = i; }
+ }
+ levelscr_psx = t;
+ if (levelscr_mag != 0U){    /* Screen shaking */
+  i = random_get();
+  if (levelscr_mag > 4U){ i &= 0xFU; j = 8U; }
+  else                  { i &= 0x7U; j = 4U; }
+  t = (t + i) - j;
+  if ((t & 0x80U) != 0U){
+   if (t < 0xF8U){ t = 0xF8U; }
+  }else{
+   if (t > 0x08U){ t = 0x08U; }
+  }
+  t16 = (uint16)((asint)(t));
+  levelscr_x += t16;
+  if      (levelscr_x >=     0xFF00U){ levelscr_x = 0U; }
+  else if (levelscr_x >= levelscr_bx){ levelscr_x = levelscr_bx; }
+  else                               {}
+ }else{                      /* Normal (no shaking) output */
+  t16 = (uint16)((asint)(t));
+  levelscr_x += t16;
+  if      (levelscr_x >=     0xFF00U){ levelscr_x = 0U; }
+  else if (levelscr_x >= levelscr_bx){ levelscr_x = levelscr_bx; }
+  else                               {}
+ }
+
+ t16 = levelscr_ty - levelscr_y;
+ t   = levelscr_psy;
+ i   = (auint)(t16 & 0xFFU);
+ if ((t16 & 0x8000U) == 0U){ /* Down scroll */
+  if (t16 > 0x0080U){ i = 0x80U; }
+  i += 15U;
+  i >>= 4;
+  t ++;
+  if ((asint)(t) >= (asint)(i)){ t = i; }
+ }else{                      /* Up scroll */
+  if (t16 < 0xFF80U){ i = 0x80U; }
+  i >>= 4;
+  i |= 0xF0U;
+  t --;
+  if ((asint)(t) <= (asint)(i)){ t = i; }
+ }
+ levelscr_psy = t;
+ if (levelscr_mag != 0U){    /* Screen shaking */
+  i = random_get();
+  if (levelscr_mag > 4U){ i &= 0xFU; j = 8U; }
+  else                  { i &= 0x7U; j = 4U; }
+  t = (t + i) - j;
+  if ((t & 0x80U) != 0U){
+   if (t < 0xF8U){ t = 0xF8U; }
+  }else{
+   if (t > 0x08U){ t = 0x08U; }
+  }
+  t16 = (uint16)((asint)(t));
+  levelscr_y += t16;
+  if      (levelscr_y >=     0xFF00U){ levelscr_y = 0U; }
+  else if (levelscr_y >= levelscr_by){ levelscr_y = levelscr_by; }
+  else                               {}
+  levelscr_mag --;
+ }else{                      /* Normal (no shaking) output */
+  t16 = (uint16)((asint)(t));
+  levelscr_y += t16;
+ }
+
+
+ /* Set up screen */
+
+ levelscr_screen_byprev(ptx, pty);
 }
