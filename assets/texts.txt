@@ -18,12 +18,12 @@ push forth for your freedom.\e\
 Don't  kill  people  if  you\
 don't have to.\e\
 \e\
-Y, B ........: Fire\e\
-X, A ........: Jump\e\
-RShift ......: Walk\e\
-Up, LShift ..: Look up\e\
-Left, Right .: Move\e\
-Down ........: Look down\e\p\
+Y, B ...........: Fire\e\
+X, A ...........: Jump\e\
+R.Shoulder .....: Walk\e\
+Up, L.Shoulder .: Look up\e\
+Left, Right ....: Move\e\
+Down ...........: Look down\e\p\
 Escaping the  immediate area\
 of your  captivity  you  can\
 have some rest.  But not for\
