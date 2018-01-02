@@ -32,10 +32,10 @@
 /* Text material */
 #define TXT_SIZE           2057
 #define TXT_TITLE_POS      0
-#define TXT_AUTH_POS       25
-#define TXT_OVER_POS       78
-#define TXT_GAMEEND_POS    1936
-#define TXT_GAMEEND_END    2350
+#define TXT_AUTH_POS       49
+#define TXT_OVER_POS       102
+#define TXT_GAMEEND_POS    1960
+#define TXT_GAMEEND_END    2374
 
 /* Resource locations (not Mode 74 specific) */
 #define RES_SCR_STORY_OFF  (RES_SECT + 0x0020)

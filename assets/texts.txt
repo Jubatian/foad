@@ -1,7 +1,9 @@
-      Flight of a Dragon\e\p\
+      Flight of a Dragon\e\
+\e\
+        (Insert  Coin)\e\p\
       A game by Jubatian\e\
 \e\
-    for the Uzebox console\e\p\
+     for the Uzebox JAMMA \e\p\
     You will never be free\e\p\
 They  wanted  you  to  fight\
 their  war.  They locked you\
@@ -18,10 +20,10 @@ push forth for your freedom.\e\
 Don't  kill  people  if  you\
 don't have to.\e\
 \e\
-Y, B ...........: Fire\e\
+B ..............: Fire\e\
 X, A ...........: Jump\e\
-R.Shoulder .....: Walk\e\
-Up, L.Shoulder .: Look up\e\
+Y ..............: Walk\e\
+Up .............: Look up\e\
 Left, Right ....: Move\e\
 Down ...........: Look down\e\p\
 Escaping the  immediate area\

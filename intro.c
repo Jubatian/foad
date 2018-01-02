@@ -33,6 +33,8 @@
 
 
 
+#define INTRO_BTNC_LO   global_shared[0]
+#define INTRO_BTNC_HI   global_shared[1]
 #define INTRO_DRG_FRAME global_shared[2]
 #define INTRO_EXIT      global_shared[3]
 #define INTRO_TIM_LO    global_shared[4]
@@ -103,6 +105,7 @@ static void intro_frame(void)
 {
  auint  i;
  uint16 a16;
+ uint16 btn = INTRO_BTNC_LO | ((uint16)(INTRO_BTNC_HI) << 8);
 
  global_process();
 
@@ -142,7 +145,7 @@ static void intro_frame(void)
 
    case 0x00U: /* Flight of a Dragon intro text, init */
 
-    intro_txadd(TXT_TITLE_POS, 6U, 1U);
+    intro_txadd(TXT_TITLE_POS, 5U, 3U);
     goto state_tran;
 
    case 0x01U: /* Flight of a Dragon intro text */
@@ -248,12 +251,10 @@ void intro_enter(auint hs)
 
  global_hide();
 
- /* Init for press detection */
-
- global_initpress();
-
  /* Init variables */
 
+ INTRO_BTNC_LO   = 0U;
+ INTRO_BTNC_HI   = 0U;
  INTRO_DRG_FRAME = 0U;
  INTRO_EXIT      = 0U;
  INTRO_TIM_LO    = 0U;
