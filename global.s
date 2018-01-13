@@ -78,6 +78,14 @@
 	global_shared: .space 8
 
 
+/*
+** Credit count (number of lives).
+*/
+.global global_credits
+.equ    global_credits, MEM_LOC_P
+
+
+
 .section .text
 
 

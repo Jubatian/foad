@@ -91,6 +91,12 @@ extern auint  global_shared[8];
 
 
 /*
+** Credit count (number of lives).
+*/
+extern auint  global_credits;
+
+
+/*
 ** Processes globals. Should be called on the beginning of all frames.
 */
 void global_process(void);

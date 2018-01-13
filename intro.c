@@ -55,54 +55,18 @@ uint16 intro_getval(uint16 addr)
 
 
 /*
-** Clears text VRAM.
-*/
-static void intro_txclr()
-{
- uint16 i16;
- uint8* vram;
-
- vram = ((uint8*)(LOC_INTXTVRAM_OFF));
- for (i16 = 0U; i16 < (12U * 32U); i16 ++){ vram[i16] = 0x60U; }
-}
-
-
-
-/*
-** Clears text VRAM and adds selected text to it.
-*/
-static void intro_txadd(uint16 txpos, auint ypos, auint height)
-{
- uint16 i16;
- uint8  j8;
- uint8  i8;
- uint8  ch;
- uint8* vram;
-
- intro_txclr();
-
- vram = ((uint8*)(LOC_INTXTVRAM_OFF));
- i16 = ((uint16)(ypos) * 32U);
- for (j8 = 0U; j8 < height; j8 ++){
-  for (i8 = 1U; i8 < 31U; i8 ++){
-   ch = text_rom_getc(txpos);
-   txpos ++;
-   if (ch == 0x3FU){ break; }
-   vram[i16 + i8] = ch;
-  }
-  i16 += 32;
- }
-}
-
-
-
-/*
 ** Frame routine of the intro screen
 */
 static void intro_frame(void)
 {
  auint  i;
  uint16 a16;
+
+ /* Set credit count for a new game. */
+
+ global_credits = 5U;
+
+ /* General display & processing */
 
  global_process();
 
@@ -142,7 +106,8 @@ static void intro_frame(void)
 
    case 0x00U: /* Flight of a Dragon intro text, init */
 
-    intro_txadd(TXT_TITLE_POS, 6U, 1U);
+    text_add_clear(TXT_TITLE_POS, 5U, 1U);
+    text_add(TXT_PRESS_POS, 7U, 1U);
     goto state_tran;
 
    case 0x01U: /* Flight of a Dragon intro text */
@@ -156,7 +121,7 @@ static void intro_frame(void)
 
    case 0x03U: /* High scores, init */
 
-    intro_txclr();
+    text_clear_vram();
     eeprom_load(INTRO_EADDR, INTRO_EADDR_T);
     a16 = LOC_INTXTVRAM_OFF + (4U * 32U) + 7U;
     for (i = 0U; i < 36U; i += 12U){
@@ -184,7 +149,7 @@ static void intro_frame(void)
 
    case 0x06U: /* Author text, init */
 
-    intro_txadd(TXT_AUTH_POS, 5U, 3U);
+    text_add_clear(TXT_AUTH_POS, 5U, 3U);
     goto state_tran;
 
    case 0x07U: /* Author text */

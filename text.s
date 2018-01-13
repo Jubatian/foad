@@ -36,6 +36,8 @@
 ** r25:r24: Character position
 ** Outputs:
 ** r25:r24: Character code (0 - 127 of charset)
+** Clobbers:
+** r0, r1(zero), ZL, ZH
 */
 .global text_rom_getc
 text_rom_getc:
@@ -316,4 +318,88 @@ dotx:
 	adiw  XL,      1
 	ldi   r24,     0x60    ; ' ' (Clear dot after last valid char)
 	st    X,       r24
+	ret
+
+
+
+/*
+** Clears text VRAM (use on mixed text / graphics screens).
+*/
+.global text_clear_vram
+text_clear_vram:
+
+	ldi   XL,      lo8(LOC_INTXTVRAM_OFF)
+	ldi   XH,      hi8(LOC_INTXTVRAM_OFF)
+	ldi   ZL,      lo8(LOC_INTXTVRAM_OFF + (12 * 32))
+	ldi   ZH,      hi8(LOC_INTXTVRAM_OFF + (12 * 32))
+	ldi   r23,     0x60
+tcvl:
+	st    X+,      r23
+	cp    XL,      ZL
+	cpc   XH,      ZH
+	brne  tcvl
+	ret
+
+
+
+/*
+** Adds text to VRAM from ROM text storage along with clearing the text VRAM.
+** Returns text position after the add.
+**
+** Inputs:
+** r25:r24: Source ROM text address
+**     r22: Y position on VRAM
+**     r20: Height
+** Outputs:
+** r25:r24: New text position
+*/
+.global text_add_clear
+text_add_clear:
+
+	rcall  text_clear_vram ; Fall through to text_add
+
+
+
+/*
+** Adds text to VRAM from ROM text storage.
+** Returns text position after the add.
+**
+** Inputs:
+** r25:r24: Source ROM text address
+**     r22: Y position on VRAM
+**     r20: Height
+** Outputs:
+** r25:r24: New text position
+*/
+.global text_add
+text_add:
+
+	ldi   r18,     lo8(LOC_INTXTVRAM_OFF + 1)
+	ldi   r19,     hi8(LOC_INTXTVRAM_OFF + 1)
+	ldi   r23,     32
+	mul   r22,     r23     ; Add start position
+	add   r18,     r0
+	adc   r19,     r1      ; r19:r18: Starting line, X position is 1.
+	movw  r22,     r24     ; r23:r22: Character position
+txal0:
+	movw  XL,      r18
+	ldi   r21,     30      ; Up to 30 characters
+txal1:
+	movw  r24,     r22
+	rcall text_rom_getc
+	subi  r22,     0xFF
+	sbci  r23,     0xFF    ; Next character
+	cpi   r24,     0x3F    ; End of line?
+	breq  txal1e
+	cpi   r21,     0
+	breq  txal1e
+	st    X+,      r24
+	dec   r21
+	rjmp  txal1
+txal1e:
+	subi  r18,     0xE0
+	sbci  r19,     0xFF    ; Add 32
+	dec   r20
+	brne  txal0
+	movw  r24,     r22     ; Return text position
 	ret

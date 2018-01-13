@@ -84,4 +84,24 @@ void  text_disp_ram(uint16 src, uint16 dst);
 void  text_disp_dots(uint16 addr);
 
 
+/*
+** Clears text VRAM (use on mixed text / graphics screens).
+*/
+void  text_clear_vram(void);
+
+
+/*
+** Adds text to VRAM from ROM text storage along with clearing the text VRAM.
+** Returns text position after the add.
+*/
+uint16 text_add_clear(uint16 txpos, auint ypos, auint height);
+
+
+/*
+** Adds text to VRAM from ROM text storage.
+** Returns text position after the add.
+*/
+uint16 text_add(uint16 txpos, auint ypos, auint height);
+
+
 #endif

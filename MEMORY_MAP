@@ -47,6 +47,7 @@ Layout of the bytes marked Free:
 
 0x10F9 - 0x10FF: MEM_LOC_0 - MEM_LOC_6
 0x0BB3 - 0x0BB7: MEM_LOC_7 - MEM_LOC_B
+0x0BB0:          MEM_LOC_P
 
 MEM_LOC_0: mapact.s
 MEM_LOC_1: mapact.s
@@ -60,6 +61,7 @@ MEM_LOC_8: level.s
 MEM_LOC_9: level.s
 MEM_LOC_A: random.s
 MEM_LOC_B: random.s
+MEM_LOC_P: global.s
 
 (Note: Some cases two bytes have to be after each other, so be careful when
 modifying this mapping)

@@ -54,12 +54,10 @@ void seq_new(auint hs)
  dragon_mod(DRAGON_CAP_HP |
             DRAGON_CAP_EN |
             DRAGON_CAP_FI,
-//            3U);
             1U);
  dragon_mod(DRAGON_STA_HP |
             DRAGON_STA_EN |
             DRAGON_STA_FI,
-//            255U);
             1U);
 
  /* Initial score is zero */
@@ -121,6 +119,34 @@ void seq_next(void)
  }
 
  M74_Halt();
+}
+
+
+
+/*
+** Called by screens, this requests restarting a game level. Can only be
+** called if it was a game level (to restart a game in which the player died).
+*/
+void seq_reset(void)
+{
+ /* Revert to the game level before */
+
+ seq_pos -= 2U;
+
+ /* Dragon starts at full HP */
+
+ dragon_mod(DRAGON_STA_HP |
+            DRAGON_STA_EN |
+            DRAGON_STA_FI,
+            255U);
+
+ /* Score is however decremented, enough to kill off high score (since score
+ ** can not be stored on level start, this must be large enough to prevent
+ ** infinite score with unlimited credits). */
+
+ gstat_score_sub(3000U);
+
+ seq_next();
 }
 
 

@@ -1,8 +1,10 @@
       Flight of a Dragon\e\p\
+    Press button to start!\e\p\
       A game by Jubatian\e\
 \e\
     for the Uzebox console\e\p\
     You will never be free\e\p\
+        Continue? . ( )\e\p\
 They  wanted  you  to  fight\
 their  war.  They locked you\
 deep  underground  to  break\
