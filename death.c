@@ -61,11 +61,13 @@ static void death_frame(void)
 {
  uint8* vram = ((uint8*)(LOC_INTXTVRAM_OFF));
  auint  dval;
- auint  cre;
+ auint  tout;
+ auint  cred;
+ auint  coin;
 
  /* Process coin input if player wants to buy credits */
 
- cre = global_jammacount(INTRO_JDIPS);
+ coin = global_jammacount(INTRO_JDIPS);
 
  /* General display & processing */
 
@@ -86,30 +88,36 @@ static void death_frame(void)
 
  /* Countine display's counters */
 
- if (DEATH_TOUT     < 10U){ dval = DEATH_TOUT; }
- else                     { dval = 9U; }
+ tout = DEATH_TOUT;
+ cred = global_credits;
+ if ((coin & 0x7FU) != 0U){ cred = 0U; }
+
+ if (tout < 10U){ dval = tout; }
+ else           { dval = 9U; }
  vram[32U * 7U + 19U] = dval + '0' + 0x40U;
- if (global_credits < 10U){ dval = global_credits; }
- else                     { dval = 9U; }
- if (cre != 0U)           { dval = 0U; }
+ if (cred < 10U){ dval = cred; }
+ else           { dval = 9U; }
  vram[32U * 7U + 22U] = dval + '0' + 0x40U;
 
  /* Roughly 1 sec / decrement timer */
 
- if ((global_framectr & 0x3FU) == 0U){ DEATH_TOUT --; }
+ if ((global_framectr & 0x3FU) == 0U){
+  tout --;
+  DEATH_TOUT = tout;
+ }
 
  /* Logic */
 
- if (global_ispress() || (DEATH_TOUT == 0U)){
+ if (global_ispress() || (tout == 0U)){
   global_fadecolor = 0x00U;
   global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
   DEATH_EXIT = 1U;
  }
  if ((DEATH_EXIT != 0U) && (global_fadectr == 0xFFU)){
-  if ((DEATH_TOUT == 0U) || (global_credits == 0U)){
+  if ((tout == 0U) || (cred == 0U)){
    hiscore_enter(); /* Exit game */
   }else{
-   global_credits --;
+   global_credits = cred - 1U;
    seq_reset();     /* Continue game */
   }
  }
