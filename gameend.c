@@ -100,11 +100,15 @@ static uint16 gameend_addtxt(uint16 txpos, auint ypos)
 */
 static void gameend_frame(void)
 {
- auint  fctr1 = global_framectr;
- auint  fctr2 = global_framectr + 57U;
+ auint  fctra1;
+ auint  fctra2;
+ auint  fctrb1;
+ auint  fctrb2;
  uint8* rsel  = (uint8*)(M74_ROWS_OFF); /* Text rows offset */
  uint8* tram  = (uint8*)(LOC_INTXTVRAM_OFF); /* Scrolling text VRAM */
  uint16 i16;
+ auint  dpos;
+ auint  tpos;
 
  global_process();
 
@@ -117,34 +121,45 @@ static void gameend_frame(void)
 
  /* Dragon movements */
 
- if ( (GAMEEND_DPOS < 84U) || (GAMEEND_DPOS >= 224U) ){ /* 1. Dragons approach */
+ dpos = GAMEEND_DPOS;
+ fctra1 = global_framectr;
+ fctra2 = global_framectr + 57U;
+ fctrb1 = (fctra1 >> 4) & 2U;
+ fctrb2 = (fctra2 >> 4) & 2U;
+ fctra1 = (fctra1 >> 3) & 6U;
+ fctra2 = (fctra2 >> 3) & 6U;
 
-  sprite_blit(spriteid_conv(0x00U + ((fctr1 >> 3) & 6U)),        GAMEEND_DPOS, 48U,
+ if ( (dpos < 84U) || (dpos >= 224U) ){ /* 1. Dragons approach */
+
+  sprite_blit(spriteid_conv(0x00U + fctra1),        dpos, 48U,
               M74_SPR_I3 | M74_SPR_MASK | M74_SPR_FLIPX, REC_DRAGON);
-  sprite_blit(spriteid_conv(0x00U + ((fctr2 >> 3) & 6U)), 192U - GAMEEND_DPOS, 48U,
+  sprite_blit(spriteid_conv(0x00U + fctra2), 192U - dpos, 48U,
               M74_SPR_I3 | M74_SPR_MASK,                 REC_DRAGON);
-  if ((global_framectr & 0x03U) == 0U){ GAMEEND_DPOS ++; }
+  if ((global_framectr & 0x03U) == 0U){ dpos ++; }
 
- }else if (GAMEEND_DPOS < 160U){ /* 2. Dragons stand facing each other */
+ }else if (dpos < 160U){ /* 2. Dragons stand facing each other */
 
-  sprite_blit(spriteid_conv(0x08U + ((fctr1 >> 4) & 2U) + (((GAMEEND_DPOS >> 4) & 1U) ^ 1U)),
-              84U,        48U, M74_SPR_I3 | M74_SPR_MASK | M74_SPR_FLIPX, REC_DRAGON);
-  sprite_blit(spriteid_conv(0x08U + ((fctr2 >> 4) & 2U) + (((GAMEEND_DPOS >> 4) & 1U) ^ 1U)),
-              192U - 84U, 48U, M74_SPR_I3 | M74_SPR_MASK,                 REC_DRAGON);
-  if ((global_framectr & 0x03U) == 0U){ GAMEEND_DPOS ++; }
+  tpos = 0x08U + (((dpos >> 4) & 1U) ^ 1U);
+  sprite_blit(spriteid_conv(tpos + fctrb1),         84U, 48U,
+              M74_SPR_I3 | M74_SPR_MASK | M74_SPR_FLIPX, REC_DRAGON);
+  sprite_blit(spriteid_conv(tpos + fctrb2),  192U - 84U, 48U,
+              M74_SPR_I3 | M74_SPR_MASK,                 REC_DRAGON);
+  if ((global_framectr & 0x03U) == 0U){ dpos ++; }
 
  }else{ /* 3. Dragons sit down */
 
-  sprite_blit(spriteid_conv(0x0CU + ((fctr1 >> 4) & 2U)),        84U, 48U,
+  sprite_blit(spriteid_conv(0x0CU + fctrb1),        84U, 48U,
               M74_SPR_I3 | M74_SPR_MASK | M74_SPR_FLIPX, REC_DRAGON);
-  sprite_blit(spriteid_conv(0x0CU + ((fctr2 >> 4) & 2U)), 192U - 84U, 48U,
+  sprite_blit(spriteid_conv(0x0CU + fctrb2), 192U - 84U, 48U,
               M74_SPR_I3 | M74_SPR_MASK,                 REC_DRAGON);
  }
+
+ GAMEEND_DPOS = dpos;
 
  /* Text region. By default it displays from row 20 to 29, row 19 is added for
  ** the scroll. */
 
- if ( (GAMEEND_DPOS < 224U) && (GAMEEND_DPOS > 60U) ){
+ if ( (dpos < 224U) && (dpos > 60U) ){
 
   if ((global_framectr & 0x7U) == 0U){
 
