@@ -88,7 +88,7 @@ static void intro_frame(void)
   }
  }
 
- if (global_ispress()){
+ if (global_ispress() || ((cre & 0x80U) != 0U)){
   global_fadecolor = 0x00U;
   if (cre == 0U){
    global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
@@ -101,6 +101,7 @@ static void intro_frame(void)
  if ((INTRO_EXIT != 0U) && (global_fadectr == 0xFFU)){
   seq_next();
  }
+ cre &= 0x7FU; /* Clear coin slot activity (no longer needed) */
 
  /* Intro state machine looping through screens */
 

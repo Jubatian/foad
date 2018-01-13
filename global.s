@@ -218,12 +218,8 @@ global_ispress:
 	com   r23
 	and   r22,     r24
 	and   r23,     r25
-	lds   r24,     global_credits
-	andi  r24,     0xE0
-	cpi   r24,     0xC0    ; Coin slot produced a rising edge
-	ldi   r24,     0
-	ldi   r25,     0
-	breq  .+4
+	clr   r24
+	clr   r25
 	or    r22,     r23
 	breq  .+2
 	ldi   r24,     1
@@ -270,8 +266,8 @@ global_hide:
 /*
 ** Checks coin count for JAMMA and sets credit counter accordingly. Bit 7 of
 ** the credit counter is set when it waits for coins (0 credits). Takes the
-** state of the JAMMA soft dip-switches as argument. Returns coins required to
-** start playing (0: game may start)
+** start playing (0: game may start), bit 7 set if there was a coin slot
+** activity.
 **
 ** Inputs:
 **     r24: JAMMA soft dip-switches
@@ -320,8 +316,7 @@ gjc_loop:
 
 	; If there is a rising edge on either coin counter, add a coin.
 
-	bst   r20,     6
-	bld   r20,     5       ; Prev. value for following edges with global_ispress()
+	clt                    ; T: No coin slot activity
 	sbrc  r20,     6
 	rjmp  gjc_cchigh
 #if (((BTN_SL & 0xFF) != 0U) || ((BTN_SR & 0xFF) != 0U))
@@ -334,6 +329,7 @@ gjc_loop:
 #endif
 	inc   r20              ; Add a coin
 	ori   r20,     0x40    ; Rising edge
+	set                    ; T: Coin slot activity
 	rjmp  gjc_ccend
 gjc_cchigh:
 #if (((BTN_SL & 0xFF) != 0U) || ((BTN_SR & 0xFF) != 0U))
@@ -368,6 +364,7 @@ gjc_ccend:
 
 	neg   r24              ; If still not enough coins, this is the required count
 	clr   r25
+	bld   r24,     7       ; Add coin slot activity
 	sts   global_credits, r20
 
 	; Done

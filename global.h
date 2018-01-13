@@ -141,7 +141,8 @@ void  global_hide(void);
 ** Checks coin count for JAMMA and sets credit counter accordingly. Bit 7 of
 ** the credit counter is set when it waits for coins (0 credits). Takes the
 ** state of the JAMMA soft dip-switches as argument. Returns coins required to
-** start playing (0: game may start)
+** start playing (0: game may start), bit 7 set if there was a coin slot
+** activity.
 */
 auint global_jammacount(auint sdips);
 
