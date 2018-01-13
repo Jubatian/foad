@@ -104,22 +104,18 @@ static void intro_frame(void)
 
   switch (INTRO_STAT){
 
-   case 0x00U: /* Flight of a Dragon intro text, init */
+   case 0x00U: /* Flight of a Dragon intro text */
 
     text_add_clear(TXT_TITLE_POS, 5U, 1U);
     text_add(TXT_PRESS_POS, 7U, 1U);
-    goto state_tran;
-
-   case 0x01U: /* Flight of a Dragon intro text */
-
     if (INTRO_TIM_HI == 3U){ goto state_fout; }
     break;
 
-   case 0x02U: /* Transition to High scores */
+   case 0x01U: /* Transition to High scores */
 
     goto state_fin;
 
-   case 0x03U: /* High scores, init */
+   case 0x02U: /* High scores, init */
 
     text_clear_vram();
     eeprom_load(INTRO_EADDR, INTRO_EADDR_T);
@@ -138,26 +134,22 @@ static void intro_frame(void)
     }
     goto state_tran;
 
-   case 0x04U: /* High scores */
+   case 0x03U: /* High scores */
 
     if (INTRO_TIM_HI == 2U){ goto state_fout; }
     break;
 
-   case 0x05U: /* Transition to Author text */
+   case 0x04U: /* Transition to Author text */
 
     goto state_fin;
 
-   case 0x06U: /* Author text, init */
+   case 0x05U: /* Author text */
 
     text_add_clear(TXT_AUTH_POS, 5U, 3U);
-    goto state_tran;
-
-   case 0x07U: /* Author text */
-
     if (INTRO_TIM_HI == 2U){ goto state_fout; }
     break;
 
-   case 0x08U: /* Transition to intro text */
+   case 0x06U: /* Transition to intro text */
 
     goto state_fin;
 
@@ -204,7 +196,7 @@ void intro_enter(auint hs)
  /* Init state as requested */
 
  if (hs != 0U){
-  INTRO_STAT = 3U; /* High score display */
+  INTRO_STAT = 2U; /* High score display */
  }else{
   INTRO_STAT = 0U; /* Game title display */
  }
