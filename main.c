@@ -37,9 +37,9 @@ int main(){
  SetMasterVolume(0xFFU);
  music_init(res_patches, res_music);
 
- /* Reset JAMMA credit / coin counter */
+ /* Reset credit counter to start off with coin request for JAMMA */
 
- global_jammac = 0U;
+ global_credits = 0U;
 
  /* Enter game sequence */
 

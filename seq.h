@@ -47,6 +47,13 @@ void seq_next(void);
 
 
 /*
+** Called by screens, this requests restarting a game level. Can only be
+** called if it was a game level (to restart a game in which the player died).
+*/
+void seq_reset(void);
+
+
+/*
 ** Called by screens, this requests the sequencer to handle game over.
 */
 void seq_over(void);

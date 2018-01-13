@@ -91,10 +91,11 @@ extern auint  global_shared[8];
 
 
 /*
-** JAMMA coin / credit count. 2's complement values encode remaining credits,
-** zero or positive the number of coins inserted.
+** Credit count (number of lives). In JAMMA if bit 7 is set, it also means 0
+** credits, the counter then counts coins (use the global_jammacount()
+** function to get the count of coins still needed to play).
 */
-extern auint  global_jammac;
+extern auint  global_credits;
 
 
 /*
@@ -137,11 +138,12 @@ void  global_hide(void);
 
 
 /*
-** Read P2 controller for JAMMA coin slots. Note that this needs to be called
-** on the top of a frame to prevent interfering with the read of P1's
-** controller in the kernel, which happens after VSync.
+** Checks coin count for JAMMA and sets credit counter accordingly. Bit 7 of
+** the credit counter is set when it waits for coins (0 credits). Takes the
+** state of the JAMMA soft dip-switches as argument. Returns coins required to
+** start playing (0: game may start)
 */
-uint16 global_getp2controls(void);
+auint global_jammacount(auint sdips);
 
 
 #endif

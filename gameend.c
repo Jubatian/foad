@@ -79,25 +79,18 @@ static void gameend_skycp(void)
 ** Routine to add a row of text. Returns new text position. Clears the VRAM
 ** row it targets.
 */
-static uint16 gameend_addtxt(uint8* vram, uint16 txp)
+static uint16 gameend_addtxt(uint16 txpos, auint ypos)
 {
- auint i;
- auint ch;
+ auint  i;
+ uint8* vptr = (uint8*)(LOC_INTXTVRAM_OFF + (32U * ypos));
 
- for (i = 0U; i < 32U; i++){ vram[i] = 0x60U; } /* Blank tile (space) */
+ for (i = 0U; i < 32U; i++){ vptr[i] = 0x60U; } /* Blank tile (space) */
 
- i = 1U;
- while (1){
-  if (txp >= TXT_GAMEEND_END){ break; } /* End of text */
-  ch = text_rom_getc(txp);
-  txp ++;
-  if (ch == 0x3FU){ break; } /* End of text line */
-  if (i == 31U){ txp --; break; } /* End of vram line */
-  vram[i] = ch;
-  i ++;
+ if (txpos >= TXT_GAMEEND_END){
+  return txpos;
+ }else{
+  return text_add(txpos, ypos, 1U);
  }
-
- return txp;
 }
 
 
@@ -162,7 +155,7 @@ static void gameend_frame(void)
      tram[i16] = tram[i16 + 32U];
     }
     i16 = (uint16)(GAMEEND_TLO) + (((uint16)(GAMEEND_THI)) << 8);
-    i16 = gameend_addtxt((uint8*)(LOC_INTXTVRAM_OFF + (32U * 10U)), i16);
+    i16 = gameend_addtxt(i16, 10U);
     GAMEEND_TLO = (uint8)(i16 & 0xFFU);
     GAMEEND_THI = (uint8)(i16 >> 8);
    }
@@ -223,7 +216,7 @@ void gameend_enter(void)
 
  t16 = TXT_GAMEEND_POS;
  for (i8 = 0U; i8 < 5U; i8 ++){
-  t16 = gameend_addtxt((uint8*)(LOC_INTXTVRAM_OFF + (5U * 32U) + (i8 * 32U)), t16);
+  t16 = gameend_addtxt(t16, 5U + i8);
  }
  GAMEEND_TLO = (uint8)(t16 & 0xFFU);
  GAMEEND_THI = (uint8)(t16 >> 8);

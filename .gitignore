@@ -5,6 +5,8 @@
 !/_bin_/foaddemo.uze
 !/_bin_/foad.hex
 !/_bin_/foad.uze
+!/_bin_/foadjam.hex
+!/_bin_/foadjam.uze
 /assets/*
 !/assets/dragon_sprites
 !/assets/gimp_sources

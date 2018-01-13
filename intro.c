@@ -33,8 +33,6 @@
 
 
 
-#define INTRO_BTNC_LO   global_shared[0]
-#define INTRO_BTNC_HI   global_shared[1]
 #define INTRO_DRG_FRAME global_shared[2]
 #define INTRO_EXIT      global_shared[3]
 #define INTRO_TIM_LO    global_shared[4]
@@ -58,66 +56,19 @@ uint16 intro_getval(uint16 addr)
 
 
 /*
-** Clears text VRAM.
-*/
-static void intro_txclr()
-{
- uint16 i16;
- uint8* vram;
-
- vram = ((uint8*)(LOC_INTXTVRAM_OFF));
- for (i16 = 0U; i16 < (12U * 32U); i16 ++){ vram[i16] = 0x60U; }
-}
-
-
-
-/*
-** Adds selected text to text VRAM.
-*/
-static void intro_txadd_nc(uint16 txpos, auint ypos, auint height)
-{
- uint16 i16;
- uint8  j8;
- uint8  i8;
- uint8  ch;
- uint8* vram;
-
- vram = ((uint8*)(LOC_INTXTVRAM_OFF));
- i16 = ((uint16)(ypos) * 32U);
- for (j8 = 0U; j8 < height; j8 ++){
-  for (i8 = 1U; i8 < 31U; i8 ++){
-   ch = text_rom_getc(txpos);
-   txpos ++;
-   if (ch == 0x3FU){ break; }
-   vram[i16 + i8] = ch;
-  }
-  i16 += 32;
- }
-}
-
-
-
-/*
-** Clears text VRAM and adds selected text to it.
-*/
-static void intro_txadd(uint16 txpos, auint ypos, auint height)
-{
- intro_txclr();
- intro_txadd_nc(txpos, ypos, height);
-}
-
-
-
-/*
 ** Frame routine of the intro screen
 */
 static void intro_frame(void)
 {
  auint  i;
  uint16 a16;
- uint16 btn = INTRO_BTNC_LO | ((uint16)(INTRO_BTNC_HI) << 8);
- uint16 bt2 = global_getp2controls();
  auint  cre;
+
+ /* Set credit count for a new game. */
+
+ cre = global_jammacount(INTRO_JDIPS);
+
+ /* General display & processing */
 
  global_process();
 
@@ -139,30 +90,16 @@ static void intro_frame(void)
 
  if (global_ispress()){
   global_fadecolor = 0x00U;
-  global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
-  INTRO_EXIT = 1U;
+  if (cre == 0U){
+   global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
+   INTRO_EXIT = 1U;
+  }else{
+   global_palctr = GLOBAL_FADE_TOP | GLOBAL_FADE_INC;
+   INTRO_STAT = 0x08U; /* Back to intro to see coin count */
+  }
  }
  if ((INTRO_EXIT != 0U) && (global_fadectr == 0xFFU)){
   seq_next();
- }
-
- /* Calculate remaining coins until receiving at least one credit in Jamma.
- ** For now just do the 2 coins for 1 credit case, and assume 1 coin for all
- ** the rest expect Free Play as there are no credits. */
-
- switch (INTRO_JDIPS & 0x0E){
-  case 0xEU: cre = 0U; break; /* Free Play */
-  case 0x6U: cre = 2U; break; /* 2 coins for 1 credit */
-  default:   cre = 1U; break; /* 1 coin for 1 credit */
- }
- i = global_jammac;
- if ((i & 0x80U) == 0U){  /* Coin count inserted */
-  if (i >= cre){
-   cre = 0U;
-   global_jammac = 0xFFU; /* Add 1 credit, can play */
-  }else{
-   cre -= i;
-  }
  }
 
  /* Intro state machine looping through screens */
@@ -176,14 +113,13 @@ static void intro_frame(void)
 
    case 0x00U: /* Flight of a Dragon intro text, init */
 
-    intro_txadd(TXT_TITLE_POS, 5U, 1U);
-    switch (cre){
-     case 0U: a16 = TXT_PRESS_POS; break;
-     case 1U: a16 = TXT_COIN1_POS; break;
-     case 2U: a16 = TXT_COIN2_POS; break;
-     default: a16 = TXT_COIN3_POS; break;
+    text_add_clear(TXT_TITLE_POS, 5U, 1U);
+    if (cre == 0U){
+     text_add(TXT_PRESS_POS, 7U, 1U);
+    }else{
+     text_add(TXT_COIN_POS, 7U, 1U);
+     ((uint8*)(LOC_INTXTVRAM_OFF))[32U * 7U + 22U] = cre + '0' + 0x40U;
     }
-    intro_txadd_nc(a16, 7U, 1U);
     goto state_tran;
 
    case 0x01U: /* Flight of a Dragon intro text */
@@ -197,7 +133,7 @@ static void intro_frame(void)
 
    case 0x03U: /* High scores, init */
 
-    intro_txclr();
+    text_clear_vram();
     eeprom_load(INTRO_EADDR, INTRO_EADDR_T);
     a16 = LOC_INTXTVRAM_OFF + (4U * 32U) + 7U;
     for (i = 0U; i < 36U; i += 12U){
@@ -225,7 +161,7 @@ static void intro_frame(void)
 
    case 0x06U: /* Author text, init */
 
-    intro_txadd(TXT_AUTH_POS, 5U, 3U);
+    text_add_clear(TXT_AUTH_POS, 5U, 3U);
     goto state_tran;
 
    case 0x07U: /* Author text */
@@ -289,10 +225,12 @@ void intro_enter(auint hs)
 
  global_hide();
 
+ /* Init for press detection */
+
+ global_initpress();
+
  /* Init variables */
 
- INTRO_BTNC_LO   = 0U;
- INTRO_BTNC_HI   = 0U;
  INTRO_DRG_FRAME = 0U;
  INTRO_EXIT      = 0U;
  INTRO_TIM_LO    = 0U;

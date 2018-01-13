@@ -79,11 +79,11 @@
 
 
 /*
-** JAMMA coin / credit count. 2's complement values encode remaining credits,
-** zero or positive the number of coins inserted.
+** Credit count (number of lives).
 */
-.global global_jammac
-.equ	global_jammac, MEM_LOC_P
+.global global_credits
+.equ    global_credits, MEM_LOC_P
+
 
 
 .section .text
@@ -218,8 +218,12 @@ global_ispress:
 	com   r23
 	and   r22,     r24
 	and   r23,     r25
-	clr   r24
-	clr   r25
+	lds   r24,     global_credits
+	andi  r24,     0xE0
+	cpi   r24,     0xC0    ; Coin slot produced a rising edge
+	ldi   r24,     0
+	ldi   r25,     0
+	breq  .+4
 	or    r22,     r23
 	breq  .+2
 	ldi   r24,     1
@@ -259,51 +263,132 @@ global_hide:
 
 
 
-; Joypad pins for global_getp2controls()
-#define JOYPAD_OUT_PORT  PORTA
-#define JOYPAD_IN_PORT   PINA
-#define JOYPAD_CLOCK_PIN PORTA3
-#define JOYPAD_LATCH_PIN PORTA2
-#define JOYPAD_DATA1_PIN PORTA0
-#define JOYPAD_DATA2_PIN PORTA1
+; Include from the kernel for the joypad defines to get the appropriate P2
+; inputs for the coin slots.
+#include <defines.h>
 
 /*
-** Read P2 controller for JAMMA coin slots. Note that this needs to be called
-** on the top of a frame to prevent interfering with the read of P1's
-** controller in the kernel, which happens after VSync.
+** Checks coin count for JAMMA and sets credit counter accordingly. Bit 7 of
+** the credit counter is set when it waits for coins (0 credits). Takes the
+** state of the JAMMA soft dip-switches as argument. Returns coins required to
+** start playing (0: game may start)
+**
+** Inputs:
+**     r24: JAMMA soft dip-switches
+** Outputs:
+**     r24: Coins required to play
 */
-.global global_getp2controls
-global_getp2controls:
+.global global_jammacount
+global_jammacount:
 
-	ldi   r24,     0
-	ldi   r25,     0
+	; Does the player have any credits?
+
+	lds   r20,     global_credits
+	cpi   r20,     0
+	brne  .+2
+	ldi   r20,     0x80    ; 0 credits: Start waiting for coins
+	sbrs  r20,     7
+	ret                    ; If the player has credits, no need to do anything
+
+	; Read P2 controller data for the coin slots
+
+	ldi   XL,      0
+	ldi   XH,      0
 	ldi   r23,     16
 
 	; Latch controller
 
 	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
-	rcall gp2_wait
+	rcall gjc_wait
 	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
 
 	; Read controller data
 
-gp2_loop:
-	rcall gp2_wait
+gjc_loop:
+	rcall gjc_wait
 	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
-	rcall gp2_wait
+	rcall gjc_wait
 	clc
 	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA2_PIN
 	sec
-	ror   r24
-	ror   r25
-	rcall gp2_wait
+	ror   XH
+	ror   XL
+	rcall gjc_wait
 	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
 	dec   r23
-	brne  gp2_loop
+	brne  gjc_loop
+
+	; If there is a rising edge on either coin counter, add a coin.
+
+	bst   r20,     6
+	bld   r20,     5       ; Prev. value for following edges with global_ispress()
+	sbrc  r20,     6
+	rjmp  gjc_cchigh
+#if (((BTN_SL & 0xFF) != 0U) || ((BTN_SR & 0xFF) != 0U))
+	andi  XL,      lo8(BTN_SL | BTN_SR)
+	breq  gjc_ccend
+#endif
+#if (((BTN_SL  >>  8) != 0U) || ((BTN_SR  >>  8) != 0U))
+	andi  XH,      hi8(BTN_SL | BTN_SR)
+	breq  gjc_ccend
+#endif
+	inc   r20              ; Add a coin
+	ori   r20,     0x40    ; Rising edge
+	rjmp  gjc_ccend
+gjc_cchigh:
+#if (((BTN_SL & 0xFF) != 0U) || ((BTN_SR & 0xFF) != 0U))
+	andi  XL,      lo8(BTN_SL | BTN_SR)
+	brne  gjc_ccend
+#endif
+#if (((BTN_SL  >>  8) != 0U) || ((BTN_SR  >>  8) != 0U))
+	andi  XH,      hi8(BTN_SL | BTN_SR)
+	brne  gjc_ccend
+#endif
+	andi  r20,     0xBF    ; Falling edge
+gjc_ccend:
+
+	; Check soft dip-switches against the coin counter, and set credit
+	; counter when appropriate.
+
+	andi  r24,     0x0E    ; Mask off coin/credit settings on the JAMMA soft dip-switches
+	ldi   r25,     0
+	ldi   ZL,      lo8(gjc_table)
+	ldi   ZH,      hi8(gjc_table)
+	add   ZL,      r24
+	adc   ZH,      r25
+	lpm   r23,     Z+      ; Coins required
+	mov   r24,     r20
+	andi  r24,     0x1F    ; Mask off coin count
+	sub   r24,     r23
+	brcs  .+4
+	lpm   r20,     Z+      ; Credits given
+	ldi   r24,     0       ; No more coins needed
+
+	; Check results and save credit counter
+
+	neg   r24              ; If still not enough coins, this is the required count
+	clr   r25
+	sts   global_credits, r20
+
+	; Done
+
 	ret
 
-gp2_wait:
+gjc_wait:
 	ldi   r22,     32
 	dec   r22
 	brne  .-4
 	ret
+
+;
+; Soft dip-switch decoding table: coins required / credits given
+;
+gjc_table:
+	.byte 0x01, 0x01       ; 1 coin  / 1 credit
+	.byte 0x01, 0x02       ; 1 coin  / 2 credits
+	.byte 0x01, 0x03       ; 1 coin  / 3 credits
+	.byte 0x02, 0x01       ; 2 coins / 1 credit
+	.byte 0x03, 0x02       ; 3 coins / 2 credits
+	.byte 0x03, 0x04       ; 3 coins / 4 credits
+	.byte 0x04, 0x03       ; 4 coins / 3 credits
+	.byte 0x00, 0x01       ; 0 coin  / 1 credit  (Free play)

@@ -1,12 +1,10 @@
       Flight of a Dragon\e\p\
     Press button to start!\e\p\
-        Insert coin: 1\e\p\
-        Insert coin: 2\e\p\
-        Insert coin: 3\e\p\
       A game by Jubatian\e\
 \e\
-     for the Uzebox JAMMA\e\p\
+     for the Uzebox JAMMA \e\p\
     You will never be free\e\p\
+        Continue? . ( )\e\p\
 They  wanted  you  to  fight\
 their  war.  They locked you\
 deep  underground  to  break\
@@ -116,3 +114,4 @@ Nickolas Andersen (Nicksen782)\e\
 \e\
 \e\
     Keep the spirit alive!\e\p\
+        Insert coin: .\e\p\

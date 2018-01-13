@@ -23,9 +23,11 @@
 #include "global.h"
 #include "torch.h"
 #include "text.h"
+#include "eeprom.h"
 #include "sprite.h"
 #include "spriteid.h"
 #include "music.h"
+#include "seq.h"
 #include <uzebox.h>
 #include <avr/pgmspace.h>
 
@@ -33,6 +35,9 @@
 
 #define DEATH_EXIT global_shared[2]
 #define DEATH_TOUT global_shared[3]
+#define INTRO_JDIPS     global_shared[7]
+
+#define INTRO_EADDR_T   (LOC_RAMTILES_OFF + 0x600U + 36U)
 
 
 
@@ -54,6 +59,16 @@ static uint8 const death_cell[] PROGMEM = {
 */
 static void death_frame(void)
 {
+ uint8* vram = ((uint8*)(LOC_INTXTVRAM_OFF));
+ auint  dval;
+ auint  cre;
+
+ /* Process coin input if player wants to buy credits */
+
+ cre = global_jammacount(INTRO_JDIPS);
+
+ /* General display & processing */
+
  global_process();
 
  M74_VramRestore();
@@ -69,7 +84,21 @@ static void death_frame(void)
 
  torch_render();
 
- if ((global_framectr & 0x3FU) == 0U){ DEATH_TOUT --; } /* Roughly 1 sec / decrement */
+ /* Countine display's counters */
+
+ if (DEATH_TOUT     < 10U){ dval = DEATH_TOUT; }
+ else                     { dval = 9U; }
+ vram[32U * 7U + 19U] = dval + '0' + 0x40U;
+ if (global_credits < 10U){ dval = global_credits; }
+ else                     { dval = 9U; }
+ if (cre != 0U)           { dval = 0U; }
+ vram[32U * 7U + 22U] = dval + '0' + 0x40U;
+
+ /* Roughly 1 sec / decrement timer */
+
+ if ((global_framectr & 0x3FU) == 0U){ DEATH_TOUT --; }
+
+ /* Logic */
 
  if (global_ispress() || (DEATH_TOUT == 0U)){
   global_fadecolor = 0x00U;
@@ -77,7 +106,12 @@ static void death_frame(void)
   DEATH_EXIT = 1U;
  }
  if ((DEATH_EXIT != 0U) && (global_fadectr == 0xFFU)){
-  hiscore_enter();
+  if ((DEATH_TOUT == 0U) || (global_credits == 0U)){
+   hiscore_enter(); /* Exit game */
+  }else{
+   global_credits --;
+   seq_reset();     /* Continue game */
+  }
  }
 
  M74_Halt();
@@ -94,7 +128,6 @@ void death_enter(void)
  uint16 t16;
  uint8  i8;
  uint8  j8;
- uint8  ch;
  uint8* vram;
 
  /* Make sure nothing would be visible */
@@ -107,8 +140,9 @@ void death_enter(void)
 
  /* Init variables */
 
- DEATH_EXIT =  0U;
- DEATH_TOUT = 16U;
+ DEATH_EXIT  = 0U;
+ DEATH_TOUT  = 10U;
+ INTRO_JDIPS = eeprom_loadjdips(INTRO_EADDR_T);
 
  /* Clear VRAM */
 
@@ -116,16 +150,8 @@ void death_enter(void)
 
  /* Add text */
 
- t16 = TXT_OVER_POS;
- i16 = (6U * 32U) + 1U;
- vram = ((uint8*)(LOC_INTXTVRAM_OFF));
- for (i8 = 1U; i8 < 31U; i8 ++){
-  ch = text_rom_getc(t16);
-  if (ch == 0x3FU){ break; }
-  vram[i16] = ch;
-  t16 ++;
-  i16 ++;
- }
+ text_add(TXT_OVER_POS, 5U, 1U);
+ text_add(TXT_CONTINUE_POS, 7U, 1U);
 
  /* Add small prison cell */
 
