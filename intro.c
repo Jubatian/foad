@@ -40,6 +40,7 @@
 #define INTRO_TIM_LO    global_shared[4]
 #define INTRO_TIM_HI    global_shared[5]
 #define INTRO_STAT      global_shared[6]
+#define INTRO_JDIPS     global_shared[7]
 
 #define INTRO_EADDR     (LOC_RAMTILES_OFF + 0x600U)
 #define INTRO_EADDR_T   (LOC_RAMTILES_OFF + 0x600U + 36U)
@@ -71,17 +72,15 @@ static void intro_txclr()
 
 
 /*
-** Clears text VRAM and adds selected text to it.
+** Adds selected text to text VRAM.
 */
-static void intro_txadd(uint16 txpos, auint ypos, auint height)
+static void intro_txadd_nc(uint16 txpos, auint ypos, auint height)
 {
  uint16 i16;
  uint8  j8;
  uint8  i8;
  uint8  ch;
  uint8* vram;
-
- intro_txclr();
 
  vram = ((uint8*)(LOC_INTXTVRAM_OFF));
  i16 = ((uint16)(ypos) * 32U);
@@ -99,6 +98,17 @@ static void intro_txadd(uint16 txpos, auint ypos, auint height)
 
 
 /*
+** Clears text VRAM and adds selected text to it.
+*/
+static void intro_txadd(uint16 txpos, auint ypos, auint height)
+{
+ intro_txclr();
+ intro_txadd_nc(txpos, ypos, height);
+}
+
+
+
+/*
 ** Frame routine of the intro screen
 */
 static void intro_frame(void)
@@ -106,6 +116,8 @@ static void intro_frame(void)
  auint  i;
  uint16 a16;
  uint16 btn = INTRO_BTNC_LO | ((uint16)(INTRO_BTNC_HI) << 8);
+ uint16 bt2 = global_getp2controls();
+ auint  cre;
 
  global_process();
 
@@ -134,6 +146,25 @@ static void intro_frame(void)
   seq_next();
  }
 
+ /* Calculate remaining coins until receiving at least one credit in Jamma.
+ ** For now just do the 2 coins for 1 credit case, and assume 1 coin for all
+ ** the rest expect Free Play as there are no credits. */
+
+ switch (INTRO_JDIPS & 0x0E){
+  case 0xEU: cre = 0U; break; /* Free Play */
+  case 0x6U: cre = 2U; break; /* 2 coins for 1 credit */
+  default:   cre = 1U; break; /* 1 coin for 1 credit */
+ }
+ i = global_jammac;
+ if ((i & 0x80U) == 0U){  /* Coin count inserted */
+  if (i >= cre){
+   cre = 0U;
+   global_jammac = 0xFFU; /* Add 1 credit, can play */
+  }else{
+   cre -= i;
+  }
+ }
+
  /* Intro state machine looping through screens */
 
  INTRO_TIM_LO ++;
@@ -145,7 +176,14 @@ static void intro_frame(void)
 
    case 0x00U: /* Flight of a Dragon intro text, init */
 
-    intro_txadd(TXT_TITLE_POS, 5U, 3U);
+    intro_txadd(TXT_TITLE_POS, 5U, 1U);
+    switch (cre){
+     case 0U: a16 = TXT_PRESS_POS; break;
+     case 1U: a16 = TXT_COIN1_POS; break;
+     case 2U: a16 = TXT_COIN2_POS; break;
+     default: a16 = TXT_COIN3_POS; break;
+    }
+    intro_txadd_nc(a16, 7U, 1U);
     goto state_tran;
 
    case 0x01U: /* Flight of a Dragon intro text */
@@ -259,6 +297,7 @@ void intro_enter(auint hs)
  INTRO_EXIT      = 0U;
  INTRO_TIM_LO    = 0U;
  INTRO_TIM_HI    = 0U;
+ INTRO_JDIPS     = eeprom_loadjdips(INTRO_EADDR_T);
 
  /* Clear VRAM */
 

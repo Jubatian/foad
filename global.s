@@ -78,6 +78,14 @@
 	global_shared: .space 8
 
 
+/*
+** JAMMA coin / credit count. 2's complement values encode remaining credits,
+** zero or positive the number of coins inserted.
+*/
+.global global_jammac
+.equ	global_jammac, MEM_LOC_P
+
+
 .section .text
 
 
@@ -248,3 +256,54 @@ global_hide:
 	ldi   r24,     0xFF
 	sts   global_fadectr, r24
 	rjmp  global_genpal
+
+
+
+; Joypad pins for global_getp2controls()
+#define JOYPAD_OUT_PORT  PORTA
+#define JOYPAD_IN_PORT   PINA
+#define JOYPAD_CLOCK_PIN PORTA3
+#define JOYPAD_LATCH_PIN PORTA2
+#define JOYPAD_DATA1_PIN PORTA0
+#define JOYPAD_DATA2_PIN PORTA1
+
+/*
+** Read P2 controller for JAMMA coin slots. Note that this needs to be called
+** on the top of a frame to prevent interfering with the read of P1's
+** controller in the kernel, which happens after VSync.
+*/
+.global global_getp2controls
+global_getp2controls:
+
+	ldi   r24,     0
+	ldi   r25,     0
+	ldi   r23,     16
+
+	; Latch controller
+
+	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
+	rcall gp2_wait
+	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
+
+	; Read controller data
+
+gp2_loop:
+	rcall gp2_wait
+	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
+	rcall gp2_wait
+	clc
+	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA2_PIN
+	sec
+	ror   r24
+	ror   r25
+	rcall gp2_wait
+	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
+	dec   r23
+	brne  gp2_loop
+	ret
+
+gp2_wait:
+	ldi   r22,     32
+	dec   r22
+	brne  .-4
+	ret

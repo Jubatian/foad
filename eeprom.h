@@ -60,4 +60,11 @@ void eeprom_load(uint16 addr, uint16 tadd);
 void eeprom_save(uint16 addr, uint16 tadd);
 
 
+/*
+** Load JAMMA dip switch configuration, tadd is used for temporary storage,
+** 32 bytes.
+*/
+uint8 eeprom_loadjdips(uint16 tadd);
+
+
 #endif

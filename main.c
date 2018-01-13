@@ -21,6 +21,7 @@
 #include "seq.h"
 #include "res.h"
 #include "music.h"
+#include "global.h"
 
 
 
@@ -35,6 +36,10 @@ int main(){
 
  SetMasterVolume(0xFFU);
  music_init(res_patches, res_music);
+
+ /* Reset JAMMA credit / coin counter */
+
+ global_jammac = 0U;
 
  /* Enter game sequence */
 

@@ -91,6 +91,13 @@ extern auint  global_shared[8];
 
 
 /*
+** JAMMA coin / credit count. 2's complement values encode remaining credits,
+** zero or positive the number of coins inserted.
+*/
+extern auint  global_jammac;
+
+
+/*
 ** Processes globals. Should be called on the beginning of all frames.
 */
 void global_process(void);
@@ -127,6 +134,14 @@ void  global_setxshift(auint pos);
 ** in transitions. It sets global_fadectr to max and calls global_genpal().
 */
 void  global_hide(void);
+
+
+/*
+** Read P2 controller for JAMMA coin slots. Note that this needs to be called
+** on the top of a frame to prevent interfering with the read of P1's
+** controller in the kernel, which happens after VSync.
+*/
+uint16 global_getp2controls(void);
 
 
 #endif

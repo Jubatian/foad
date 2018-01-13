@@ -30,12 +30,16 @@
 #define RES_SECT           (0xFFFF - 0xFFFF + 0x7B00)
 
 /* Text material */
-#define TXT_SIZE           2057
+#define TXT_SIZE           2140
 #define TXT_TITLE_POS      0
-#define TXT_AUTH_POS       49
-#define TXT_OVER_POS       102
-#define TXT_GAMEEND_POS    1960
-#define TXT_GAMEEND_END    2374
+#define TXT_PRESS_POS      25
+#define TXT_COIN1_POS      52
+#define TXT_COIN2_POS      75
+#define TXT_COIN3_POS      98
+#define TXT_AUTH_POS       121
+#define TXT_OVER_POS       173
+#define TXT_GAMEEND_POS    2031
+#define TXT_GAMEEND_END    2445
 
 /* Resource locations (not Mode 74 specific) */
 #define RES_SCR_STORY_OFF  (RES_SECT + 0x0020)
@@ -123,5 +127,6 @@
 #define MEM_LOC_9          0x0BB5
 #define MEM_LOC_A          0x0BB6
 #define MEM_LOC_B          0x0BB7
+#define MEM_LOC_P          0x0BB0
 
 #endif
