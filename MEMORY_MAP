@@ -61,7 +61,7 @@ MEM_LOC_8: level.s
 MEM_LOC_9: level.s
 MEM_LOC_A: random.s
 MEM_LOC_B: random.s
-MEM_LOC_P: global.s
+MEM_LOC_P: global.s (Also CTR_READ_DISABLE_LOC, bit7 disables controller)
 
 (Note: Some cases two bytes have to be after each other, so be careful when
 modifying this mapping)

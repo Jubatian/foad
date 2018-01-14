@@ -374,15 +374,14 @@ text_add_clear:
 .global text_add
 text_add:
 
-	ldi   r18,     lo8(LOC_INTXTVRAM_OFF + 1)
-	ldi   r19,     hi8(LOC_INTXTVRAM_OFF + 1)
+	ldi   XL,      lo8(LOC_INTXTVRAM_OFF + 1)
+	ldi   XH,      hi8(LOC_INTXTVRAM_OFF + 1)
 	ldi   r23,     32
 	mul   r22,     r23     ; Add start position
-	add   r18,     r0
-	adc   r19,     r1      ; r19:r18: Starting line, X position is 1.
+	add   XL,      r0
+	adc   XH,      r1      ; X: Starting line, X position is 1.
 	movw  r22,     r24     ; r23:r22: Character position
 txal0:
-	movw  XL,      r18
 	ldi   r21,     30      ; Up to 30 characters
 txal1:
 	movw  r24,     r22
@@ -397,9 +396,34 @@ txal1:
 	dec   r21
 	rjmp  txal1
 txal1e:
-	subi  r18,     0xE0
-	sbci  r19,     0xFF    ; Add 32
+	cpi   r21,     0
+	breq  txal2e
+	ldi   r24,     0x60
+txal2:
+	st    X+,      r24     ; Clear the rest of the line
+	dec   r21
+	brne  txal2
+txal2e:
+	adiw  XL,      2       ; Increment X with 32 in total (one line)
 	dec   r20
 	brne  txal0
 	movw  r24,     r22     ; Return text position
 	ret
+
+
+
+/*
+** Adds text to VRAM from ROM text storage, one line.
+** Returns text position after the add.
+**
+** Inputs:
+** r25:r24: Source ROM text address
+**     r22: Y position on VRAM
+** Outputs:
+** r25:r24: New text position
+*/
+.global text_add_line
+text_add_line:
+
+	ldi   r20,     1
+	rjmp  text_add

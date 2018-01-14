@@ -5677,7 +5677,9 @@ const uint8 res_text[] __attribute__ ((section (".res"))) = {
  0xC5U, 0x2DU, 0x92U, 0xE1U,
 /* Position: 2401 (byte: 2100, bit 0) */
  0x7EU,
-/* Size: 2101 */
+/* Position: 2402 (byte: 2101, bit 1) */
+ 0xFCU,
+/* Size: 2102 */
 };
 
 

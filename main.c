@@ -21,6 +21,7 @@
 #include "seq.h"
 #include "res.h"
 #include "music.h"
+#include "global.h"
 
 
 
@@ -35,6 +36,13 @@ int main(){
 
  SetMasterVolume(0xFFU);
  music_init(res_patches, res_music);
+
+ /* Initialize credit counter to zero, so in arcade environment (JAMMA) the
+ ** game starts with no credits, requiring coins. Since Bit 7 of the credit
+ ** counter disables controllers (for supporting JAMMA reads), this is
+ ** necessary even in a non-arcade environment. */
+
+ global_credits = 0U;
 
  /* Enter game sequence */
 

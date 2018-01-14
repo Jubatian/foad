@@ -27,12 +27,10 @@
 
 
 
-#define STORY_TEXTPOS_LO global_shared[2]
-#define STORY_TEXTPOS_HI global_shared[3]
+#define STORY_TEXTPOS    global_shared_word[2 >> 1]
 #define STORY_TEXTHEIGHT global_shared[4]
 #define STORY_STAT       global_shared[5]
-#define STORY_TXE_LO     global_shared[6]
-#define STORY_TXE_HI     global_shared[7]
+#define STORY_TXE        global_shared_word[6 >> 1]
 
 
 
@@ -43,7 +41,7 @@
 static auint story_txadd(void)
 {
  uint8* vram = ((uint8*)(M74_VRAM_OFF));
- uint16 txp = STORY_TEXTPOS_LO | ((uint16)(STORY_TEXTPOS_HI) << 8);
+ uint16 txp = STORY_TEXTPOS;
  auint  py  = (16U - STORY_TEXTHEIGHT) >> 1;
  auint  pye = py + STORY_TEXTHEIGHT;
  auint  px  = 2U;
@@ -51,8 +49,7 @@ static auint story_txadd(void)
 
  do{
 
-  if (txp == ( (STORY_TEXTPOS_LO | ((uint16)(STORY_TEXTPOS_HI) << 8)) +
-               (STORY_TXE_LO | ((uint16)(STORY_TXE_HI) << 8)) ) ){ return 0U; }
+  if (txp == (STORY_TEXTPOS + STORY_TXE)){ return 0U; }
 
   ch = text_rom_getc(txp);
   txp ++;
@@ -94,9 +91,8 @@ static void story_frame(void)
 
   case 0x00U: /* Incrementally add text */
 
-   STORY_TXE_LO ++;
-   if (STORY_TXE_LO == 0U){ STORY_TXE_HI ++; }
-   if (STORY_TXE_HI == 2U){
+   STORY_TXE ++;
+   if (STORY_TXE == 512U){
     STORY_STAT ++;
    }else if (story_txadd()){
     STORY_STAT ++;
@@ -105,8 +101,7 @@ static void story_frame(void)
 
   case 0x01U: /* Add full text */
 
-   STORY_TXE_LO = 0U;
-   STORY_TXE_HI = 2U;
+   STORY_TXE = 512U;
    STORY_STAT ++;
    story_txadd();
    break;
@@ -147,12 +142,10 @@ void story_enter(uint16 textpos, auint textheight)
  /* Inits control variables */
 
  global_initpress();
- STORY_TEXTPOS_LO = textpos & 0xFFU;
- STORY_TEXTPOS_HI = textpos >> 8;
+ STORY_TEXTPOS    = textpos;
  STORY_TEXTHEIGHT = textheight;
  STORY_STAT       = 0U;
- STORY_TXE_LO     = 0U;
- STORY_TXE_HI     = 0U;
+ STORY_TXE        = 0U;
 
  /* Clear VRAM */
 

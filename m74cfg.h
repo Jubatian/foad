@@ -30,12 +30,13 @@
 #define RES_SECT           (0xFFFF - 0xFFFF + 0x7B00)
 
 /* Text material */
-#define TXT_SIZE           2101
+#define TXT_SIZE           2102
 #define TXT_TITLE_POS      0
 #define TXT_PRESS_POS      25
 #define TXT_AUTH_POS       52
 #define TXT_OVER_POS       105
 #define TXT_CONTINUE_POS   132
+#define TXT_EMPTY_POS      2401
 #define TXT_GAMEEND_POS    1987
 #define TXT_GAMEEND_END    2401
 
@@ -126,5 +127,8 @@
 #define MEM_LOC_A          0x0BB6
 #define MEM_LOC_B          0x0BB7
 #define MEM_LOC_P          0x0BB0
+
+/* Controller read disable location. Necessary for JAMMA support */
+#define CTR_READ_DISABLE_LOC MEM_LOC_P
 
 #endif

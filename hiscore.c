@@ -34,8 +34,7 @@
 
 
 
-#define HISCORE_BTNC_LO    global_shared[0]
-#define HISCORE_BTNC_HI    global_shared[1]
+#define HISCORE_BTNC       global_shared_word[0 >> 1]
 #define HISCORE_DRG_FRAME  global_shared[2]
 #define HISCORE_ENTRY      global_shared[3]
 #define HISCORE_CPOS       global_shared[4]
@@ -138,9 +137,8 @@ static void hiscore_frame(void)
  /* Input logic */
 
  btn = ReadJoypad(0);
- btp = HISCORE_BTNC_LO | ((uint16)(HISCORE_BTNC_HI) << 8);
- HISCORE_BTNC_LO = btn & 0xFFU;
- HISCORE_BTNC_HI = btn >> 8;
+ btp = HISCORE_BTNC;
+ HISCORE_BTNC = btn;
  if (((btn ^ btp) & btn) != 0U){ /* Something was pressed */
   HISCORE_ITICK = 0U;
  }
@@ -258,8 +256,7 @@ void hiscore_enter(void)
 
  /* Init variables */
 
- HISCORE_BTNC_LO   = 0U;
- HISCORE_BTNC_HI   = 0U;
+ HISCORE_BTNC      = 0U;
  HISCORE_DRG_FRAME = 0U;
  HISCORE_CPOS      = 0U;
  HISCORE_SHIFT     = 0U;

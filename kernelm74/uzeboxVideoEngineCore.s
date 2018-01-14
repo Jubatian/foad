@@ -428,6 +428,12 @@ sync_ctrl:
 	; The clock is normally kept low. Rising edges advance the shifer in
 	; the controller.
 
+#if (CTR_READ_DISABLE_LOC != 0)
+	lds   ZH,      CTR_READ_DISABLE_LOC
+	sbrc  ZH,      7
+	rjmp  sync_ctrl_e
+#endif
+
 	cpi   ZL,      17
 	brcs  sync_ctrl_rd
 
@@ -441,6 +447,8 @@ sync_ctrl:
 
 	brne  .+2
 	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_LATCH_PIN
+
+sync_ctrl_e:
 
 	; Was an ordinary line. Check for first line (to reconfigure timer
 	; for 1820 cycles wide pulses with 136 cycle wide LOW), then return.

@@ -79,7 +79,19 @@
 
 
 /*
-** Credit count (number of lives).
+** Shared data between various screens (which don't coexist), words. The space
+** is shared with global_shared, this is provided for storing 16 bit values
+** directly, which the C compiler is terrible at splitting up and merging into
+** 8 bit values. Don't alias between the two (Undefined in C), use only to
+** store and retrieve 16 bit values.
+*/
+.global global_shared_word
+.equ    global_shared_word, global_shared
+
+
+/*
+** Credit count (number of lives). Setting Bit 7 disables controller reads,
+** this may be used by JAMMA to count coins (requiring processing P2 input).
 */
 .global global_credits
 .equ    global_credits, MEM_LOC_P

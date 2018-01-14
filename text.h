@@ -104,4 +104,11 @@ uint16 text_add_clear(uint16 txpos, auint ypos, auint height);
 uint16 text_add(uint16 txpos, auint ypos, auint height);
 
 
+/*
+** Adds text to VRAM from ROM text storage, one line.
+** Returns text position after the add.
+*/
+uint16 text_add_line(uint16 txpos, auint ypos);
+
+
 #endif

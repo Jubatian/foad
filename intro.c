@@ -61,10 +61,11 @@ static void intro_frame(void)
 {
  auint  i;
  uint16 a16;
+ auint  cred;
 
  /* Set credit count for a new game. */
 
- global_credits = 5U;
+ cred = 5U;
 
  /* General display & processing */
 
@@ -88,10 +89,20 @@ static void intro_frame(void)
 
  if (global_ispress()){
   global_fadecolor = 0x00U;
-  global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
-  INTRO_EXIT = 1U;
+  if (cred != 0U){ /* Credits are available to start game */
+   global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
+   INTRO_EXIT = 1U;
+  }else{           /* No credits, back to intro */
+   INTRO_TIM_LO = 0U;
+   INTRO_TIM_HI = 0U;
+   if (INTRO_STAT != 0U){
+    global_palctr = GLOBAL_FADE_TOP | GLOBAL_FADE_INC;
+    INTRO_STAT = 6U;
+   }
+  }
  }
  if ((INTRO_EXIT != 0U) && (global_fadectr == 0xFFU)){
+  global_credits = cred - 1U;
   seq_next();
  }
 
@@ -107,7 +118,7 @@ static void intro_frame(void)
    case 0x00U: /* Flight of a Dragon intro text */
 
     text_add_clear(TXT_TITLE_POS, 5U, 1U);
-    text_add(TXT_PRESS_POS, 7U, 1U);
+    text_add_line(TXT_PRESS_POS, 7U);
     if (INTRO_TIM_HI == 3U){ goto state_fout; }
     break;
 

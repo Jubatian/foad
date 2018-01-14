@@ -35,9 +35,8 @@
 #define GAMEEND_EXIT global_shared[2]
 #define GAMEEND_TOUT global_shared[3]
 #define GAMEEND_DPOS global_shared[4]
-#define GAMEEND_TLO  global_shared[5]
-#define GAMEEND_THI  global_shared[6]
-#define GAMEEND_SPOS global_shared[7]
+#define GAMEEND_SPOS global_shared[5]
+#define GAMEEND_TXP  global_shared_word[6 >> 1]
 
 
 
@@ -81,16 +80,10 @@ static void gameend_skycp(void)
 */
 static uint16 gameend_addtxt(uint16 txpos, auint ypos)
 {
- auint  i;
- uint8* vptr = (uint8*)(LOC_INTXTVRAM_OFF + (32U * ypos));
-
- for (i = 0U; i < 32U; i++){ vptr[i] = 0x60U; } /* Blank tile (space) */
-
  if (txpos >= TXT_GAMEEND_END){
-  return txpos;
- }else{
-  return text_add(txpos, ypos, 1U);
+  txpos = TXT_EMPTY_POS; /* Empty line is after TXT_GAMEEND_END */
  }
+ return text_add_line(txpos, ypos);
 }
 
 
@@ -169,10 +162,7 @@ static void gameend_frame(void)
     for (i16 = 0U; i16 < (32U * 10U); i16 ++){
      tram[i16] = tram[i16 + 32U];
     }
-    i16 = (uint16)(GAMEEND_TLO) + (((uint16)(GAMEEND_THI)) << 8);
-    i16 = gameend_addtxt(i16, 10U);
-    GAMEEND_TLO = (uint8)(i16 & 0xFFU);
-    GAMEEND_THI = (uint8)(i16 >> 8);
+    GAMEEND_TXP = gameend_addtxt(GAMEEND_TXP, 10U);
    }
 
   }
@@ -233,8 +223,7 @@ void gameend_enter(void)
  for (i8 = 0U; i8 < 5U; i8 ++){
   t16 = gameend_addtxt(t16, 5U + i8);
  }
- GAMEEND_TLO = (uint8)(t16 & 0xFFU);
- GAMEEND_THI = (uint8)(t16 >> 8);
+ GAMEEND_TXP = t16;
 
  /* Add grassland graphics */
 
