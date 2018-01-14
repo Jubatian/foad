@@ -174,18 +174,15 @@ static void game_frame(void)
 
    if ((btn & BTN_RIGHT) != 0U){ cmd |= DRAGON_RIGHT | DRAGON_MOVE; }
    if ((btn & BTN_LEFT)  != 0U){ cmd |= DRAGON_LEFT | DRAGON_MOVE; }
-   if ((btn & BTN_SR)    != 0U){ cmd &= ~DRAGON_RUN; }
-   if ((btn & BTN_Y)     != 0U){ cmd |= DRAGON_FIRE; }
+   if ((btn & BTN_Y)     != 0U){ cmd &= ~DRAGON_RUN; }
    if ((btn & BTN_B)     != 0U){ cmd |= DRAGON_FIRE; }
    if ((btn & BTN_X)     != 0U){ cmd |= DRAGON_JUMP; }
    if ((btn & BTN_A)     != 0U){ cmd |= DRAGON_JUMP; }
    if ((btn & BTN_DOWN)  != 0U){ cmd |= DRAGON_DOWN; }
    if ((btn & BTN_UP)    != 0U){ cmd |= DRAGON_UP; }
-   if ((btn & BTN_SL)    != 0U){ cmd |= DRAGON_UP; }
-   if ( ((btn & (BTN_START | BTN_SELECT)) == (BTN_START | BTN_SELECT)) ){
-    gstat_score_sub(100U); /* Pausing removes score */
-    GAME_PAUSED = 1U;
-   }
+
+   /* Note: Pausing is removed from the JAMMA version (code is not removed
+   ** currently, just made inaccessible) */
 
    GAME_BTNC = 0U;
 

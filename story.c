@@ -87,7 +87,7 @@ static void story_frame(void)
 
  /* Process according to state machine */
 
- switch (STORY_STAT){
+ switch (STORY_STAT & 0x0FU){
 
   case 0x00U: /* Incrementally add text */
 
@@ -108,6 +108,12 @@ static void story_frame(void)
 
   case 0x02U: /* Wait for user */
 
+   if ((global_framectr & 0x7FU) == 0U){
+    STORY_STAT += 0x10U; /* Timeout for JAMMA (keep going!) */
+    if (STORY_STAT >= 0xE0U){
+     STORY_STAT ++;
+    }
+   }
    break;
 
   case 0x03U: /* Fade out */

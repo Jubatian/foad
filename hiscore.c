@@ -177,7 +177,7 @@ static void hiscore_frame(void)
    }
   }
 
-  if ((btn & (BTN_SR | BTN_SL | BTN_X | BTN_A | BTN_Y | BTN_B) ) != 0U){
+  if ((btn & (BTN_X | BTN_A | BTN_Y | BTN_B) ) != 0U){
    HISCORE_SHIFT ^= 1U;
    if      (ch < 26U){ ch += 26U; } /* 'a' - 'z' => 'A' - 'Z' */
    else if (ch < 52U){ ch -= 26U; } /* 'A' - 'Z' => 'a' - 'z' */

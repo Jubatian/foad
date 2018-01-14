@@ -1,5 +1,5 @@
 
-Flight of a Dragon
+Flight of a Dragon (JAMMA)
 ==============================================================================
 
 .. image:: screenshot.png
@@ -29,6 +29,21 @@ be fast, to flee before forces could be mustered to thwart his attempt.
 He doesn't want bloodshed, to be remembered as a monster, so he should be
 cautious to not cause more losses than necessary, and he may also help people
 (prisoners) on his way, supporting a probable uprising against the power.
+
+
+
+
+JAMMA version notes
+------------------------------------------------------------------------------
+
+
+This is the JAMMA version of the game, designed to run on a Uzebox JAMMA
+board (see https://basementhobbies.wordpress.com/uzebox-jamma ). It supports
+the soft DIP switches of the JAMMA to set up coins / credits, by default it
+assumes DIP switch configuration 0x00, thus requiring one coin for one credit.
+
+When testing with a normal Uzebox, the coin slots can be operated with the
+shoulder buttons of Player 2.
 
 
 
@@ -68,17 +83,15 @@ Controls
 During the game, the following controls are used:
 
 - Dpad: Left / Right movement, looking up and down (also for firing angle)
-- A, X: Jump
-- B, Y: Fire
-- Right Shoulder: Walk
-- Left Shoulder: Look up
-- Start + Select (press both): Pause (removes 100 score)
+- Button 1: Fire
+- Button 2: Jump
+- Button 3: Walk
 
 During high score entry, the followings are used:
 
 - Dpad: Navigate between characters, select character
-- A, X, B, Y, Shoulders: Toggle Upper / Lowercase
-- Enter, Select: Accept name
+- Any button: Toggle Upper / Lowercase
+- Player 1 / 2 Start: Accept name
 
 
 

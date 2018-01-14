@@ -27,6 +27,7 @@
 #include "sprite.h"
 #include "spriteid.h"
 #include "music.h"
+#include "sound.h"
 #include "seq.h"
 #include <uzebox.h>
 #include <avr/pgmspace.h>
@@ -98,22 +99,31 @@ static void death_frame(void)
 
  if (tout < 10U){ dval = tout; }
  else           { dval = 9U; }
- vram[32U * 7U + 19U] = dval + '0' + 0x40U;
+ vram[32U * 6U + 19U] = dval + '0' + 0x40U;
  if (cred < 10U){ dval = cred; }
  else           { dval = 9U; }
- vram[32U * 7U + 22U] = dval + '0' + 0x40U;
+ vram[32U * 6U + 22U] = dval + '0' + 0x40U;
+ if ((coin & 0x7FU) != 0U){
+  text_add_line(TXT_COIN_POS, 8U);
+  vram[32U * 8U + 22U] = (coin & 0x7FU) + '0' + 0x40U;
+ }else{
+  text_add_line(TXT_EMPTY_POS, 8U);
+ }
 
  /* Logic */
 
  pres = global_ispress();
- if (pres || (tout == 0U)){
+ if ((pres && (cred != 0U)) || (tout == 0U)){
+  if (cred != 0U){
+   sound_effect(SOUND_ITEM, 0x40U);
+  }
   global_fadecolor = 0x00U;
   global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
   DEATH_EXIT = 1U;
  }
 
  if (tout != 0U){   /* Timeout controls */
-  if (pres){
+  if ((pres) || ((coin & 0x80U) != 0U)){
    tout = TOUT_INIT;
   }
   if ((global_framectr & 0x3FU) == 0U){
@@ -129,6 +139,10 @@ static void death_frame(void)
    global_credits = cred - 1U;
    seq_reset();     /* Continue game */
   }
+ }
+
+ if ((coin & 0x80U) != 0U){
+  sound_effect(SOUND_ITEM, 0x40U);
  }
 
  M74_Halt();
@@ -167,8 +181,8 @@ void death_enter(void)
 
  /* Add text */
 
- text_add_line(TXT_OVER_POS, 5U);
- text_add_line(TXT_CONTINUE_POS, 7U);
+ text_add_line(TXT_OVER_POS, 4U);
+ text_add_line(TXT_CONTINUE_POS, 6U);
 
  /* Add small prison cell */
 

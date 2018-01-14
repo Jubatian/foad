@@ -28,6 +28,7 @@
 #include "sprite.h"
 #include "spriteid.h"
 #include "music.h"
+#include "sound.h"
 #include <uzebox.h>
 #include <avr/pgmspace.h>
 
@@ -68,11 +69,8 @@ static void intro_frame(void)
  /* Set credit count for a new game. */
 
  coin = global_jammacount(INTRO_JDIPS);
- if ((coin & 0x7FU) == 0U){
-  cred = global_credits;
- }else{
-  cred = 0U;
- }
+ cred = global_credits;
+ if ((coin & 0x7FU) != 0U){ cred = 0U; }
 
  /* General display & processing */
 
@@ -96,10 +94,11 @@ static void intro_frame(void)
 
  if (global_ispress() || ((coin & 0x80U) != 0U)){
   global_fadecolor = 0x00U;
-  if (cred != 0U){ /* Credits are available to start game */
+  if ((cred != 0U) && ((coin & 0x80U) == 0U)){ /* Credits are available to start game */
+   sound_effect(SOUND_ITEM, 0x40U);
    global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
    INTRO_EXIT = 1U;
-  }else{           /* No credits, back to intro */
+  }else{           /* No credits, or it was a coin insert, back to intro */
    INTRO_TIM_LO = 0U;
    INTRO_TIM_HI = 0U;
    if (INTRO_STAT != 0U){
@@ -109,8 +108,12 @@ static void intro_frame(void)
   }
  }
  if ((INTRO_EXIT != 0U) && (global_fadectr == 0xFFU)){
+  if (cred == 0U){ cred = 1U; } /* Just make sure it is OK */
   global_credits = cred - 1U;
   seq_next();
+ }
+ if ((coin & 0x80U) != 0U){
+  sound_effect(SOUND_ITEM, 0x40U);
  }
  coin &= 0x7FU; /* Clear coin slot activity (no longer needed) */
 

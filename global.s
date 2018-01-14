@@ -322,7 +322,7 @@ gjc_loop:
 	sec
 	ror   r19
 	ror   r18
-	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA1_PIN
+	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA2_PIN
 	sec
 	ror   XH
 	ror   XL
