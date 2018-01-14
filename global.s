@@ -302,6 +302,7 @@ global_jammacount:
 
 	ldi   XL,      0
 	ldi   XH,      0
+	movw  r18,     XL
 	ldi   r23,     16
 
 	; Latch controller
@@ -317,7 +318,11 @@ gjc_loop:
 	cbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
 	rcall gjc_wait
 	clc
-	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA2_PIN
+	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA1_PIN
+	sec
+	ror   r19
+	ror   r18
+	sbis  _SFR_IO_ADDR(JOYPAD_IN_PORT), JOYPAD_DATA1_PIN
 	sec
 	ror   XH
 	ror   XL
@@ -325,6 +330,8 @@ gjc_loop:
 	sbi   _SFR_IO_ADDR(JOYPAD_OUT_PORT), JOYPAD_CLOCK_PIN
 	dec   r23
 	brne  gjc_loop
+	sts   joypad1_status_lo + 0, r18 ; Player 1 controller
+	sts   joypad1_status_lo + 1, r19
 
 	; If there is a rising edge on either coin counter, add a coin.
 
