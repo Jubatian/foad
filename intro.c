@@ -28,6 +28,7 @@
 #include "sprite.h"
 #include "spriteid.h"
 #include "music.h"
+#include "sound.h"
 #include <uzebox.h>
 #include <avr/pgmspace.h>
 
@@ -90,6 +91,7 @@ static void intro_frame(void)
  if (global_ispress()){
   global_fadecolor = 0x00U;
   if (cred != 0U){ /* Credits are available to start game */
+   sound_effect(SOUND_ITEM, 0x40U);
    global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
    INTRO_EXIT = 1U;
   }else{           /* No credits, back to intro */

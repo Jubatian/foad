@@ -26,6 +26,7 @@
 #include "sprite.h"
 #include "spriteid.h"
 #include "music.h"
+#include "sound.h"
 #include "seq.h"
 #include <uzebox.h>
 #include <avr/pgmspace.h>
@@ -95,6 +96,9 @@ static void death_frame(void)
 
  pres = global_ispress();
  if (pres || (tout == 0U)){
+  if (cred != 0U){
+   sound_effect(SOUND_ITEM, 0x40U);
+  }
   global_fadecolor = 0x00U;
   global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
   DEATH_EXIT = 1U;
