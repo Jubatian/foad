@@ -39,6 +39,9 @@
 
 #define INTRO_EADDR_T   (LOC_RAMTILES_OFF + 0x600U + 36U)
 
+/* Initial value of timeout */
+#define TOUT_INIT  10U
+
 
 
 /*
@@ -63,6 +66,7 @@ static void death_frame(void)
  auint  dval;
  auint  tout;
  auint  cred;
+ auint  pres;
  auint  coin;
 
  /* Process coin input if player wants to buy credits */
@@ -99,20 +103,25 @@ static void death_frame(void)
  else           { dval = 9U; }
  vram[32U * 7U + 22U] = dval + '0' + 0x40U;
 
- /* Roughly 1 sec / decrement timer */
-
- if ((global_framectr & 0x3FU) == 0U){
-  tout --;
-  DEATH_TOUT = tout;
- }
-
  /* Logic */
 
- if (global_ispress() || (tout == 0U)){
+ pres = global_ispress();
+ if (pres || (tout == 0U)){
   global_fadecolor = 0x00U;
   global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
   DEATH_EXIT = 1U;
  }
+
+ if (tout != 0U){   /* Timeout controls */
+  if (pres){
+   tout = TOUT_INIT;
+  }
+  if ((global_framectr & 0x3FU) == 0U){
+   tout --;
+  }
+ }
+ DEATH_TOUT = tout;
+
  if ((DEATH_EXIT != 0U) && (global_fadectr == 0xFFU)){
   if ((tout == 0U) || (cred == 0U)){
    hiscore_enter(); /* Exit game */
@@ -148,8 +157,8 @@ void death_enter(void)
 
  /* Init variables */
 
- DEATH_EXIT  = 0U;
- DEATH_TOUT  = 10U;
+ DEATH_EXIT = 0U;
+ DEATH_TOUT = TOUT_INIT;
  INTRO_JDIPS = eeprom_loadjdips(INTRO_EADDR_T);
 
  /* Clear VRAM */
@@ -158,8 +167,8 @@ void death_enter(void)
 
  /* Add text */
 
- text_add(TXT_OVER_POS, 5U, 1U);
- text_add(TXT_CONTINUE_POS, 7U, 1U);
+ text_add_line(TXT_OVER_POS, 5U);
+ text_add_line(TXT_CONTINUE_POS, 7U);
 
  /* Add small prison cell */
 

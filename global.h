@@ -91,9 +91,18 @@ extern auint  global_shared[8];
 
 
 /*
-** Credit count (number of lives). In JAMMA if bit 7 is set, it also means 0
-** credits, the counter then counts coins (use the global_jammacount()
-** function to get the count of coins still needed to play).
+** Shared data between various screens (which don't coexist), words. The space
+** is shared with global_shared, this is provided for storing 16 bit values
+** directly, which the C compiler is terrible at splitting up and merging into
+** 8 bit values. Don't alias between the two (Undefined in C), use only to
+** store and retrieve 16 bit values.
+*/
+extern uint16 global_shared_word[4];
+
+
+/*
+** Credit count (number of lives). Setting Bit 7 disables controller reads,
+** this may be used by JAMMA to count coins (requiring processing P2 input).
 */
 extern auint  global_credits;
 

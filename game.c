@@ -47,8 +47,7 @@
 
 
 
-#define GAME_BTNC_LO  global_shared[0]
-#define GAME_BTNC_HI  global_shared[1]
+#define GAME_BTNC     global_shared_word[0 >> 1]
 
 /* Level End: Also see aceol.c which writes 1 here when collecting level end.
 ** Death writes 2 in this, but that only happens in this module. */
@@ -77,7 +76,7 @@ extern uint8 sync_pulse;
 static void game_frame(void)
 {
  auint  cmd;
- uint16 btn = GAME_BTNC_LO | ((uint16)(GAME_BTNC_HI) << 8);
+ uint16 btn = GAME_BTNC;
 
  global_process();
 
@@ -102,8 +101,7 @@ static void game_frame(void)
     global_palctr = GLOBAL_FADE_TOP;
    }
 
-   GAME_BTNC_LO = 0x00U;
-   GAME_BTNC_HI = 0x00U;
+   GAME_BTNC = 0U;
 
    M74_Halt(); /* If paused, logic frame ends here */
 
@@ -189,8 +187,7 @@ static void game_frame(void)
     GAME_PAUSED = 1U;
    }
 
-   GAME_BTNC_LO = 0x00U;
-   GAME_BTNC_HI = 0x00U;
+   GAME_BTNC = 0U;
 
    physics_frame();
    dragon_logic(cmd);
@@ -214,8 +211,7 @@ static void game_frame(void)
 
  /* Render frame */
 
- GAME_BTNC_LO = btn & 0xFFU;
- GAME_BTNC_HI = btn >> 8;
+ GAME_BTNC = btn;
 
  M74_VramRestore();
 
@@ -258,8 +254,7 @@ void game_enter(auint map)
 
  /* Inits control variables */
 
- GAME_BTNC_LO = 0x00U;
- GAME_BTNC_HI = 0x00U;
+ GAME_BTNC    = 0U;
  GAME_LEVEND  = 0x00U;
  GAME_PAUSED  = 0x00U;
 

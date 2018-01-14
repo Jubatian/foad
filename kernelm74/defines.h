@@ -140,6 +140,16 @@
 	#endif
 
 	/*
+	 * Poll a flag on bit 7 of this memory location for controller access.
+	 * If the flag is set, then controller processing is omitted (can be
+	 * used to switch over to user controller processing, to be used for
+	 * JAMMA to sample coin inputs)
+	 */
+	#ifndef CTR_READ_DISABLE_LOC
+		#define CTR_READ_DISABLE_LOC 0
+	#endif
+
+	/*
 	 * Adds support to generate a true random seed upon
 	 * startup. This uses the watchdog timer RC oscillator
 	 * entropy to generate a non-deterministic seed that can

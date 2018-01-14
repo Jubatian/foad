@@ -37,7 +37,10 @@ int main(){
  SetMasterVolume(0xFFU);
  music_init(res_patches, res_music);
 
- /* Reset credit counter to start off with coin request for JAMMA */
+ /* Initialize credit counter to zero, so in arcade environment (JAMMA) the
+ ** game starts with no credits, requiring coins. Since Bit 7 of the credit
+ ** counter disables controllers (for supporting JAMMA reads), this is
+ ** necessary even in a non-arcade environment. */
 
  global_credits = 0U;
 

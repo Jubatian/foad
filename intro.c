@@ -62,11 +62,17 @@ static void intro_frame(void)
 {
  auint  i;
  uint16 a16;
- auint  cre;
+ auint  cred;
+ auint  coin;
 
  /* Set credit count for a new game. */
 
- cre = global_jammacount(INTRO_JDIPS);
+ coin = global_jammacount(INTRO_JDIPS);
+ if ((coin & 0x7FU) == 0U){
+  cred = global_credits;
+ }else{
+  cred = 0U;
+ }
 
  /* General display & processing */
 
@@ -88,20 +94,25 @@ static void intro_frame(void)
   }
  }
 
- if (global_ispress() || ((cre & 0x80U) != 0U)){
+ if (global_ispress() || ((coin & 0x80U) != 0U)){
   global_fadecolor = 0x00U;
-  if (cre == 0U){
+  if (cred != 0U){ /* Credits are available to start game */
    global_palctr = GLOBAL_FADE_ALLV | GLOBAL_FADE_INC;
    INTRO_EXIT = 1U;
-  }else{
-   global_palctr = GLOBAL_FADE_TOP | GLOBAL_FADE_INC;
-   INTRO_STAT = 0x06U; /* Back to intro to see coin count */
+  }else{           /* No credits, back to intro */
+   INTRO_TIM_LO = 0U;
+   INTRO_TIM_HI = 0U;
+   if (INTRO_STAT != 0U){
+    global_palctr = GLOBAL_FADE_TOP | GLOBAL_FADE_INC;
+    INTRO_STAT = 6U;
+   }
   }
  }
  if ((INTRO_EXIT != 0U) && (global_fadectr == 0xFFU)){
+  global_credits = cred - 1U;
   seq_next();
  }
- cre &= 0x7FU; /* Clear coin slot activity (no longer needed) */
+ coin &= 0x7FU; /* Clear coin slot activity (no longer needed) */
 
  /* Intro state machine looping through screens */
 
@@ -115,11 +126,11 @@ static void intro_frame(void)
    case 0x00U: /* Flight of a Dragon intro text */
 
     text_add_clear(TXT_TITLE_POS, 5U, 1U);
-    if (cre == 0U){
+    if (coin == 0U){
      text_add(TXT_PRESS_POS, 7U, 1U);
     }else{
      text_add(TXT_COIN_POS, 7U, 1U);
-     ((uint8*)(LOC_INTXTVRAM_OFF))[32U * 7U + 22U] = cre + '0' + 0x40U;
+     ((uint8*)(LOC_INTXTVRAM_OFF))[32U * 7U + 22U] = coin + '0' + 0x40U;
     }
     if (INTRO_TIM_HI == 3U){ goto state_fout; }
     break;
