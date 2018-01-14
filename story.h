@@ -28,7 +28,7 @@
 /*
 ** Initializes and starts a story screen. Calls seq_next() when it is over.
 */
-void story_enter(uint16 textpos, auint textheight);
+void story_enter(uint16 textpos, auint textheight) __attribute__((noreturn));
 
 
 #endif

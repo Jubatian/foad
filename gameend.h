@@ -28,7 +28,7 @@
 /*
 ** Initializes and starts end screen. Calls hiscore_enter() when it is over.
 */
-void gameend_enter(void);
+void gameend_enter(void) __attribute__((noreturn));
 
 
 #endif

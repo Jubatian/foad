@@ -28,7 +28,7 @@
 /*
 ** Initializes and starts death screen. Calls hiscore_enter() when it is over.
 */
-void death_enter(void);
+void death_enter(void) __attribute__((noreturn));
 
 
 #endif

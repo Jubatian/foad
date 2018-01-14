@@ -36,27 +36,27 @@
 ** Starts a new game by the intro. The parameter requests whether to start
 ** with the score display (1) or with the title (0).
 */
-void seq_new(auint hs);
+void seq_new(auint hs) __attribute__((noreturn));
 
 
 /*
 ** Called by screens, this requests the sequencer to sequence the subsequent
 ** phase of the game.
 */
-void seq_next(void);
+void seq_next(void) __attribute__((noreturn));
 
 
 /*
 ** Called by screens, this requests restarting a game level. Can only be
 ** called if it was a game level (to restart a game in which the player died).
 */
-void seq_reset(void);
+void seq_reset(void) __attribute__((noreturn));
 
 
 /*
 ** Called by screens, this requests the sequencer to handle game over.
 */
-void seq_over(void);
+void seq_over(void) __attribute__((noreturn));
 
 
 #endif
