@@ -29,7 +29,7 @@
 ** Initializes and starts a game screen. Calls seq_next() or seq_over() when
 ** it is over.
 */
-void game_enter(auint map);
+void game_enter(auint map) __attribute__((noreturn));
 
 
 #endif

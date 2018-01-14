@@ -30,7 +30,7 @@
 ** The parameter requests whether to start with the score display (1) or with
 ** the title (0).
 */
-void intro_enter(auint hs);
+void intro_enter(auint hs) __attribute__((noreturn));
 
 
 #endif

@@ -30,7 +30,7 @@
 ** over (this is the last screen of a game session). This screen is skipped
 ** (passes over to seq_new) if the score isn't in the top three.
 */
-void hiscore_enter(void);
+void hiscore_enter(void) __attribute__((noreturn));
 
 
 #endif

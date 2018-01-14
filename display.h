@@ -38,7 +38,7 @@
 ** address). The reset address must be specified as a progmem address
 ** (converting a function pointer to int is OK for this).
 */
-void  display_set(auint mode, uint16 reset);
+void  display_set(auint mode, uint16 reset) __attribute__((noreturn));
 
 
 /*
