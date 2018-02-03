@@ -157,18 +157,21 @@ savel:
 /*
 ** Load JAMMA dip switch configuration, tadd is used for temporary storage,
 ** 32 bytes.
+**
+** r25:r24: Temporary workspace (32 bytes)
 */
 .global eeprom_loadjdips
 eeprom_loadjdips:
 
 	push  r24
 	push  r25
+	movw  r22,     r24
 	ldi   r25,     0xAB    ; EEPROM block ID: 0xAB0C JAMMA soft dipswitches
 	ldi   r24,     0x0C
 	call  EepromReadBlock
 	cpi   r24,     0x00
-	pop   r25
-	pop   r24
+	pop   XH
+	pop   XL
 	breq  loadjs
 
 	; EEPROM loading failed: Apply default EEPROM data
@@ -180,7 +183,6 @@ loadjs:
 
 	; EEPROM loading succeed: Extract data
 
-	movw  XL,      r24     ; Source: Temp storage
 	adiw  XL,      2       ; Skip ID
 	ld    r24,     X
 	ret

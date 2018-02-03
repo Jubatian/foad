@@ -296,6 +296,8 @@ global_jammacount:
 	brne  .+2
 	ldi   r20,     0x80    ; 0 credits: Start waiting for coins
 	sbrs  r20,     7
+	ldi   r24,     0       ; Return: Coins required to play
+	sbrs  r20,     7
 	ret                    ; If the player has credits, no need to do anything
 
 	; Read P2 controller data for the coin slots
@@ -367,10 +369,9 @@ gjc_ccend:
 
 	andi  r24,     0x0E    ; Mask off coin/credit settings on the JAMMA soft dip-switches
 	ldi   r25,     0
-	ldi   ZL,      lo8(gjc_table)
-	ldi   ZH,      hi8(gjc_table)
-	add   ZL,      r24
-	adc   ZH,      r25
+	movw  ZL,      r24
+	subi  ZL,      lo8(-(gjc_table))
+	sbci  ZH,      hi8(-(gjc_table))
 	lpm   r23,     Z+      ; Coins required
 	mov   r24,     r20
 	andi  r24,     0x1F    ; Mask off coin count
@@ -382,7 +383,6 @@ gjc_ccend:
 	; Check results and save credit counter
 
 	neg   r24              ; If still not enough coins, this is the required count
-	clr   r25
 	bld   r24,     7       ; Add coin slot activity
 	sts   global_credits, r20
 
