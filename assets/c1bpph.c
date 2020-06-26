@@ -2,6 +2,9 @@
 **  Converts GIMP header to 1bpp Uzebox Mode 74 image data, C header.
 **  Adds burning torch images on it (over char. positions 192 - 255).
 **
+**  Note: Changed to produce assembly data due to the impossibility of
+**  maintaining strict variable order with more recent GCC versions.
+**
 **  By Sandor Zsuga (Jubatian)
 **
 **  Licensed under GNU General Public License version 3.
@@ -74,10 +77,9 @@ int main(void)
  /* Create some heading text */
 
  printf("\n");
- printf("/* 1bpp image data (%u bytes); row increment: %u bytes (%u) */\n", width, (width >> 3), (width >> 5));
+ printf("; 1bpp image data (%u bytes); row increment: %u bytes (%u)\n", width, (width >> 3), (width >> 5));
  printf("\n");
- printf("const unsigned char imgdata[] __attribute__ ((section (\".imgdata\"))) = {\n");
- printf(" ");
+ printf("imgdata:\n\t.byte ");
 
  /* Process image data */
 
@@ -114,17 +116,17 @@ int main(void)
 
   /* Output it */
 
-  printf("0x%02XU", c);
+  printf("0x%02X", c);
 
   /* Check for bounds, line or loop termination */
 
   if (sp == dlen){
-   printf("\n};\n");
+   printf("\n\n");
    break;
   }
 
   if ((sp & 0x7FU) == 0U){
-   printf(",\n ");
+   printf("\n\t.byte ");
   }else{
    printf(", ");
   }

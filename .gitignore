@@ -11,6 +11,7 @@
 !/assets/*.xcf
 !/assets/*.c
 !/assets/*.h
+!/assets/*.s
 !/assets/texts.txt
 !/assets/*.it
 /kernelm74/videoMode74/examples

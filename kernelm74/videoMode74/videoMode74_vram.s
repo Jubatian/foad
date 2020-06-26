@@ -507,7 +507,7 @@ M74_VramFill:
 	; Determine ROM / RAM
 
 	cpi   ZH,      0x10
-	brcs  vrfram           ; < 0x1000: RAM source
+	brcs  vrfram1          ; < 0x1000: RAM source
 
 	; ROM source copy loop
 
