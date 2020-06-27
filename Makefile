@@ -48,10 +48,10 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 LDFLAGS  = $(COMMON)
 LDFLAGS += -Wl,-Map=$(OUTDIR)/$(GAME).map
 LDFLAGS += -Wl,-gc-sections
+LDFLAGS += -Tavr5_foad.x
 
 ## Setup for Mode 74 stuff
 CFLAGS  += -include m74cfg.h
-LDFLAGS += -Wl,--section-start=.res=0x7B00
 
 ## Intel Hex file production flags
 HEX_FLASH_FLAGS = -R .eeprom
@@ -149,8 +149,8 @@ $(OBJDIR)/uzeboxVideoEngine.o: $(KERNEL_DIR)/uzeboxVideoEngine.c $(DIRS)
 $(OBJDIR)/$(GAME).o: main.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/res.o: res.c $(DIRS)
-	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+$(OBJDIR)/res.o: res.s $(DIRS)
+	$(CC) $(INCLUDES) $(ASMFLAGS) -c $< -o $@
 
 $(OBJDIR)/sprite.o: sprite.c $(DIRS)
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@

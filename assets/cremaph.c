@@ -1,6 +1,9 @@
 /*
 **  Converts a color remapping table to a Mode 74 C header.
 **
+**  Note: Changed to produce assembly data due to the impossibility of
+**  maintaining strict variable order with more recent GCC versions.
+**
 **  By Sandor Zsuga (Jubatian)
 **
 **  Licensed under GNU General Public License version 3.
@@ -56,16 +59,16 @@ int main(void)
  }
 
  printf("\n");
- printf("/* Color remapping table */\n");
+ printf("; Color remapping table\n");
  printf("\n");
- printf("const unsigned char remaptb[] __attribute__ ((section (\".imgdata\"))) = {\n");
+ printf("remaptb:\n\t.byte");
 
  for (i = 0U; i < 256U; i++){
-  printf(" 0x%02XU", outtb[i]);
+  printf(" 0x%02X", outtb[i]);
   if (i != 255U){ printf(","); }
-  if ((i & 0x7U) == 7U){ printf("\n"); }
+  if ((i & 0x7U) == 7U){ printf("\n\t.byte"); }
  }
- printf("};\n");
+ printf("\n");
 
  return 0;
 }

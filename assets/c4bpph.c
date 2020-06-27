@@ -1,6 +1,9 @@
 /*
 **  Converts GIMP header to 4bpp Uzebox Mode 74 sprites or tiles, C header.
 **
+**  Note: Changed to produce assembly data due to the impossibility of
+**  maintaining strict variable order with more recent GCC versions.
+**
 **  By Sandor Zsuga (Jubatian)
 **
 **  Licensed under GNU General Public License version 3.
@@ -31,7 +34,7 @@
 
 /*  The GIMP header to use */
 #include "color_sprites.h"
-/*#include "tiles.h"*/
+/* #include "tiles.h" */
 
 
 #include <stdio.h>
@@ -70,23 +73,22 @@ int main(void)
  }
 
  printf("\n");
- printf("/* 4bpp tile palette (color 0 is transparent) */\n");
+ printf("; 4bpp tile palette (color 0 is transparent)\n");
  printf("\n");
- printf("const unsigned char tilepal[] PROGMEM = {\n");
+ printf("tilepal:\n\t.byte");
 
  for (i = 0U; i < 15U; i++){
-  printf(" 0x%02XU,", pal[i]);
+  printf(" 0x%02X,", pal[i]);
  }
- printf(" 0x%02XU\n};\n", pal[i]);
+ printf(" 0x%02X\n", pal[i]);
 
 
  /* Create some heading text */
 
  printf("\n");
- printf("/* 4bpp tile data (%u tiles; %u bytes) */\n", width >> 3, width << 2);
+ printf("; 4bpp tile data (%u tiles; %u bytes)\n", width >> 3, width << 2);
  printf("\n");
- printf("const unsigned char tiledata[] __attribute__ ((section (\".imgdata\"))) = {\n");
- printf(" ");
+ printf("tiledata:\n\t.byte ");
 
  /* Process image data */
 
@@ -107,17 +109,17 @@ int main(void)
 
   /* Output it */
 
-  printf("0x%02XU", c);
+  printf("0x%02X", c);
 
   /* Check for bounds, line or loop termination */
 
   if (spc == (width >> 3)){
-   printf("\n};\n");
+   printf("\n\n");
    break;
   }
 
   if ((sp & 0x7U) == 0U){
-   printf(",\n ");
+   printf("\n\t.byte ");
   }else{
    printf(", ");
   }

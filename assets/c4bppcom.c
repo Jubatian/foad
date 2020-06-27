@@ -2,6 +2,9 @@
 **  Converts GIMP header to 4bpp Uzebox Mode 74 sprites or tiles, C header.
 **  Combined converter for the dragon (3bpp) and various 1bpp sprites.
 **
+**  Note: Changed to produce assembly data due to the impossibility of
+**  maintaining strict variable order with more recent GCC versions.
+**
 **  By Sandor Zsuga (Jubatian)
 **
 **  Licensed under GNU General Public License version 3.
@@ -52,7 +55,6 @@ int main(void)
  unsigned int  dlen = width * height;
  unsigned int  sp   = 0U;
  unsigned int  spc  = 0U;
- unsigned int  i;
  unsigned char c;
 
  /* Basic tests */
@@ -75,10 +77,9 @@ int main(void)
  /* Create some heading text */
 
  printf("\n");
- printf("/* 4bpp tile data (%u tiles; %u bytes) */\n", width >> 3, width << 2);
+ printf("; 4bpp tile data (%u tiles; %u bytes)\n", width >> 3, width << 2);
  printf("\n");
- printf("const unsigned char tiledata[] __attribute__ ((section (\".imgdata\"))) = {\n");
- printf(" ");
+ printf("tiledata:\n\t.byte ");
 
  /* Process image data */
 
@@ -101,17 +102,17 @@ int main(void)
 
   /* Output it */
 
-  printf("0x%02XU", c);
+  printf("0x%02X", c);
 
   /* Check for bounds, line or loop termination */
 
   if (spc == (width >> 3)){
-   printf("\n};\n");
+   printf("\n\n");
    break;
   }
 
   if ((sp & 0x7U) == 0U){
-   printf(",\n ");
+   printf("\n\t.byte ");
   }else{
    printf(", ");
   }

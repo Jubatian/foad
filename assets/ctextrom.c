@@ -1,6 +1,9 @@
 /*
 **  Converts Text data to the format used in the ROM text storage.
 **
+**  Note: Changed to produce assembly data due to the impossibility of
+**  maintaining strict variable order with more recent GCC versions.
+**
 **  By Sandor Zsuga (Jubatian)
 **
 **  Licensed under GNU General Public License version 3.
@@ -48,6 +51,7 @@ int main(void)
  unsigned int  pos = 0U;
  unsigned int  ptb[256U];
  unsigned int  ptp = 0U;
+ int           beg = 1;
 
  ptb[0] = 0U;
  ptp = 1U;
@@ -59,18 +63,18 @@ int main(void)
   if       (cin == '\\'){
 
    if (fread(&cin, 1U, 1U, stdin) == 0U){ break; }
-   if      (cin ==  'e'){ cin = 0x3FU; }
-   else if (cin == '\\'){ cin = '\\' - 0x40U; }
-   else if (cin == '\n'){ cin = 0xFFU; }
-   else if (cin ==  'p'){
-    if ((osi & 0x07U) != 0U){
-     printf("\n");
-    }
-    printf("/* Position: %u (byte: %u, bit %u) */\n", pos, osi, bit - 1U);
+   if (cin ==  'p'){
+    printf("\n; Position: %u (byte: %u, bit %u)", pos, osi, bit - 1U);
+    beg = 1;
     cin = 0xFFU;
     ptb[ptp] = pos;
     ptp ++;
-   }else{                 cin = 0xFFU; }
+   }else{
+    if      (cin ==  'e'){ cin = 0x3FU; }
+    else if (cin == '\\'){ cin = '\\' - 0x40U; }
+    else if (cin == '\n'){ cin = 0xFFU; }
+    else{                  cin = 0xFFU; }
+   }
 
   }else if (cin == '\n'){
 
@@ -97,12 +101,12 @@ int main(void)
     cou = cou | (((cin >> (6U - i)) & 1U) << bit);
     if (bit == 0U){
      bit = 8U;
-     printf(" 0x%02XU,", cou);
+     if ((osi & 0x07U) == 0U){ beg = 1; }
+     if (beg){ printf("\n\t.byte "); beg = 0; }
+     else    { printf(", "); }
+     printf("0x%02X", cou);
      cou = 0U;
      osi ++;
-     if ((osi & 0x07U) == 0U){
-      printf("\n");
-     }
     }
    }
    pos ++;
@@ -112,22 +116,21 @@ int main(void)
  }
 
  if (bit != 8U){
-  printf(" 0x%02XU,", cou);
+  if ((osi & 0x07U) == 0U){ beg = 1; }
+  if (beg){ printf("\n\t.byte "); }
+  else    { printf(", "); }
+  printf("0x%02X", cou);
   cou = 0U;
   osi ++;
-  if ((osi & 0x07U) == 0U){
-   printf("\n");
-  }
  }
- if ((osi & 0x07U) != 0U){
-  printf("\n");
- }
- printf("/* Size: %u */\n", osi);
 
- printf("/* Position map (Little Endian words): */\n");
+ printf("\n");
+ printf("; Size: %u\n", osi);
+
+ printf("; Position map (Little Endian words):\n");
 
  for (i = 0U; i < ptp; i++){
-  printf(" 0x%02XU, 0x%02XU,\n", ptb[i] & 0xFFU, ptb[i] >> 8);
+  printf(" 0x%02X, 0x%02X,\n", ptb[i] & 0xFFU, ptb[i] >> 8);
  }
 
  return 0;

@@ -1,6 +1,9 @@
 /*
 **  Generates waveforms.
 **
+**  Note: Changed to produce assembly data due to the impossibility of
+**  maintaining strict variable order with more recent GCC versions.
+**
 **  By Sandor Zsuga (Jubatian)
 **
 **  Licensed under GNU General Public License version 3.
@@ -66,11 +69,12 @@ int main(void)
  /* Sine */
 
  for (i = 0U; i < 0x100U; i++){
-  if      (i < 0x40U){ printf(" 0x%02XU,", (sinqt[i - 0x00U] - 0x080U)); }
-  else if (i < 0x80U){ printf(" 0x%02XU,", (sinqt[0x7FU - i] - 0x080U)); }
-  else if (i < 0xC0U){ printf(" 0x%02XU,", (0x17FU - sinqt[i - 0x80U])); }
-  else               { printf(" 0x%02XU,", (0x17FU - sinqt[0xFFU - i])); }
-  if ((i & 0x7U) == 0x7U){ printf("\n"); }
+  if ((i & 0x7U) == 0x0U){ printf("\n\t.byte"); }
+  else                   { printf(","); }
+  if      (i < 0x40U){ printf(" 0x%02X", (sinqt[i - 0x00U] - 0x080U)); }
+  else if (i < 0x80U){ printf(" 0x%02X", (sinqt[0x7FU - i] - 0x080U)); }
+  else if (i < 0xC0U){ printf(" 0x%02X", (0x17FU - sinqt[i - 0x80U])); }
+  else               { printf(" 0x%02X", (0x17FU - sinqt[0xFFU - i])); }
  }
 
  printf("\n");
@@ -98,8 +102,9 @@ int main(void)
    if (s >= 0x80U){ s = 0x7FU; } /* Saturate positive */
   }
 
-  printf(" 0x%02XU,", s);
-  if ((i & 0x7U) == 0x7U){ printf("\n"); }
+  if ((i & 0x7U) == 0x0U){ printf("\n\t.byte"); }
+  else                   { printf(","); }
+  printf(" 0x%02X", s);
 
   r = (((r >> 7) + (r + r) + 0xBBU) ^ 0x7FU) & 0xFFU;
  }
@@ -109,11 +114,12 @@ int main(void)
  /* Triangle */
 
  for (i = 0U; i < 0x100U; i++){
-  if      (i < 0x40U){ printf(" 0x%02XU,", (i - 0x00U) * 2U     ); }
-  else if (i < 0x80U){ printf(" 0x%02XU,", (0x7FU - i) * 2U + 1U); }
-  else if (i < 0xC0U){ printf(" 0x%02XU,", (0xFFU - i) * 2U + 1U); }
-  else               { printf(" 0x%02XU,", (i - 0x80U) * 2U     ); }
-  if ((i & 0x7U) == 0x7U){ printf("\n"); }
+  if ((i & 0x7U) == 0x0U){ printf("\n\t.byte"); }
+  else                   { printf(","); }
+  if      (i < 0x40U){ printf(" 0x%02X", (i - 0x00U) * 2U     ); }
+  else if (i < 0x80U){ printf(" 0x%02X", (0x7FU - i) * 2U + 1U); }
+  else if (i < 0xC0U){ printf(" 0x%02X", (0xFFU - i) * 2U + 1U); }
+  else               { printf(" 0x%02X", (i - 0x80U) * 2U     ); }
  }
 
  printf("\n");
@@ -148,11 +154,14 @@ int main(void)
    if (s >= 0x80U){ s = 0x7FU; } /* Saturate positive */
   }
 
-  printf(" 0x%02XU,", s);
-  if ((i & 0x7U) == 0x7U){ printf("\n"); }
+  if ((i & 0x7U) == 0x0U){ printf("\n\t.byte"); }
+  else                   { printf(","); }
+  printf(" 0x%02X", s);
 
   r = (((r >> 7) + (r + r) + 0xBBU) ^ 0x7FU) & 0xFFU;
  }
+
+ printf("\n");
 
  return 0;
 }
