@@ -76,6 +76,22 @@ remap_end1:
 */
 status_genbar:
 
+	; Check for low value, if so, flashing display using the frame counter
+
+	cpi   r24,     24
+	brcc  gb_ren
+	lds   ZL,      global_framectr
+	sbrs  ZL,      4
+	rjmp  gb_ren
+	ldi   r24,     0x20
+gb_cll:
+	st    X+,      r24
+	dec   r23
+	brne  gb_cll
+	ret
+
+gb_ren:
+
 	; Begin tile
 
 	clr   ZH
